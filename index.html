@@ -1,232 +1,424 @@
 <!DOCTYPE html>
 <html lang="es" data-theme="dark">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Manuel Molina - Soporte IT & Application Support</title>
-    <!-- CSS vinculado correctamente -->
-    <link rel="stylesheet" href="./style.css?v=3">
-    <!-- Google Fonts -->
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
-    <!-- Lucide Icons -->
-    <script src="https://unpkg.com/lucide@latest"></script>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Manuel Molina | IT & Application Support Specialist</title>
+  
+  <!-- Google Fonts & Font Awesome -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Fira+Code:wght@400;600&family=Inter:wght@300;400;600;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  
+  <link rel="stylesheet" href="css/style.css">
 </head>
 <body>
 
-    <!-- NAVBAR -->
-    <header class="navbar-container">
-        <nav class="navbar">
-            <div class="logo">
-                <a href="#hero">
-                    <span class="logo-text">Manuel Molina</span>
-                    <i data-lucide="wrench" class="brand-icon"></i>
-                </a>
-            </div>
-            <ul class="nav-links">
-                <li><a href="#hero" class="active">Inicio</a></li>
-                <li><a href="#experiencia">Experiencia</a></li>
-                <li><a href="#habilidades">Habilidades</a></li>
-                <li><a href="#servicios">Servicios</a></li>
-                <li><a href="#contacto">Contacto</a></li>
-            </ul>
-            <div class="nav-actions">
-                <div class="online-badge">
-                    <span class="ping-dot"></span>
-                    <span class="badge-text"><i data-lucide="eye"></i> 1</span>
-                </div>
-                <div class="vip-badge">
-                    <i data-lucide="crown"></i> Servicio Luxury VIP
-                </div>
-                <button id="themeToggle" class="theme-toggle-btn" aria-label="Cambiar tema">
-                    <i data-lucide="moon"></i>
-                </button>
-            </div>
-        </nav>
-    </header>
+  <!-- NAVEGACIÓN -->
+  <header id="header">
+    <div class="logo">
+      Manuel Molina <i class="fa-solid fa-wrench logo-icon"></i>
+    </div>
+    
+    <nav class="nav-links" id="navLinks">
+      <a href="#inicio" class="nav-link active">Inicio</a>
+      <a href="#experiencia" class="nav-link">Experiencia</a>
+      <a href="#habilidades" class="nav-link">Habilidades</a>
+      <a href="#servicios" class="nav-link">Servicios</a>
+      <a href="#contacto" class="nav-link">Contacto</a>
+    </nav>
 
+    <div class="header-actions">
+      <!-- VISTAS EN VIVO EN TIEMPO REAL -->
+      <div class="live-views-badge" title="Visitas totales reales">
+        <span class="live-dot"></span>
+        <i class="fa-solid fa-eye"></i>
+        <span id="realViewsCount">1</span>
+      </div>
+
+      <!-- BOTÓN LUXURY VIP -->
+      <a href="#contacto" class="btn btn-sm btn-luxury">
+        <i class="fa-solid fa-crown"></i> Servicio Luxury <span class="badge-vip">VIP</span>
+      </a>
+
+      <!-- SWITCH MODO OSCURO / DÍA EN EL EXTREMO DERECHO -->
+      <button id="themeToggleBtn" class="theme-toggle-btn" aria-label="Cambiar Tema">
+        <i class="fa-solid fa-moon" id="themeIcon"></i>
+      </button>
+    </div>
+  </header>
+
+  <main>
     <!-- HERO SECTION -->
-    <section id="hero" class="hero">
-        <div class="hero-container">
-            <div class="hero-content">
-                <div class="status-pill">
-                    <span class="pulse-green"></span>
-                    Disponible para nuevos desafíos IT & Soporte L1/L2
-                </div>
-                
-                <h1 class="hero-title">Manuel Molina</h1>
-                <p class="hero-subtitle">
-                    Analista de Soporte IT y Application Support con amplia experiencia en entornos corporativos de alta demanda. Especializado en gestión de incidentes (ITIL), administración de accesos, soporte a aplicaciones críticas y monitoreo de infraestructura crítica.
-                </p>
+    <section id="inicio" class="hero-section">
+      <div class="hero-container">
+        <div class="hero-content">
+          <div class="badge-status">
+            <span class="pulse-dot"></span> Disponible para nuevos desafíos IT & Soporte L1/L2
+          </div>
+          <h1>
+            Manuel Molina <br>
+            <span class="typed-text-container">
+              <span id="typedText"></span><span class="cursor">&nbsp;</span>
+            </span>
+          </h1>
+          <p class="hero-description">
+            Analista de Soporte IT y Application Support con amplia experiencia en entornos corporativos de alta demanda. Especializado en gestión de incidentes (ITIL), administración de accesos y monitoreo de infraestructura crítica.
+          </p>
 
-                <div class="hero-metrics">
-                    <div class="metric">
-                        <span class="metric-num">6+ años</span>
-                        <span class="metric-text">Experiencia IT Corporativa</span>
-                    </div>
-                    <div class="metric-divider"></div>
-                    <div class="metric">
-                        <span class="metric-num">98%</span>
-                        <span class="metric-text">SLA & Gestión ITIL</span>
-                    </div>
-                </div>
-
-                <div class="hero-buttons">
-                    <a href="#contacto" class="btn btn-primary">
-                        <i data-lucide="send"></i> Contactar
-                    </a>
-                    <a href="#experiencia" class="btn btn-secondary">
-                        <i data-lucide="briefcase"></i> Ver Trayectoria
-                    </a>
-                </div>
+          <div class="hero-stats">
+            <div class="stat-item">
+              <span class="stat-number" data-target="6">6</span><span class="stat-plus">+ años</span>
+              <span class="stat-label">Experiencia IT Corporativa</span>
             </div>
-
-            <div class="hero-card-area">
-                <div class="profile-card">
-                    <div class="card-glass">
-                        <div class="card-icon"><i data-lucide="user-cog"></i></div>
-                        <h3>Servicio Premium</h3>
-                        <p>Trayectoria Profesional en Soporte IT & Resoluciones Críticas</p>
-                    </div>
-                </div>
+            <div class="stat-item">
+              <span class="stat-number" data-target="98">98</span><span class="stat-plus">%</span>
+              <span class="stat-label">SLA & Gestión ITIL</span>
             </div>
+          </div>
+
+          <div class="btn-group">
+            <a href="#contacto" class="btn btn-accent">
+              <i class="fa-solid fa-paper-plane"></i> Contactar
+            </a>
+            <a href="#experiencia" class="btn btn-outline">
+              <i class="fa-solid fa-briefcase"></i> Ver Trayectoria
+            </a>
+          </div>
         </div>
+
+        <!-- AVATAR HOLOGRÁFICO ANIMADO -->
+        <div class="hero-avatar-wrapper">
+          <div class="avatar-tech-container">
+            <div class="holo-glow"></div>
+            <div class="tech-ring ring-1"></div>
+            <div class="tech-ring ring-2"></div>
+            <div class="tech-ring ring-3"></div>
+            <div class="avatar-icon-box">
+              <img src="avatar-3d.png" alt="Manuel Molina Avatar" class="hero-avatar-img" onerror="this.style.display='none'; document.getElementById('fallbackIcon').style.display='block';">
+              <i class="fa-solid fa-user-gear tech-avatar-icon" id="fallbackIcon" style="display:none;"></i>
+            </div>
+          </div>
+          <div class="avatar-badge">
+            <i class="fa-solid fa-gem"></i> Servicio Premium
+          </div>
+        </div>
+      </div>
     </section>
 
-    <!-- EXPERIENCIA -->
+    <!-- EXPERIENCIA LABORAL -->
     <section id="experiencia" class="section">
-        <div class="section-container">
-            <div class="section-header">
-                <h2>Experiencia Laboral</h2>
-                <p>Recorrido en resolución de incidentes, ticketing y soporte en infraestructura corporativa.</p>
-            </div>
+      <div class="section-header">
+        <span class="subtitle">Trayectoria Profesional</span>
+        <h2>Experiencia Laboral</h2>
+        <p>Recorrido en resolución de incidentes, ticketing y soporte en infraestructura corporativa.</p>
+      </div>
 
-            <div class="timeline">
-                <div class="timeline-item">
-                    <div class="timeline-dot"></div>
-                    <div class="timeline-content">
-                        <span class="timeline-date">Noviembre 2025 - Actualidad</span>
-                        <h3>IT Support Analyst</h3>
-                        <h4>Medicus</h4>
-                        <p>Atención y resolución de incidentes Nivel 1/2 en entornos corporativos, administración de usuarios y soporte presencial/remoto a usuarios finales.</p>
-                    </div>
-                </div>
-
-                <div class="timeline-item">
-                    <div class="timeline-dot"></div>
-                    <div class="timeline-content">
-                        <span class="timeline-date">Enero 2024 - Octubre 2025</span>
-                        <h3>Application Support Analyst</h3>
-                        <h4>Entorno Corporativo</h4>
-                        <p>Soporte a aplicaciones de negocio, monitoreo de sistemas, gestión de accesos y resolución de tickets críticos bajo metodología ITIL.</p>
-                    </div>
-                </div>
-            </div>
+      <div class="timeline">
+        <div class="timeline-item">
+          <div class="timeline-dot"></div>
+          <div class="timeline-content">
+            <span class="timeline-date">Noviembre 2025 - Actualidad</span>
+            <h3>IT Support Analyst</h3>
+            <span class="timeline-company">Medicus</span>
+            <ul>
+              <li>Soporte técnico remoto a usuarios internos y externos en equipos corporativos, microinformática y conectividad.</li>
+              <li>Gestión de altas, bajas y modificaciones de permisos (ABM) sobre plataformas administrativas.</li>
+              <li>Clasificación, priorización y resolución de incidentes N1/N2 cumpliendo métricas de SLA.</li>
+            </ul>
+          </div>
         </div>
+
+        <div class="timeline-item">
+          <div class="timeline-dot"></div>
+          <div class="timeline-content">
+            <span class="timeline-date">Noviembre 2025 - Actualidad</span>
+            <h3>Application Support Analyst</h3>
+            <span class="timeline-company">Sanatorio Otamendi</span>
+            <ul>
+              <li>Soporte de aplicaciones críticas en entornos sanitarios en sistemas Thinksoft, Biocom y Binary.</li>
+              <li>Gestión de identidades, perfiles y accesos de personal de salud para garantizar continuidad operativa.</li>
+              <li>Monitoreo en tiempo real de disponibilidad de servicios de infraestructura con Grafana.</li>
+            </ul>
+          </div>
+        </div>
+
+        <div class="timeline-item">
+          <div class="timeline-dot"></div>
+          <div class="timeline-content">
+            <span class="timeline-date">2025</span>
+            <h3>Soporte Técnico</h3>
+            <span class="timeline-company">ATX Sondeos Global</span>
+            <ul>
+              <li>Atención técnica a clientes, diagnóstico de red y resolución de incidencias de conectividad.</li>
+              <li>Seguimiento de tickets y escalado de incidentes complejos.</li>
+            </ul>
+          </div>
+        </div>
+
+        <div class="timeline-item">
+          <div class="timeline-dot"></div>
+          <div class="timeline-content">
+            <span class="timeline-date">2024</span>
+            <h3>Soporte Administrativo y Operativo IT</h3>
+            <span class="timeline-company">Beretta Galarce y Asociados</span>
+            <ul>
+              <li>Pruebas funcionales manuales sobre aplicaciones internas y seguimiento de bugs.</li>
+              <li>Soporte técnico interno a usuarios y consulta de bases de datos corporativas.</li>
+            </ul>
+          </div>
+        </div>
+
+        <div class="timeline-item">
+          <div class="timeline-dot"></div>
+          <div class="timeline-content">
+            <span class="timeline-date">2021 - 2022</span>
+            <h3>Operador de Soporte Técnico</h3>
+            <span class="timeline-company">Claro Argentina</span>
+            <ul>
+              <li>Resolución de incidencias L1 de hardware, software y conectividad por canales digitales.</li>
+              <li>Uso de herramientas de asistencia remota y gestión de incidentes.</li>
+            </ul>
+          </div>
+        </div>
+      </div>
     </section>
 
-    <!-- HABILIDADES -->
+    <!-- HABILIDADES TÉCNICAS -->
     <section id="habilidades" class="section bg-alt">
-        <div class="section-container">
-            <div class="section-header">
-                <h2>Habilidades Técnicas</h2>
-                <p>Herramientas y tecnologías utilizadas en el día a día.</p>
-            </div>
+      <div class="section-header">
+        <span class="subtitle">Dominio Técnico Especializado</span>
+        <h2>Habilidades & Core Competencies</h2>
+      </div>
 
-            <div class="skills-grid">
-                <div class="skill-card">
-                    <div class="skill-icon-wrapper"><i data-lucide="headphones"></i></div>
-                    <h3>Soporte L1 / L2</h3>
-                    <p>Resolución de incidencias, diagnóstico de hardware/software y asistencia al usuario.</p>
-                </div>
-                <div class="skill-card">
-                    <div class="skill-icon-wrapper"><i data-lucide="shield-check"></i></div>
-                    <h3>Gestión ITIL</h3>
-                    <p>Manejo de tickets, gestión de cambios, incidentes y cumplimiento de SLAs.</p>
-                </div>
-                <div class="skill-card">
-                    <div class="skill-icon-wrapper"><i data-lucide="users"></i></div>
-                    <h3>Active Directory</h3>
-                    <p>Administración de usuarios, grupos, permisos y altas/bajas corporativas.</p>
-                </div>
-                <div class="skill-card">
-                    <div class="skill-icon-wrapper"><i data-lucide="monitor-dot"></i></div>
-                    <h3>Monitoreo & Apps</h3>
-                    <p>Soporte funcional a aplicaciones críticas y monitoreo de disponibilidad.</p>
-                </div>
-            </div>
+      <div class="skills-grid">
+        <div class="skill-card">
+          <i class="fa-solid fa-headset skill-icon"></i>
+          <h4>ITIL Framework & ITSM Service Delivery</h4>
+          <p>Orquestación de incidentes basada en la metodología ITIL. Triage avanzado, análisis de impacto/urgencia y escalamiento estructurado.</p>
+          <div class="internal-note">
+            <i class="fa-solid fa-terminal"></i> <strong>Aporte Senior:</strong> Despliegue de metodologías de resolución de fallas en arquitecturas empresariales con SLA crítico.
+          </div>
         </div>
+
+        <div class="skill-card">
+          <i class="fa-solid fa-ticket skill-icon"></i>
+          <h4>Jira Service Management & Enterprise Ticketing</h4>
+          <p>Administración del ciclo de vida de tickets en Jira, Redmine y Zendesk. Configuración de workflows y trazabilidad end-to-end de SLAs.</p>
+          <div class="internal-note">
+            <i class="fa-solid fa-terminal"></i> <strong>Aporte Senior:</strong> Mantenimiento de métricas estadísticas y tableros operacionales para supervisión gerencial.
+          </div>
+        </div>
+
+        <div class="skill-card">
+          <i class="fa-solid fa-user-shield skill-icon"></i>
+          <h4>Active Directory Domain Services & IAM</h4>
+          <p>Aprovisionamiento de cuentas (ABM/RBAC), administración de Objetos de Dominio, GPOs y ecosistema de aplicaciones críticas.</p>
+          <div class="internal-note">
+            <i class="fa-solid fa-terminal"></i> <strong>Aporte Senior:</strong> Configuración de accesos y políticas de seguridad para personal operativo.
+          </div>
+        </div>
+
+        <div class="skill-card">
+          <i class="fa-brands fa-aws skill-icon"></i>
+          <h4>Grafana / Zabbix / Infrastructure Monitoring</h4>
+          <p>Monitoreo continuo de infraestructura en servidores, métricas de caídas de servicio y recursos de hardware.</p>
+          <div class="ping-console">
+            <div class="console-header">
+              <span><i class="fa-solid fa-terminal"></i> Console Latency Test</span>
+              <button id="runPingBtn" class="ping-btn"><i class="fa-solid fa-play"></i> Ping PC</button>
+            </div>
+            <div id="pingOutput" class="console-body">&gt; Sistema listo. Presioná 'Ping PC' para medir respuesta.</div>
+          </div>
+        </div>
+
+        <div class="skill-card">
+          <i class="fa-solid fa-robot skill-icon"></i>
+          <h4>Automatización & Agentes IA</h4>
+          <p>Desarrollo e integración de bots y scripts interactivos para automatización de respuestas operativas y soporte al usuario.</p>
+          
+          <div class="ai-chat-box">
+            <div class="ai-chat-header">
+              <i class="fa-solid fa-wand-magic-sparkles"></i> Asistente IA Abi
+            </div>
+            <div class="ai-chat-input-wrapper">
+              <input type="text" id="aiInput" placeholder="Consultale a Abi..." />
+              <button id="aiSendBtn"><i class="fa-solid fa-paper-plane"></i></button>
+            </div>
+            <div id="aiResponse" class="ai-response-area">&gt; ¡Gracias por ver mi portafolio! 🚀</div>
+          </div>
+        </div>
+
+        <div class="skill-card">
+          <i class="fa-solid fa-desktop skill-icon"></i>
+          <h4>Soporte Remoto L1 / L2</h4>
+          <p>Diagnóstico avanzado en microinformática, Microsoft Teams, AnyDesk, despliegue de parches, Windows Server y entornos empresariales.</p>
+          
+          <div class="tech-animation-box">
+            <span class="anim-title"><i class="fa-solid fa-wrench"></i> Reparación Exprés IT</span>
+            <svg class="it-scene-svg" viewBox="0 0 300 150">
+              <rect x="20" y="125" width="260" height="8" fill="#334155" rx="3"/>
+              <rect x="50" y="133" width="10" height="15" fill="#1e293b"/>
+              <rect x="240" y="133" width="10" height="15" fill="#1e293b"/>
+              
+              <circle cx="90" cy="80" r="12" fill="#38bdf8"/>
+              <path d="M 75 125 L 75 100 Q 90 92 105 100 L 105 125 Z" fill="#0284c7"/>
+              
+              <rect x="135" y="65" width="35" height="60" fill="#0f172a" stroke="#38bdf8" stroke-width="1.5" rx="3"/>
+              <circle cx="152.5" cy="75" r="3" class="cpu-led"/>
+              
+              <path d="M 100 100 L 135 75" stroke="#38bdf8" stroke-width="4" stroke-linecap="round" class="tech-arm"/>
+              
+              <rect x="190" y="65" width="70" height="48" fill="#000" stroke="#334155" stroke-width="2" rx="4"/>
+              <rect x="220" y="113" width="10" height="12" fill="#334155"/>
+              <rect x="210" y="123" width="30" height="3" fill="#334155"/>
+              
+              <rect x="193" y="68" width="64" height="42" fill="#090d16" class="monitor-screen"/>
+              <text x="225" y="93" fill="#ef4444" font-size="11" font-family="monospace" text-anchor="middle" class="screen-text">404 ERROR</text>
+            </svg>
+          </div>
+        </div>
+      </div>
     </section>
 
-    <!-- SERVICIOS -->
+    <!-- SERVICIOS OFRECIDOS -->
     <section id="servicios" class="section">
-        <div class="section-container">
-            <div class="section-header">
-                <h2>Servicios IT</h2>
-                <p>Soluciones orientadas a optimizar la operación tecnológica de la organización.</p>
-            </div>
+      <div class="section-header">
+        <span class="subtitle">Soluciones Profesionales</span>
+        <h2>Servicios IT Independientes</h2>
+      </div>
 
-            <div class="services-grid">
-                <div class="service-card">
-                    <div class="service-icon-wrapper"><i data-lucide="life-buoy"></i></div>
-                    <h3>Soporte Técnico Especializado</h3>
-                    <p>Atención rápida y eficaz ante fallas operativas en puestos de trabajo o sistemas centralizados.</p>
-                </div>
-                <div class="service-card">
-                    <div class="service-icon-wrapper"><i data-lucide="lock"></i></div>
-                    <h3>Administración de Accesos</h3>
-                    <p>Gestión segura de identidades, permisos y roles según las políticas corporativas.</p>
-                </div>
-                <div class="service-card">
-                    <div class="service-icon-wrapper"><i data-lucide="activity"></i></div>
-                    <h3>Monitoreo & Mantenimiento</h3>
-                    <p>Seguimiento continuo de la infraestructura para prevenir incidentes y asegurar el uptime.</p>
-                </div>
-            </div>
+      <div class="services-grid">
+        <div class="service-card">
+          <div class="service-icon"><i class="fa-solid fa-sliders"></i></div>
+          <h3>Soporte & Mesa de Ayuda L1/L2</h3>
+          <p>Asistencia técnica remota para empresas, resolución de incidencias en puestos de trabajo, redes y software base.</p>
         </div>
+
+        <div class="service-card highlight">
+          <div class="service-icon"><i class="fa-solid fa-user-lock"></i></div>
+          <h3>Gestión de Accesos & Identidades</h3>
+          <p>Implementación de políticas ABM, administración en Active Directory y control de permisos en sistemas productivos.</p>
+        </div>
+
+        <div class="service-card">
+          <div class="service-icon"><i class="fa-solid fa-bug"></i></div>
+          <h3>Testing Funcional & QA</h3>
+          <p>Revisión manual de aplicaciones internas, detección temprana de errores y documentación técnica de bugs.</p>
+        </div>
+
+        <div class="service-card">
+          <div class="service-icon hardware-clean-icon">
+            <i class="fa-solid fa-wrench"></i>
+          </div>
+          <h3>Soporte de Campo & Hardware</h3>
+          <p>Revisión física de hardware de PC, mantenimiento preventivo y correctivo, instalación de aplicativos base y desinfección profunda de malware.</p>
+        </div>
+
+        <div class="service-card">
+          <div class="service-icon"><i class="fa-solid fa-network-wired"></i></div>
+          <h3>Redes, Cableado & Infraestructura</h3>
+          <p>Armado e instalación de cableado estructurado de red, configuración de routers y switches, y estructuración integral de puestos de trabajo.</p>
+        </div>
+      </div>
     </section>
 
-    <!-- CONTACTO CON FORMSPREE CONECTADO -->
+    <!-- FORMULARIO DE CONTACTO Y COTIZACIÓN -->
     <section id="contacto" class="section bg-alt">
-        <div class="section-container">
-            <div class="section-header">
-                <h2>Contacto</h2>
-                <p>Enviame un mensaje y me pondré en contacto a la brevedad.</p>
+      <div class="section-header">
+        <span class="subtitle">Iniciemos Conversación</span>
+        <h2>Cotizador & Contacto Directo</h2>
+        <p>Seleccioná el servicio que te interesa cotizar o enviá una propuesta laboral.</p>
+      </div>
+
+      <div class="contact-wrapper">
+        <form id="portfolioForm" class="contact-form" action="https://formspree.io/f/mnqezyob" method="POST" novalidate>
+          
+          <div class="form-row">
+            <div class="form-group">
+              <label for="fullname">Nombre y Apellido <span class="required">*</span></label>
+              <div class="input-icon-wrapper">
+                <i class="fa-solid fa-user input-icon"></i>
+                <input type="text" id="fullname" name="fullname" placeholder="Ej: Martín Gómez" maxlength="80" required>
+              </div>
+              <span class="error-msg">Ingresá tu nombre completo.</span>
             </div>
 
-            <div class="contact-wrapper">
-                <form id="portfolioForm" class="contact-form" action="https://formspree.io/f/maeypvry" method="POST">
-                    <div class="form-group">
-                        <label for="nombre">Nombre completo</label>
-                        <input type="text" id="nombre" name="nombre" required placeholder="Tu nombre">
-                    </div>
-                    <div class="form-group">
-                        <label for="email">Correo electrónico</label>
-                        <input type="email" id="email" name="email" required placeholder="tuemail@ejemplo.com">
-                    </div>
-                    <div class="form-group">
-                        <label for="mensaje">Mensaje</label>
-                        <textarea id="mensaje" name="mensaje" rows="5" required placeholder="Escribí tu mensaje aquí..."></textarea>
-                    </div>
-                    <button type="submit" class="btn btn-primary btn-block">
-                        <i data-lucide="send"></i> Enviar Mensaje
-                    </button>
-                </form>
+            <div class="form-group">
+              <label for="company">Nombre de Empresa <span class="optional-tag">(Opcional)</span></label>
+              <div class="input-icon-wrapper">
+                <i class="fa-solid fa-building input-icon"></i>
+                <input type="text" id="company" name="company" placeholder="Ej: Tech Solutions S.A." maxlength="100">
+              </div>
             </div>
-        </div>
+          </div>
+
+          <div class="form-row">
+            <div class="form-group">
+              <label for="email">Correo Electrónico <span class="required">*</span></label>
+              <div class="input-icon-wrapper">
+                <i class="fa-solid fa-envelope input-icon"></i>
+                <input type="email" id="email" name="email" placeholder="ejemplo@empresa.com" maxlength="100" required>
+              </div>
+              <span class="error-msg">Correo electrónico no válido.</span>
+            </div>
+
+            <div class="form-group">
+              <label for="service_type">Motivo / Servicio a Cotizar <span class="required">*</span></label>
+              <div class="input-icon-wrapper">
+                <i class="fa-solid fa-list-check input-icon"></i>
+                <select id="service_type" name="service_type" class="custom-select" required>
+                  <option value="Propuesta laboral" selected>Propuesta laboral</option>
+                  <option value="Soporte & Mesa de Ayuda L1/L2">Soporte & Mesa de Ayuda L1/L2</option>
+                  <option value="Gestión de Accesos & Identidades">Gestión de Accesos & Identidades</option>
+                  <option value="Testing Funcional & QA">Testing Funcional & QA</option>
+                  <option value="Soporte de Campo & Hardware">Soporte de Campo & Hardware</option>
+                  <option value="Redes, Cableado & Infraestructura">Redes, Cableado & Infraestructura</option>
+                  <option value="Otros">Otros</option>
+                </select>
+              </div>
+            </div>
+          </div>
+
+          <!-- SLIDER DE USUARIOS -->
+          <div class="form-group slider-group">
+            <div class="slider-header">
+              <label for="user_count_range">Estimación de Usuarios / Puestos IT:</label>
+              <span id="userCountDisplay" class="user-badge-count">10 usuarios</span>
+            </div>
+            <input type="range" id="user_count_range" name="user_count" min="1" max="500" value="10" class="user-slider">
+            <div class="slider-labels">
+              <span>1</span>
+              <span>100</span>
+              <span>250</span>
+              <span>500+</span>
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label for="message">Mensaje / Detalles Adicionales <span class="required">*</span></label>
+            <textarea id="message" name="message" rows="4" placeholder="Describí los requerimientos de tu proyecto o propuesta..." maxlength="1000" required></textarea>
+            <span class="error-msg">Por favor ingresá un mensaje.</span>
+          </div>
+
+          <button type="submit" class="btn btn-accent btn-full" id="submitBtn">
+            <span class="btn-text">Enviar Mensaje</span>
+            <i class="fa-solid fa-paper-plane"></i>
+          </button>
+
+          <div id="formAlert" class="form-alert"></div>
+        </form>
+      </div>
     </section>
+  </main>
 
-    <!-- FOOTER -->
-    <footer class="footer">
-        <p>&copy; Manuel Molina. Todos los derechos reservados.</p>
-    </footer>
+  <footer>
+    <div class="footer-content">
+      <p>&copy; 2026 <strong>Manuel Molina</strong> | Buenos Aires, Argentina</p>
+    </div>
+  </footer>
 
-    <!-- JS en la raíz -->
-    <script src="./script.js"></script>
-    <script>
-        // Inicializar iconos de Lucide
-        lucide.createIcons();
-    </script>
+  <script src="js/script.js"></script>
 </body>
 </html>
