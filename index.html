@@ -4,18 +4,25 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Manuel Molina - Soporte IT & Application Support</title>
-    <!-- CSS en la raíz -->
- <link rel="stylesheet" href="./style.css?v=2">
+    <!-- CSS vinculado correctamente -->
+    <link rel="stylesheet" href="./style.css?v=3">
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
     <!-- Lucide Icons -->
     <script src="https://unpkg.com/lucide@latest"></script>
 </head>
 <body>
 
-    <!-- NAV -->
+    <!-- NAVBAR -->
     <header class="navbar-container">
         <nav class="navbar">
             <div class="logo">
-                <a href="#hero">Manuel Molina <i data-lucide="wrench" class="brand-icon"></i></a>
+                <a href="#hero">
+                    <span class="logo-text">Manuel Molina</span>
+                    <i data-lucide="wrench" class="brand-icon"></i>
+                </a>
             </div>
             <ul class="nav-links">
                 <li><a href="#hero" class="active">Inicio</a></li>
@@ -39,7 +46,7 @@
         </nav>
     </header>
 
-    <!-- HERO -->
+    <!-- HERO SECTION -->
     <section id="hero" class="hero">
         <div class="hero-container">
             <div class="hero-content">
@@ -80,7 +87,7 @@
                     <div class="card-glass">
                         <div class="card-icon"><i data-lucide="user-cog"></i></div>
                         <h3>Servicio Premium</h3>
-                        <p>Trayectoria Profesional</p>
+                        <p>Trayectoria Profesional en Soporte IT & Resoluciones Críticas</p>
                     </div>
                 </div>
             </div>
@@ -129,22 +136,22 @@
 
             <div class="skills-grid">
                 <div class="skill-card">
-                    <i data-lucide="headphones"></i>
+                    <div class="skill-icon-wrapper"><i data-lucide="headphones"></i></div>
                     <h3>Soporte L1 / L2</h3>
                     <p>Resolución de incidencias, diagnóstico de hardware/software y asistencia al usuario.</p>
                 </div>
                 <div class="skill-card">
-                    <i data-lucide="shield-check"></i>
+                    <div class="skill-icon-wrapper"><i data-lucide="shield-check"></i></div>
                     <h3>Gestión ITIL</h3>
                     <p>Manejo de tickets, gestión de cambios, incidentes y cumplimiento de SLAs.</p>
                 </div>
                 <div class="skill-card">
-                    <i data-lucide="users"></i>
+                    <div class="skill-icon-wrapper"><i data-lucide="users"></i></div>
                     <h3>Active Directory</h3>
                     <p>Administración de usuarios, grupos, permisos y altas/bajas corporativas.</p>
                 </div>
                 <div class="skill-card">
-                    <i data-lucide="monitor-dot"></i>
+                    <div class="skill-icon-wrapper"><i data-lucide="monitor-dot"></i></div>
                     <h3>Monitoreo & Apps</h3>
                     <p>Soporte funcional a aplicaciones críticas y monitoreo de disponibilidad.</p>
                 </div>
@@ -162,17 +169,17 @@
 
             <div class="services-grid">
                 <div class="service-card">
-                    <i data-lucide="life-buoy"></i>
+                    <div class="service-icon-wrapper"><i data-lucide="life-buoy"></i></div>
                     <h3>Soporte Técnico Especializado</h3>
                     <p>Atención rápida y eficaz ante fallas operativas en puestos de trabajo o sistemas centralizados.</p>
                 </div>
                 <div class="service-card">
-                    <i data-lucide="lock"></i>
+                    <div class="service-icon-wrapper"><i data-lucide="lock"></i></div>
                     <h3>Administración de Accesos</h3>
                     <p>Gestión segura de identidades, permisos y roles según las políticas corporativas.</p>
                 </div>
                 <div class="service-card">
-                    <i data-lucide="activity"></i>
+                    <div class="service-icon-wrapper"><i data-lucide="activity"></i></div>
                     <h3>Monitoreo & Mantenimiento</h3>
                     <p>Seguimiento continuo de la infraestructura para prevenir incidentes y asegurar el uptime.</p>
                 </div>
@@ -216,7 +223,7 @@
     </footer>
 
     <!-- JS en la raíz -->
-    <script src="script.js"></script>
+    <script src="./script.js"></script>
     <script>
         // Inicializar iconos de Lucide
         lucide.createIcons();
