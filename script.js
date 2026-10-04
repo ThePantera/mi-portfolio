@@ -241,7 +241,7 @@ document.addEventListener('DOMContentLoaded', () => {
     },
     {
       keys: ['contact', 'mail', 'correo', 'hablar', 'escrib', 'whatsapp', 'telefono', 'linkedin'],
-      answer: 'La forma más rápida es el formulario de contacto al final de la página. ¡Te llevo! 📲',
+      answer: 'Podés escribirle desde el formulario de contacto al final de la página o por LinkedIn: linkedin.com/in/manuelmolina01. ¡Te llevo al formulario! 📲',
       action: () => document.getElementById('contacto')?.scrollIntoView({ behavior: prefersReducedMotion ? 'auto' : 'smooth' })
     },
     {
