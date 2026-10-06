@@ -75,9 +75,9 @@ document.addEventListener('DOMContentLoaded', () => {
   // 4. MÁQUINA DE ESCRIBIR
   const typedTextSpan = document.getElementById('typedText');
   const textArray = [
-    'Analista de Soporte IT L1/L2',
-    'Application Support Specialist',
-    'Gestión de Incidentes & ITIL'
+    'IT Monitoring Operator',
+    'Command Center & IT Operations',
+    'Application Support Analyst'
   ];
   const typingDelay = 100;
   const erasingDelay = 50;
@@ -215,6 +215,47 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   }
 
+  // 9b. PANEL DE MONITOREO (DEMO): simula un evento, su escalamiento y la recuperación
+  const statusList = document.getElementById('statusList');
+  const statusLog = document.getElementById('statusLog');
+  const statusClock = document.getElementById('statusClock');
+
+  if (statusList && statusLog) {
+    const items = Array.from(statusList.querySelectorAll('li'));
+    const timeNow = () => new Date().toLocaleTimeString('es-AR', { hour12: false });
+    let ticket = 1040;
+
+    if (statusClock) {
+      statusClock.textContent = timeNow();
+      setInterval(() => { statusClock.textContent = timeNow(); }, 1000);
+    }
+
+    const setState = (li, state, label) => {
+      li.dataset.state = state;
+      li.querySelector('.status-value').textContent = label;
+    };
+
+    const runIncident = () => {
+      const li = items[Math.floor(Math.random() * items.length)];
+      const name = li.dataset.service;
+      ticket++;
+      setState(li, 'warn', 'WARN');
+      statusLog.innerText = `> ${timeNow()} Alerta: latencia alta en ${name}`;
+      setTimeout(() => {
+        statusLog.innerText = `> ${timeNow()} Ticket #${ticket} creado y escalado al sector responsable`;
+      }, 2200);
+      setTimeout(() => {
+        setState(li, 'up', 'UP');
+        statusLog.innerText = `> ${timeNow()} ${name} recuperado · Ticket #${ticket} resuelto ✔`;
+      }, 5000);
+    };
+
+    if (!prefersReducedMotion) {
+      setTimeout(runIncident, 4000);
+      setInterval(runIncident, 11000);
+    }
+  }
+
   // 10. ASISTENTE ABI (respuestas por palabras clave)
   const aiSendBtn = document.getElementById('aiSendBtn');
   const aiInput = document.getElementById('aiInput');
@@ -224,16 +265,20 @@ document.addEventListener('DOMContentLoaded', () => {
 
   const abiKnowledge = [
     {
-      keys: ['experiencia', 'trabajo', 'trayectoria', 'empresa', 'medicus', 'otamendi', 'claro', 'anos'],
-      answer: 'Manuel trabaja actualmente como IT Support Analyst en Medicus y como Application Support Analyst en Sanatorio Otamendi. Antes pasó por ATX Sondeos Global, Beretta Galarce y Claro Argentina. Mirá la sección "Experiencia" 👆'
+      keys: ['experiencia', 'trabajo', 'trayectoria', 'empresa', 'medicus', 'otamendi', 'claro', 'sondeos', 'beretta', 'anos'],
+      answer: 'Más de 7 años en IT. Hoy es Operador de Monitoreo en Sanatorio Otamendi e IT Analyst en Medicus. Antes: Sondeos Global, Beretta Galarce & Asociados y Claro Argentina. Mirá la sección "Experiencia" 👆'
     },
     {
-      keys: ['habilidad', 'skill', 'sabe', 'herramienta', 'jira', 'itil', 'active directory', 'grafana', 'zabbix', 'tecnologia'],
-      answer: 'Sus fuertes: gestión de incidentes ITIL, ticketing (Jira, Redmine, Zendesk), Active Directory / ABM de accesos, monitoreo con Grafana/Zabbix y soporte remoto L1/L2.'
+      keys: ['formacion', 'estudi', 'educacion', 'titulo', 'carrera', 'curso', 'utn', 'iutai', 'data science', 'ingles', 'idioma'],
+      answer: 'Técnico Superior en Informática (IUTAI). En curso: Automatización con IA (UTN) y Data Science (EducaciónIT). Idiomas: español nativo e inglés B1 orientado a documentación técnica 🎓'
     },
     {
-      keys: ['servicio', 'ofrece', 'hace', 'freelance', 'independiente', 'red', 'cableado', 'hardware', 'qa', 'testing'],
-      answer: 'Ofrece: mesa de ayuda L1/L2, gestión de accesos e identidades, testing funcional/QA, soporte de campo y hardware, y redes/cableado estructurado. Podés cotizar cualquiera desde el formulario 📋'
+      keys: ['habilidad', 'skill', 'sabe', 'herramienta', 'jira', 'redmine', 'itil', 'active directory', 'grafana', 'zabbix', 'monitoreo', 'sql', 'mongo', 'tecnologia'],
+      answer: 'Monitoreo con Grafana y Zabbix, gestión de incidentes ITIL con Jira y Redmine, Application Support (Thinksoft, Biocom, Binary), SQL y MongoDB, Active Directory y redes (TCP/IP, DNS, DHCP, VPN).'
+    },
+    {
+      keys: ['servicio', 'ofrece', 'freelance', 'independiente', 'red', 'cableado', 'hardware', 'qa', 'testing'],
+      answer: 'Ofrece: monitoreo y operaciones IT, mesa de ayuda L1/L2, gestión de accesos, testing funcional/QA, soporte de hardware y redes. Podés cotizar desde el formulario 📋'
     },
     {
       keys: ['precio', 'costo', 'cotiz', 'presupuesto', 'cuanto', 'tarifa', 'valor'],
@@ -245,12 +290,12 @@ document.addEventListener('DOMContentLoaded', () => {
       action: () => document.getElementById('contacto')?.scrollIntoView({ behavior: prefersReducedMotion ? 'auto' : 'smooth' })
     },
     {
-      keys: ['disponib', 'busca', 'empleo', 'propuesta', 'contrat', 'remoto', 'hibrido'],
-      answer: 'Sí, Manuel está abierto a nuevos desafíos en Soporte IT / Application Support. Elegí "Propuesta laboral" en el formulario 🚀'
+      keys: ['disponib', 'busca', 'empleo', 'propuesta', 'contrat', 'remoto', 'hibrido', 'puesto', 'rol'],
+      answer: 'Sí: Manuel busca crecer como IT Monitoring Operator o Command Center Operator, con foco en disponibilidad, detección de eventos e incidentes. Elegí "Propuesta laboral" en el formulario 🚀'
     },
     {
       keys: ['hola', 'buenas', 'hey', 'buen dia', 'que tal'],
-      answer: '¡Hola! Soy Abi 🤖. Preguntame por la experiencia, habilidades, servicios o cómo contactar a Manuel.'
+      answer: '¡Hola! Soy Abi 🤖. Preguntame por la experiencia, habilidades, formación o cómo contactar a Manuel.'
     },
     {
       keys: ['quien sos', 'que sos', 'abi', 'bot', 'ia'],
@@ -259,7 +304,7 @@ document.addEventListener('DOMContentLoaded', () => {
   ];
 
   const fallbackResponses = [
-    'No estoy segura de eso 🤔. Probá preguntar por "experiencia", "servicios" o "contacto".',
+    'No estoy segura de eso 🤔. Probá preguntar por "experiencia", "formación" o "contacto".',
     'Esa no la sé, pero Manuel sí: escribile desde el formulario de contacto 😉'
   ];
 
