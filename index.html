@@ -1,12 +1,12 @@
 <!DOCTYPE html>
-<html lang="es" data-theme="light">
+<html lang="es" data-theme="light" data-accent="verde">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Manuel Molina | IT Monitoring Operator · IT Operations</title>
   <meta name="description" content="Manuel Molina — IT Monitoring Operator y Application Support en Buenos Aires. Más de 7 años en soporte técnico, operaciones IT, monitoreo con Grafana y Zabbix, gestión de incidentes ITIL con Jira y Redmine.">
   <meta name="author" content="Manuel Molina">
-  <meta name="theme-color" content="#ffffff">
+  <meta name="theme-color" content="#e9edf2">
   <meta property="og:type" content="website">
   <meta property="og:title" content="Manuel Molina | IT Monitoring Operator · IT Operations">
   <meta property="og:description" content="Monitoreo de infraestructura, Command Center, gestión de incidentes ITIL y Application Support. Buenos Aires, Argentina.">
@@ -16,16 +16,19 @@
 
   <!-- Aplica el tema guardado antes de pintar la página (evita el parpadeo) -->
   <script>
-    try { document.documentElement.setAttribute('data-theme', localStorage.getItem('theme') || 'light'); } catch (e) {}
+    try {
+      document.documentElement.setAttribute('data-theme', localStorage.getItem('theme') || 'light');
+      document.documentElement.setAttribute('data-accent', localStorage.getItem('accent') || 'verde');
+    } catch (e) {}
   </script>
   
   <!-- Google Fonts & Font Awesome -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,500;12..96,700;12..96,800&family=Manrope:wght@400;500;600;700;800&family=Fira+Code:wght@400;600&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&family=Fira+Code:wght@400;600&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
   
-  <link rel="stylesheet" href="style.css?v=20261006b">
+  <link rel="stylesheet" href="style.css?v=20261006c">
 </head>
 <body>
   <a href="#inicio" class="skip-link">Saltar al contenido</a>
@@ -33,9 +36,13 @@
   <!-- NAVEGACIÓN -->
   <header id="header">
     <a href="#inicio" class="logo" aria-label="Manuel Molina — volver al inicio">
-      Manuel Molina <i class="fa-solid fa-wrench logo-icon" aria-hidden="true"></i>
+      <span class="logo-mark" aria-hidden="true"><i class="fa-solid fa-tower-broadcast"></i></span>
+      <span class="logo-text">
+        <span class="logo-name"><strong>Manuel</strong> Molina</span>
+        <span class="logo-role">IT Operations</span>
+      </span>
     </a>
-    
+
     <nav class="nav-links" id="navLinks" aria-label="Navegación principal">
       <a href="#inicio" class="nav-link active">Inicio</a>
       <a href="#experiencia" class="nav-link">Experiencia</a>
@@ -46,47 +53,51 @@
     </nav>
 
     <div class="header-actions">
-      <!-- VISTAS EN VIVO EN TIEMPO REAL -->
-      <div class="live-views-badge" title="Visitas totales reales">
-        <span class="live-dot"></span>
-        <i class="fa-solid fa-eye"></i>
-        <span id="realViewsCount">—</span>
-      </div>
-
-      <!-- BOTÓN LUXURY VIP -->
-      <a href="#contacto" class="btn btn-sm btn-luxury">
-        <i class="fa-solid fa-crown"></i> Servicio Luxury <span class="badge-vip">VIP</span>
-      </a>
-
-      <!-- LINKEDIN SIEMPRE VISIBLE EN EL HEADER -->
-      <a href="https://www.linkedin.com/in/manuelmolina01" class="header-icon-btn linkedin-icon-btn" target="_blank" rel="noopener noreferrer" aria-label="Ver perfil de LinkedIn" title="LinkedIn">
-        <i class="fa-brands fa-linkedin-in" aria-hidden="true"></i>
-      </a>
-
-      <!-- SWITCH MODO OSCURO / DÍA EN EL EXTREMO DERECHO -->
-      <button id="themeToggleBtn" class="theme-toggle-btn" aria-label="Cambiar tema">
-        <i class="fa-solid fa-sun" id="themeIcon" aria-hidden="true"></i>
+      <!-- PREFERENCIAS (modo y color) -->
+      <button id="prefsBtn" class="icon-btn prefs-btn" aria-label="Abrir preferencias" aria-expanded="false" aria-controls="prefsPanel">
+        <i class="fa-solid fa-gear" aria-hidden="true"></i>
       </button>
 
+      <a href="Manuel_Molina_CV.pdf" class="btn btn-neu btn-header-cv" download="Manuel_Molina_CV.pdf">Descargar CV</a>
+
       <!-- MENÚ MOBILE -->
-      <button id="menuToggleBtn" class="menu-toggle-btn" aria-label="Abrir menú" aria-expanded="false" aria-controls="navLinks">
+      <button id="menuToggleBtn" class="icon-btn menu-toggle-btn" aria-label="Abrir menú" aria-expanded="false" aria-controls="navLinks">
         <i class="fa-solid fa-bars" aria-hidden="true"></i>
       </button>
     </div>
   </header>
+
+  <!-- PANEL DE PREFERENCIAS -->
+  <div class="prefs-panel" id="prefsPanel" role="dialog" aria-modal="false" aria-labelledby="prefsTitle" hidden>
+    <button class="prefs-close" id="prefsClose" aria-label="Cerrar preferencias"><i class="fa-solid fa-xmark" aria-hidden="true"></i></button>
+    <h2 id="prefsTitle" class="prefs-title">Preferencias</h2>
+    <p class="prefs-label">Modo</p>
+    <div class="prefs-row">
+      <button id="themeToggleBtn" class="theme-switch" role="switch" aria-checked="false" aria-label="Activar modo oscuro">
+        <span class="theme-switch-knob"><i class="fa-solid fa-sun" id="themeIcon" aria-hidden="true"></i></span>
+      </button>
+      <span id="themeLabel">Modo claro</span>
+    </div>
+    <p class="prefs-label">Color principal</p>
+    <div class="accent-swatches" role="radiogroup" aria-label="Color principal">
+      <button class="swatch" data-accent="verde" role="radio" aria-label="Verde"></button>
+      <button class="swatch" data-accent="azul" role="radio" aria-label="Azul"></button>
+      <button class="swatch" data-accent="naranja" role="radio" aria-label="Naranja"></button>
+      <button class="swatch" data-accent="magenta" role="radio" aria-label="Magenta"></button>
+      <button class="swatch" data-accent="violeta" role="radio" aria-label="Violeta"></button>
+    </div>
+  </div>
 
   <main>
     <!-- HERO SECTION -->
     <section id="inicio" class="hero-section">
       <div class="hero-container">
         <div class="hero-content">
-          <div class="badge-status">
-            <span class="pulse-dot"></span> Disponible para roles de IT Monitoring · Command Center · IT Operations
-          </div>
+          <p class="hero-kicker"><span class="pulse-dot" aria-hidden="true"></span> Disponible para nuevos desafíos</p>
           <h1>
-            Manuel Molina <br>
+            Soy <span class="accent-text">Manuel Molina</span>
             <span class="sr-only">IT Monitoring Operator e IT Operations</span>
-            <span class="typed-text-container" aria-hidden="true">
+            <span class="hero-role" aria-hidden="true">
               <span id="typedText"></span><span class="cursor">&nbsp;</span>
             </span>
           </h1>
@@ -96,49 +107,49 @@
 
           <div class="hero-stats">
             <div class="stat-item">
-              <span class="stat-number" data-target="7">7</span><span class="stat-plus">+ años</span>
-              <span class="stat-label">Experiencia en IT</span>
+              <span class="stat-number" data-target="7">7</span><span class="stat-plus">+</span>
+              <span class="stat-label">años en IT</span>
             </div>
             <div class="stat-item">
-              <span class="stat-number" data-target="5">5</span><span class="stat-plus"> empresas</span>
-              <span class="stat-label">Salud, telco y servicios</span>
+              <span class="stat-number" data-target="5">5</span>
+              <span class="stat-label">empresas</span>
             </div>
             <div class="stat-item">
-              <span class="stat-number" data-target="2">2</span><span class="stat-plus"> roles</span>
-              <span class="stat-label">Activos en simultáneo</span>
+              <span class="stat-number" data-target="2">2</span>
+              <span class="stat-label">roles activos</span>
             </div>
           </div>
 
-          <div class="btn-group">
-            <a href="#contacto" class="btn btn-accent">
-              <i class="fa-solid fa-paper-plane"></i> Contactar
-            </a>
-            <a href="Manuel_Molina_CV.pdf" class="btn btn-outline" download="Manuel_Molina_CV.pdf">
-              <i class="fa-solid fa-file-arrow-down" aria-hidden="true"></i> Descargar CV
-            </a>
-            <a href="#experiencia" class="btn btn-outline">
-              <i class="fa-solid fa-briefcase"></i> Ver Trayectoria
-            </a>
-            <a href="https://www.linkedin.com/in/manuelmolina01" class="btn btn-linkedin" target="_blank" rel="noopener noreferrer">
-              <i class="fa-brands fa-linkedin" aria-hidden="true"></i> LinkedIn
-            </a>
+          <div class="hero-groups">
+            <div class="hero-group">
+              <p class="group-label">Encontrame en</p>
+              <div class="neu-icons">
+                <a href="https://www.linkedin.com/in/manuelmolina01" class="neu-icon" target="_blank" rel="noopener noreferrer" aria-label="LinkedIn" title="LinkedIn"><i class="fa-brands fa-linkedin-in" aria-hidden="true"></i></a>
+                <a href="https://github.com/ThePantera" class="neu-icon" target="_blank" rel="noopener noreferrer" aria-label="GitHub" title="GitHub"><i class="fa-brands fa-github" aria-hidden="true"></i></a>
+                <a href="#contacto" class="neu-icon" aria-label="Formulario de contacto" title="Contacto"><i class="fa-solid fa-envelope" aria-hidden="true"></i></a>
+                <a href="Manuel_Molina_CV.pdf" class="neu-icon" download="Manuel_Molina_CV.pdf" aria-label="Descargar CV" title="Descargar CV"><i class="fa-solid fa-file-arrow-down" aria-hidden="true"></i></a>
+              </div>
+            </div>
+            <div class="hero-group">
+              <p class="group-label">Trabajo con</p>
+              <div class="neu-icons">
+                <span class="neu-icon neu-tool" title="Grafana"><i class="fa-solid fa-chart-line" aria-hidden="true"></i><small>Grafana</small></span>
+                <span class="neu-icon neu-tool" title="Zabbix"><i class="fa-solid fa-server" aria-hidden="true"></i><small>Zabbix</small></span>
+                <span class="neu-icon neu-tool" title="Jira"><i class="fa-brands fa-jira" aria-hidden="true"></i><small>Jira</small></span>
+                <span class="neu-icon neu-tool" title="SQL"><i class="fa-solid fa-database" aria-hidden="true"></i><small>SQL</small></span>
+              </div>
+            </div>
           </div>
         </div>
 
-        <!-- AVATAR HOLOGRÁFICO ANIMADO -->
-        <div class="hero-avatar-wrapper">
-          <div class="avatar-tech-container">
-            <div class="holo-glow"></div>
-            <div class="tech-ring ring-1"></div>
-            <div class="tech-ring ring-2"></div>
-            <div class="tech-ring ring-3"></div>
-            <div class="avatar-icon-box">
-              <img src="avatar-pixel.png" alt="Avatar en pixel art de Manuel Molina" width="176" height="176" class="hero-avatar-img" onerror="this.style.display='none'; document.getElementById('fallbackIcon').style.display='block';">
+        <!-- AVATAR -->
+        <div class="hero-visual">
+          <div class="hero-visual-card">
+            <div class="avatar-circle">
+              <img src="avatar-pixel.png" alt="Avatar en pixel art de Manuel Molina" width="320" height="320" class="hero-avatar-img" onerror="this.style.display='none'; document.getElementById('fallbackIcon').style.display='block';">
               <i class="fa-solid fa-user-gear tech-avatar-icon" id="fallbackIcon" style="display:none;"></i>
             </div>
-          </div>
-          <div class="avatar-badge">
-            <i class="fa-solid fa-tower-broadcast" aria-hidden="true"></i> Command Center
+            <div class="avatar-badge"><i class="fa-solid fa-tower-broadcast" aria-hidden="true"></i> Command Center</div>
           </div>
         </div>
       </div>
@@ -320,7 +331,7 @@
 
     <!-- FORMACIÓN E IDIOMAS -->
     <section id="formacion" class="section">
-      <div class="section-header reveal">
+      <div class="section-header center reveal">
         <span class="subtitle">Formación Continua</span>
         <h2>Educación & Idiomas</h2>
       </div>
@@ -366,7 +377,7 @@
 
     <!-- SERVICIOS OFRECIDOS -->
     <section id="servicios" class="section bg-alt">
-      <div class="section-header reveal">
+      <div class="section-header center reveal">
         <span class="subtitle">Soluciones Profesionales</span>
         <h2>Servicios IT Independientes</h2>
       </div>
@@ -420,7 +431,7 @@
 
     <!-- FORMULARIO DE CONTACTO Y COTIZACIÓN -->
     <section id="contacto" class="section">
-      <div class="section-header reveal">
+      <div class="section-header center reveal">
         <span class="subtitle">Iniciemos Conversación</span>
         <h2>Cotizador & Contacto Directo</h2>
         <p>Seleccioná el servicio que te interesa cotizar o enviá una propuesta laboral. También podés escribirme por <a href="https://www.linkedin.com/in/manuelmolina01" target="_blank" rel="noopener noreferrer" class="inline-link"><i class="fa-brands fa-linkedin" aria-hidden="true"></i> LinkedIn</a>.</p>
@@ -530,6 +541,6 @@
     <a href="#inicio" class="back-to-top" id="backToTop" aria-label="Volver arriba"><i class="fa-solid fa-arrow-up" aria-hidden="true"></i></a>
   </footer>
 
-  <script src="script.js?v=20261006b" defer></script>
+  <script src="script.js?v=20261006c" defer></script>
 </body>
 </html>
