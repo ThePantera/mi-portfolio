@@ -261,6 +261,8 @@ document.addEventListener('DOMContentLoaded', () => {
   const aiInput = document.getElementById('aiInput');
   const aiResponse = document.getElementById('aiResponse');
 
+  const LINKEDIN_URL = 'https://www.linkedin.com/in/manuelmolina01';
+
   const normalize = (str) => str.toLowerCase().normalize('NFD').replace(/[̀-ͯ]/g, '');
 
   const abiKnowledge = [
@@ -297,7 +299,12 @@ document.addEventListener('DOMContentLoaded', () => {
       answer: 'El presupuesto depende del servicio y la cantidad de usuarios. Completá el cotizador de abajo con el slider de usuarios y Manuel te responde a la brevedad 💬'
     },
     {
-      keys: ['contact', 'mail', 'correo', 'hablar', 'escrib', 'whatsapp', 'telefono', 'linkedin'],
+      keys: ['linkedin', 'perfil'],
+      answer: 'Acá tenés el LinkedIn de Manuel, escribile o conectá con él 👉 ',
+      link: { href: LINKEDIN_URL, text: 'linkedin.com/in/manuelmolina01' }
+    },
+    {
+      keys: ['contact', 'mail', 'correo', 'hablar', 'escrib', 'whatsapp', 'telefono'],
       answer: 'Podés escribirle desde el formulario de contacto al final de la página o por LinkedIn: linkedin.com/in/manuelmolina01. ¡Te llevo al formulario! 📲',
       action: () => document.getElementById('contacto')?.scrollIntoView({ behavior: prefersReducedMotion ? 'auto' : 'smooth' })
     },
@@ -337,6 +344,15 @@ document.addEventListener('DOMContentLoaded', () => {
       const match = getAbiAnswer(query);
       if (match) {
         aiResponse.innerText = `> Abi: ${match.answer}`;
+        if (match.link) {
+          const a = document.createElement('a');
+          a.href = match.link.href;
+          a.textContent = match.link.text;
+          a.target = '_blank';
+          a.rel = 'noopener noreferrer';
+          a.className = 'inline-link';
+          aiResponse.appendChild(a);
+        }
         if (match.action) setTimeout(match.action, 900);
       } else {
         aiResponse.innerText = `> Abi: ${fallbackResponses[Math.floor(Math.random() * fallbackResponses.length)]}`;
