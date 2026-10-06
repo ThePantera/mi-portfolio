@@ -281,6 +281,18 @@ document.addEventListener('DOMContentLoaded', () => {
       answer: 'Ofrece: monitoreo y operaciones IT, mesa de ayuda L1/L2, gestión de accesos, testing funcional/QA, soporte de hardware y redes. Podés cotizar desde el formulario 📋'
     },
     {
+      keys: ['cv', 'curriculum', 'descargar', 'pdf', 'resume'],
+      answer: '¡Claro! Te descargo el CV de Manuel en PDF 📄',
+      action: () => {
+        const link = document.createElement('a');
+        link.href = 'Manuel_Molina_CV.pdf';
+        link.download = 'Manuel_Molina_CV.pdf';
+        document.body.appendChild(link);
+        link.click();
+        link.remove();
+      }
+    },
+    {
       keys: ['precio', 'costo', 'cotiz', 'presupuesto', 'cuanto', 'tarifa', 'valor'],
       answer: 'El presupuesto depende del servicio y la cantidad de usuarios. Completá el cotizador de abajo con el slider de usuarios y Manuel te responde a la brevedad 💬'
     },
