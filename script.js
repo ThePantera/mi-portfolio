@@ -1,479 +1,317 @@
-document.addEventListener('DOMContentLoaded', () => {
+(function () {
+  'use strict';
 
-  const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  const root = document.documentElement;
 
-  // 1. CONTADOR DE VISITAS REALES
-  // Solo suma una visita por sesión para no inflar el número al recargar.
-  const realViewsCount = document.getElementById('realViewsCount');
-  if (realViewsCount) {
-    const namespace = 'manuel-molina-portfolio-2026';
-    const key = 'pageviews';
-    let alreadyCounted = false;
-    try { alreadyCounted = sessionStorage.getItem('viewCounted') === '1'; } catch (e) {}
-    const endpoint = `https://api.counterapi.dev/v1/${namespace}/${key}${alreadyCounted ? '' : '/up'}`;
-
-    fetch(endpoint)
-      .then(res => res.json())
-      .then(data => {
-        if (data && data.count) {
-          realViewsCount.innerText = data.count.toLocaleString('es-AR');
-          try { sessionStorage.setItem('viewCounted', '1'); } catch (e) {}
-        }
-      })
-      .catch(() => {
-        // Si el servicio no responde, se oculta el badge en lugar de mostrar un número falso.
-        const badge = realViewsCount.closest('.live-views-badge');
-        if (badge) badge.hidden = true;
-      });
-  }
-
-  // 2. MODO OSCURO / MODO DÍA
-  const themeToggleBtn = document.getElementById('themeToggleBtn');
-  const themeIcon = document.getElementById('themeIcon');
-  const htmlElement = document.documentElement;
+  /* ---------- 1. Tema claro / oscuro ---------- */
+  const themeToggle = document.getElementById('themeToggle');
   const themeColorMeta = document.querySelector('meta[name="theme-color"]');
 
-  let savedTheme = 'light';
-  try { savedTheme = localStorage.getItem('theme') || 'light'; } catch (e) {}
-  applyTheme(savedTheme);
+  function currentTheme() {
+    const explicit = root.getAttribute('data-theme');
+    if (explicit === 'dark' || explicit === 'light') return explicit;
+    return window.matchMedia('(prefers-color-scheme: light)').matches ? 'light' : 'dark';
+  }
 
-  if (themeToggleBtn) {
-    themeToggleBtn.addEventListener('click', () => {
-      const newTheme = htmlElement.getAttribute('data-theme') === 'dark' ? 'light' : 'dark';
-      applyTheme(newTheme);
-      try { localStorage.setItem('theme', newTheme); } catch (e) {}
+  function syncThemeUi() {
+    const theme = currentTheme();
+    if (themeToggle) {
+      themeToggle.setAttribute('aria-label', theme === 'dark' ? 'Cambiar a tema claro' : 'Cambiar a tema oscuro');
+    }
+    if (themeColorMeta) themeColorMeta.setAttribute('content', theme === 'dark' ? '#0b1118' : '#f3f6f9');
+  }
+
+  if (themeToggle) {
+    themeToggle.addEventListener('click', function () {
+      const next = currentTheme() === 'dark' ? 'light' : 'dark';
+      root.setAttribute('data-theme', next);
+      try { localStorage.setItem('theme', next); } catch (e) { /* sin almacenamiento: el cambio vale para esta visita */ }
+      syncThemeUi();
+    });
+  }
+  syncThemeUi();
+
+  /* ---------- 2. Menú en pantallas chicas ---------- */
+  const menuToggle = document.getElementById('menuToggle');
+  const siteNav = document.getElementById('siteNav');
+
+  function setMenu(open) {
+    if (!menuToggle || !siteNav) return;
+    siteNav.classList.toggle('is-open', open);
+    menuToggle.setAttribute('aria-expanded', String(open));
+    menuToggle.setAttribute('aria-label', open ? 'Cerrar menú' : 'Abrir menú');
+  }
+
+  if (menuToggle && siteNav) {
+    menuToggle.addEventListener('click', function () {
+      setMenu(!siteNav.classList.contains('is-open'));
+    });
+    siteNav.querySelectorAll('a').forEach(function (link) {
+      link.addEventListener('click', function () { setMenu(false); });
+    });
+    document.addEventListener('keydown', function (e) {
+      if (e.key === 'Escape') setMenu(false);
+    });
+    window.addEventListener('resize', function () {
+      if (window.innerWidth > 900) setMenu(false);
     });
   }
 
-  function applyTheme(theme) {
-    htmlElement.setAttribute('data-theme', theme);
-    if (themeIcon) themeIcon.className = theme === 'dark' ? 'fa-solid fa-sun' : 'fa-solid fa-moon';
-    if (themeToggleBtn) themeToggleBtn.setAttribute('aria-label', theme === 'dark' ? 'Activar modo día' : 'Activar modo oscuro');
-    if (themeColorMeta) themeColorMeta.setAttribute('content', theme === 'dark' ? '#000000' : '#ffffff');
-  }
-
-  // 3. MENÚ MOBILE
-  const menuToggleBtn = document.getElementById('menuToggleBtn');
-  const navLinks = document.getElementById('navLinks');
-
-  function setMenu(open) {
-    if (!menuToggleBtn || !navLinks) return;
-    navLinks.classList.toggle('open', open);
-    document.body.classList.toggle('menu-open', open);
-    menuToggleBtn.setAttribute('aria-expanded', String(open));
-    menuToggleBtn.setAttribute('aria-label', open ? 'Cerrar menú' : 'Abrir menú');
-    menuToggleBtn.querySelector('i').className = open ? 'fa-solid fa-xmark' : 'fa-solid fa-bars';
-  }
-
-  if (menuToggleBtn && navLinks) {
-    menuToggleBtn.addEventListener('click', () => setMenu(!navLinks.classList.contains('open')));
-    navLinks.querySelectorAll('a').forEach(link => link.addEventListener('click', () => setMenu(false)));
-    document.addEventListener('keydown', (e) => { if (e.key === 'Escape') setMenu(false); });
-    window.addEventListener('resize', () => { if (window.innerWidth > 900) setMenu(false); });
-  }
-
-  // 4. MÁQUINA DE ESCRIBIR
-  const typedTextSpan = document.getElementById('typedText');
-  const textArray = [
-    'IT Monitoring Operator',
-    'Command Center & IT Operations',
-    'Application Support Analyst'
-  ];
-  const typingDelay = 100;
-  const erasingDelay = 50;
-  const newTextDelay = 2000;
-  let textArrayIndex = 0;
-  let charIndex = 0;
-
-  function type() {
-    if (charIndex < textArray[textArrayIndex].length) {
-      typedTextSpan.textContent += textArray[textArrayIndex].charAt(charIndex);
-      charIndex++;
-      setTimeout(type, typingDelay);
-    } else {
-      setTimeout(erase, newTextDelay);
-    }
-  }
-
-  function erase() {
-    if (charIndex > 0) {
-      typedTextSpan.textContent = textArray[textArrayIndex].substring(0, charIndex - 1);
-      charIndex--;
-      setTimeout(erase, erasingDelay);
-    } else {
-      textArrayIndex = (textArrayIndex + 1) % textArray.length;
-      setTimeout(type, typingDelay + 500);
-    }
-  }
-
-  if (typedTextSpan) {
-    if (prefersReducedMotion) {
-      typedTextSpan.textContent = textArray[0];
-    } else {
-      setTimeout(type, 600);
-    }
-  }
-
-  // 5. NAVEGACIÓN ACTIVA SEGÚN LA SECCIÓN VISIBLE
-  const navLinkEls = document.querySelectorAll('.nav-link');
-  const sections = Array.from(navLinkEls)
-    .map(link => document.querySelector(link.getAttribute('href')))
+  /* ---------- 3. Enlace activo según la sección visible ---------- */
+  const navLinks = Array.prototype.slice.call(document.querySelectorAll('.nav-link'));
+  const observed = navLinks
+    .map(function (link) { return document.querySelector(link.getAttribute('href')); })
     .filter(Boolean);
 
-  if ('IntersectionObserver' in window && sections.length) {
-    const sectionObserver = new IntersectionObserver((entries) => {
-      entries.forEach(entry => {
+  if ('IntersectionObserver' in window && observed.length) {
+    const sectionObserver = new IntersectionObserver(function (entries) {
+      entries.forEach(function (entry) {
         if (!entry.isIntersecting) return;
-        navLinkEls.forEach(link => {
-          const isActive = link.getAttribute('href') === `#${entry.target.id}`;
-          link.classList.toggle('active', isActive);
-          if (isActive) link.setAttribute('aria-current', 'true');
+        navLinks.forEach(function (link) {
+          const isCurrent = link.getAttribute('href') === '#' + entry.target.id;
+          link.classList.toggle('is-current', isCurrent);
+          if (isCurrent) link.setAttribute('aria-current', 'true');
           else link.removeAttribute('aria-current');
         });
       });
-    }, { rootMargin: '-45% 0px -50% 0px' });
-    sections.forEach(section => sectionObserver.observe(section));
+    }, { rootMargin: '-40% 0px -55% 0px' });
+    observed.forEach(function (section) { sectionObserver.observe(section); });
   }
 
-  // 6. ANIMACIONES AL HACER SCROLL
-  const revealEls = document.querySelectorAll('.reveal');
-  if ('IntersectionObserver' in window && !prefersReducedMotion) {
-    document.documentElement.classList.add('js-reveal');
-    const revealObserver = new IntersectionObserver((entries, observer) => {
-      entries.forEach(entry => {
-        if (entry.isIntersecting) {
-          entry.target.classList.add('visible');
-          observer.unobserve(entry.target);
-        }
-      });
-    }, { threshold: 0.12 });
-    revealEls.forEach(el => revealObserver.observe(el));
-  }
+  /* ---------- 4. Simulación de alertas (datos ficticios) ---------- */
+  const STEP_LABELS = ['Detecto', 'Valido', 'Registro', 'Notifico', 'Escalo', 'Sigo'];
 
-  // 7. CONTADORES ANIMADOS DE ESTADÍSTICAS
-  const statNumbers = document.querySelectorAll('.stat-number[data-target]');
-  if ('IntersectionObserver' in window && !prefersReducedMotion) {
-    const statObserver = new IntersectionObserver((entries, observer) => {
-      entries.forEach(entry => {
-        if (!entry.isIntersecting) return;
-        const el = entry.target;
-        const target = parseInt(el.dataset.target, 10);
-        const duration = 1200;
-        const start = performance.now();
-        const step = (now) => {
-          const progress = Math.min((now - start) / duration, 1);
-          const eased = 1 - Math.pow(1 - progress, 3);
-          el.textContent = Math.round(target * eased);
-          if (progress < 1) requestAnimationFrame(step);
-        };
-        requestAnimationFrame(step);
-        observer.unobserve(el);
-      });
-    }, { threshold: 0.6 });
-    statNumbers.forEach(el => statObserver.observe(el));
-  }
-
-  // 8. SLIDER DINÁMICO DE CANTIDAD DE USUARIOS
-  const userSlider = document.getElementById('user_count_range');
-  const userCountDisplay = document.getElementById('userCountDisplay');
-
-  function updateUserCount() {
-    const val = parseInt(userSlider.value, 10);
-    userCountDisplay.innerText = val >= 500
-      ? '500+ usuarios (Enterprise)'
-      : `${val} usuario${val > 1 ? 's' : ''}`;
-  }
-
-  if (userSlider && userCountDisplay) {
-    userSlider.addEventListener('input', updateUserCount);
-  }
-
-  // 9. CONSOLA PING INTERACTIVA
-  const runPingBtn = document.getElementById('runPingBtn');
-  const pingOutput = document.getElementById('pingOutput');
-
-  if (runPingBtn && pingOutput) {
-    runPingBtn.addEventListener('click', () => {
-      runPingBtn.disabled = true;
-      pingOutput.innerText = '> Pinging 192.168.1.1 with 32 bytes of data...';
-      const times = [];
-      let sent = 0;
-      const sendPing = () => {
-        const ms = Math.floor(Math.random() * 13) + 8;
-        times.push(ms);
-        sent++;
-        pingOutput.innerText += `\n> Reply from 192.168.1.1: bytes=32 time=${ms}ms TTL=64`;
-        if (sent < 4) {
-          setTimeout(sendPing, 450);
-        } else {
-          const avg = Math.round(times.reduce((a, b) => a + b, 0) / times.length);
-          pingOutput.innerText += `\n> Sent = 4, Received = 4, Lost = 0 (0% loss) · avg ${avg}ms ✔`;
-          runPingBtn.disabled = false;
-        }
-      };
-      setTimeout(sendPing, 500);
-    });
-  }
-
-  // 9b. PANEL DE MONITOREO (DEMO): simula un evento, su escalamiento y la recuperación
-  const statusList = document.getElementById('statusList');
-  const statusLog = document.getElementById('statusLog');
-  const statusClock = document.getElementById('statusClock');
-
-  if (statusList && statusLog) {
-    const items = Array.from(statusList.querySelectorAll('li'));
-    const timeNow = () => new Date().toLocaleTimeString('es-AR', { hour12: false });
-    let ticket = 1040;
-
-    if (statusClock) {
-      statusClock.textContent = timeNow();
-      setInterval(() => { statusClock.textContent = timeNow(); }, 1000);
-    }
-
-    const setState = (li, state, label) => {
-      li.dataset.state = state;
-      li.querySelector('.status-value').textContent = label;
-    };
-
-    const runIncident = () => {
-      const li = items[Math.floor(Math.random() * items.length)];
-      const name = li.dataset.service;
-      ticket++;
-      setState(li, 'warn', 'WARN');
-      statusLog.innerText = `> ${timeNow()} Alerta: latencia alta en ${name}`;
-      setTimeout(() => {
-        statusLog.innerText = `> ${timeNow()} Ticket #${ticket} creado y escalado al sector responsable`;
-      }, 2200);
-      setTimeout(() => {
-        setState(li, 'up', 'UP');
-        statusLog.innerText = `> ${timeNow()} ${name} recuperado · Ticket #${ticket} resuelto ✔`;
-      }, 5000);
-    };
-
-    if (!prefersReducedMotion) {
-      setTimeout(runIncident, 4000);
-      setInterval(runIncident, 11000);
-    }
-  }
-
-  // 10. ASISTENTE ABI (respuestas por palabras clave)
-  const aiSendBtn = document.getElementById('aiSendBtn');
-  const aiInput = document.getElementById('aiInput');
-  const aiResponse = document.getElementById('aiResponse');
-
-  const LINKEDIN_URL = 'https://www.linkedin.com/in/manuelmolina01';
-
-  const normalize = (str) => str.toLowerCase().normalize('NFD').replace(/[̀-ͯ]/g, '');
-
-  const abiKnowledge = [
-    {
-      keys: ['experiencia', 'trabajo', 'trayectoria', 'empresa', 'medicus', 'otamendi', 'claro', 'sondeos', 'beretta', 'anos'],
-      answer: 'Más de 7 años en IT. Hoy es Operador de Monitoreo en Sanatorio Otamendi e IT Analyst en Medicus. Antes: Sondeos Global, Beretta Galarce & Asociados y Claro Argentina. Mirá la sección "Experiencia" 👆'
-    },
-    {
-      keys: ['formacion', 'estudi', 'educacion', 'titulo', 'carrera', 'curso', 'utn', 'iutai', 'data science', 'ingles', 'idioma'],
-      answer: 'Técnico Superior en Informática (IUTAI). En curso: Automatización con IA (UTN) y Data Science (EducaciónIT). Idiomas: español nativo e inglés B1 orientado a documentación técnica 🎓'
-    },
-    {
-      keys: ['habilidad', 'skill', 'sabe', 'herramienta', 'jira', 'redmine', 'itil', 'active directory', 'grafana', 'zabbix', 'monitoreo', 'sql', 'mongo', 'tecnologia'],
-      answer: 'Monitoreo con Grafana y Zabbix, gestión de incidentes ITIL con Jira y Redmine, Application Support (Thinksoft, Biocom, Binary), SQL y MongoDB, Active Directory y redes (TCP/IP, DNS, DHCP, VPN).'
-    },
-    {
-      keys: ['servicio', 'ofrece', 'freelance', 'independiente', 'red', 'cableado', 'hardware', 'qa', 'testing'],
-      answer: 'Ofrece: monitoreo y operaciones IT, mesa de ayuda L1/L2, gestión de accesos, testing funcional/QA, soporte de hardware y redes. Podés cotizar desde el formulario 📋'
-    },
-    {
-      keys: ['cv', 'curriculum', 'descargar', 'pdf', 'resume'],
-      answer: '¡Claro! Te descargo el CV de Manuel en PDF 📄',
-      action: () => {
-        const link = document.createElement('a');
-        link.href = 'Manuel_Molina_CV.pdf';
-        link.download = 'Manuel_Molina_CV.pdf';
-        document.body.appendChild(link);
-        link.click();
-        link.remove();
+  const ALERTS = {
+    api: {
+      steps: [
+        'El panel de APIs muestra respuestas HTTP 500 sostenidas en la API de turnos.',
+        'Reviso desde cuándo ocurre, si el error persiste y si otras APIs o el servidor que la aloja también fallan.',
+        'Abro un ticket con el servicio afectado, la hora de inicio, el síntoma y una captura del panel.',
+        'Aviso por chat al sector responsable con el número de ticket.',
+        'Derivo el incidente al equipo de Aplicaciones.',
+        'Controlo el panel hasta que la API responda con normalidad y actualizo el ticket.'
+      ],
+      ticket: {
+        'Título': 'API de turnos responde HTTP 500',
+        'Servicio': 'API de turnos',
+        'Inicio': '10:42',
+        'Síntoma': 'Errores 500 sostenidos en el panel de APIs',
+        'Evidencia': 'Captura del dashboard',
+        'Escalado a': 'Equipo de Aplicaciones',
+        'Estado': 'En seguimiento'
       }
     },
-    {
-      keys: ['precio', 'costo', 'cotiz', 'presupuesto', 'cuanto', 'tarifa', 'valor'],
-      answer: 'El presupuesto depende del servicio y la cantidad de usuarios. Completá el cotizador de abajo con el slider de usuarios y Manuel te responde a la brevedad 💬'
-    },
-    {
-      keys: ['linkedin', 'perfil'],
-      answer: 'Acá tenés el LinkedIn de Manuel, escribile o conectá con él 👉 ',
-      link: { href: LINKEDIN_URL, text: 'linkedin.com/in/manuelmolina01' }
-    },
-    {
-      keys: ['contact', 'mail', 'correo', 'hablar', 'escrib', 'whatsapp', 'telefono'],
-      answer: 'Podés escribirle desde el formulario de contacto al final de la página o por LinkedIn: linkedin.com/in/manuelmolina01. ¡Te llevo al formulario! 📲',
-      action: () => document.getElementById('contacto')?.scrollIntoView({ behavior: prefersReducedMotion ? 'auto' : 'smooth' })
-    },
-    {
-      keys: ['disponib', 'busca', 'empleo', 'propuesta', 'contrat', 'remoto', 'hibrido', 'puesto', 'rol'],
-      answer: 'Sí: Manuel busca crecer como IT Monitoring Operator o Command Center Operator, con foco en disponibilidad, detección de eventos e incidentes. Elegí "Propuesta laboral" en el formulario 🚀'
-    },
-    {
-      keys: ['hola', 'buenas', 'hey', 'buen dia', 'que tal'],
-      answer: '¡Hola! Soy Abi 🤖. Preguntame por la experiencia, habilidades, formación o cómo contactar a Manuel.'
-    },
-    {
-      keys: ['quien sos', 'que sos', 'abi', 'bot', 'ia'],
-      answer: 'Soy Abi, un asistente sencillo hecho con JavaScript para guiarte por este portafolio 😄'
-    }
-  ];
-
-  const fallbackResponses = [
-    'No estoy segura de eso 🤔. Probá preguntar por "experiencia", "formación" o "contacto".',
-    'Esa no la sé, pero Manuel sí: escribile desde el formulario de contacto 😉'
-  ];
-
-  function getAbiAnswer(query) {
-    const q = normalize(query);
-    // Coincidencia al inicio de palabra para evitar falsos positivos (ej: "ia" dentro de "experiencia")
-    return abiKnowledge.find(item => item.keys.some(k => new RegExp(`\\b${k}`).test(q)));
-  }
-
-  function processAiQuery(presetQuery) {
-    const query = (presetQuery || aiInput.value).trim();
-    if (!query) return;
-
-    aiResponse.innerText = '> Abi está pensando...';
-    aiInput.value = '';
-
-    setTimeout(() => {
-      const match = getAbiAnswer(query);
-      if (match) {
-        aiResponse.innerText = `> Abi: ${match.answer}`;
-        if (match.link) {
-          const a = document.createElement('a');
-          a.href = match.link.href;
-          a.textContent = match.link.text;
-          a.target = '_blank';
-          a.rel = 'noopener noreferrer';
-          a.className = 'inline-link';
-          aiResponse.appendChild(a);
-        }
-        if (match.action) setTimeout(match.action, 900);
-      } else {
-        aiResponse.innerText = `> Abi: ${fallbackResponses[Math.floor(Math.random() * fallbackResponses.length)]}`;
+    server: {
+      steps: [
+        'El dashboard marca el servidor de aplicaciones sin respuesta.',
+        'Confirmo que no sea un corte del propio monitoreo: reviso si otros servidores del mismo grupo reportan con normalidad.',
+        'Abro un ticket con el servidor afectado, la hora de la última métrica recibida y una captura del gráfico.',
+        'Aviso por chat al sector responsable y aclaro qué servicios dependen de ese servidor.',
+        'Derivo el incidente al equipo de Infraestructura.',
+        'Sigo el gráfico hasta que el servidor vuelva a reportar y dejo asentada la hora de recuperación.'
+      ],
+      ticket: {
+        'Título': 'Servidor de aplicaciones sin respuesta',
+        'Servicio': 'Servidor de aplicaciones',
+        'Inicio': '14:05',
+        'Síntoma': 'Sin métricas ni respuesta desde las 14:05',
+        'Evidencia': 'Captura del gráfico del servidor',
+        'Escalado a': 'Equipo de Infraestructura',
+        'Estado': 'En seguimiento'
       }
-    }, 500);
+    },
+    wifi: {
+      steps: [
+        'El panel de conectividad muestra puntos de acceso del piso 3 sin conexión.',
+        'Verifico cuántos puntos de acceso están afectados y si el resto de los pisos funciona con normalidad.',
+        'Abro un ticket con el sector afectado, la cantidad de puntos de acceso caídos y la hora de inicio.',
+        'Aviso por chat al sector responsable e indico el alcance: un piso, no todo el edificio.',
+        'Derivo el incidente al equipo de Redes.',
+        'Sigo el panel hasta que los puntos de acceso vuelvan a conectarse y actualizo el ticket.'
+      ],
+      ticket: {
+        'Título': 'Wi-Fi piso 3 con puntos de acceso sin conexión',
+        'Servicio': 'Wi-Fi piso 3',
+        'Inicio': '08:17',
+        'Síntoma': 'Puntos de acceso del piso 3 fuera de línea',
+        'Evidencia': 'Captura del panel de conectividad',
+        'Escalado a': 'Equipo de Redes',
+        'Estado': 'En seguimiento'
+      }
+    },
+    nodata: {
+      steps: [
+        'El panel de servidores dejó de mostrar métricas hace 10 minutos.',
+        'Reviso si la falta de datos es de un servidor o de todos: si son todos, el problema puede estar en el monitoreo y no en los servidores.',
+        'Abro un ticket que aclara que se perdió visibilidad, desde qué hora y qué paneles están afectados.',
+        'Aviso por chat que el monitoreo está sin datos, para que nadie asuma que todo funciona.',
+        'Derivo el incidente al equipo responsable de la herramienta de monitoreo.',
+        'Sigo el panel hasta que vuelvan las métricas y reviso si en ese lapso quedó alguna alerta sin ver.'
+      ],
+      ticket: {
+        'Título': 'Panel de servidores sin métricas',
+        'Servicio': 'Monitoreo de servidores',
+        'Inicio': '16:30',
+        'Síntoma': 'Sin datos en el panel desde las 16:30',
+        'Evidencia': 'Captura del panel vacío',
+        'Escalado a': 'Responsables de la herramienta de monitoreo',
+        'Estado': 'En seguimiento'
+      }
+    }
+  };
+
+  const simTabs = Array.prototype.slice.call(document.querySelectorAll('.sim-alert'));
+  const simPanel = document.getElementById('simPanel');
+  const simSteps = document.getElementById('simSteps');
+  const simTicket = document.getElementById('simTicket');
+
+  function renderAlert(key) {
+    const alertData = ALERTS[key];
+    if (!alertData || !simSteps || !simTicket) return;
+
+    simSteps.textContent = '';
+    alertData.steps.forEach(function (text, i) {
+      const li = document.createElement('li');
+      const label = document.createElement('span');
+      label.className = 'sim-step-label';
+      label.textContent = STEP_LABELS[i];
+      const body = document.createElement('span');
+      body.className = 'sim-step-text';
+      body.textContent = text;
+      li.appendChild(label);
+      li.appendChild(body);
+      simSteps.appendChild(li);
+    });
+
+    simTicket.textContent = '';
+    Object.keys(alertData.ticket).forEach(function (field) {
+      const row = document.createElement('div');
+      const dt = document.createElement('dt');
+      dt.textContent = field;
+      const dd = document.createElement('dd');
+      dd.textContent = alertData.ticket[field];
+      row.appendChild(dt);
+      row.appendChild(dd);
+      simTicket.appendChild(row);
+    });
   }
 
-  if (aiSendBtn && aiInput && aiResponse) {
-    aiSendBtn.addEventListener('click', () => processAiQuery());
-    aiInput.addEventListener('keydown', (e) => {
-      if (e.key === 'Enter') processAiQuery();
+  function selectAlert(tab, moveFocus) {
+    simTabs.forEach(function (t) {
+      const active = t === tab;
+      t.classList.toggle('is-active', active);
+      t.setAttribute('aria-selected', String(active));
+      t.tabIndex = active ? 0 : -1;
     });
-    document.querySelectorAll('.ai-chip').forEach(chip => {
-      chip.addEventListener('click', () => processAiQuery(chip.dataset.q));
-    });
+    if (simPanel) simPanel.setAttribute('aria-labelledby', tab.id);
+    renderAlert(tab.dataset.alert);
+    if (moveFocus) tab.focus();
   }
 
-  // 11. PRESELECCIÓN DE SERVICIO DESDE LAS TARJETAS
-  const serviceSelect = document.getElementById('service_type');
-  document.querySelectorAll('[data-service]').forEach(link => {
-    link.addEventListener('click', () => {
-      if (serviceSelect) serviceSelect.value = link.dataset.service;
+  simTabs.forEach(function (tab, index) {
+    tab.addEventListener('click', function () { selectAlert(tab, false); });
+    tab.addEventListener('keydown', function (e) {
+      let target = null;
+      if (e.key === 'ArrowDown' || e.key === 'ArrowRight') target = simTabs[(index + 1) % simTabs.length];
+      if (e.key === 'ArrowUp' || e.key === 'ArrowLeft') target = simTabs[(index - 1 + simTabs.length) % simTabs.length];
+      if (e.key === 'Home') target = simTabs[0];
+      if (e.key === 'End') target = simTabs[simTabs.length - 1];
+      if (target) {
+        e.preventDefault();
+        selectAlert(target, true);
+      }
     });
   });
 
-  // 12. ENVÍO Y VALIDACIÓN DEL FORMULARIO DE CONTACTO (FORMSPREE)
-  const form = document.getElementById('portfolioForm');
+  /* ---------- 5. Formulario de contacto ---------- */
+  const form = document.getElementById('contactForm');
   const fullname = document.getElementById('fullname');
   const email = document.getElementById('email');
   const message = document.getElementById('message');
-  const formAlert = document.getElementById('formAlert');
+  const formStatus = document.getElementById('formStatus');
+  const submitBtn = document.getElementById('submitBtn');
+  const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/;
 
-  const emailRegex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
-
-  function setError(inputElement) {
-    inputElement.closest('.form-group').classList.add('error');
-    inputElement.setAttribute('aria-invalid', 'true');
+  function setFieldError(input, hasError) {
+    const field = input.closest('.field');
+    if (field) field.classList.toggle('has-error', hasError);
+    if (hasError) input.setAttribute('aria-invalid', 'true');
+    else input.removeAttribute('aria-invalid');
   }
 
-  // Quita el error de un campo apenas el usuario lo corrige
-  [fullname, email, message].forEach(input => {
+  function setStatus(text, kind) {
+    if (!formStatus) return;
+    formStatus.textContent = text;
+    formStatus.className = 'form-status' + (kind ? ' is-' + kind : '');
+  }
+
+  [fullname, email, message].forEach(function (input) {
     if (!input) return;
-    input.addEventListener('input', () => {
-      input.closest('.form-group').classList.remove('error');
-      input.removeAttribute('aria-invalid');
-    });
+    input.addEventListener('input', function () { setFieldError(input, false); });
   });
 
-  if (form) {
-    form.addEventListener('submit', async (e) => {
+  if (form && fullname && email && message && submitBtn) {
+    form.addEventListener('submit', function (e) {
       e.preventDefault();
-      let isValid = true;
+      setStatus('', '');
 
-      form.querySelectorAll('.form-group').forEach(group => group.classList.remove('error'));
-      formAlert.className = 'form-alert';
-      formAlert.innerText = '';
-
-      if (fullname.value.trim().length < 3) {
-        setError(fullname);
-        isValid = false;
-      }
-
-      if (!emailRegex.test(email.value.trim())) {
-        setError(email);
-        isValid = false;
-      }
-
-      if (message.value.trim().length < 5) {
-        setError(message);
-        isValid = false;
-      }
-
-      if (!isValid) {
-        form.querySelector('.form-group.error input, .form-group.error textarea')?.focus();
+      const checks = [
+        [fullname, fullname.value.trim().length >= 3],
+        [email, emailRegex.test(email.value.trim())],
+        [message, message.value.trim().length >= 5]
+      ];
+      let firstInvalid = null;
+      checks.forEach(function (pair) {
+        setFieldError(pair[0], !pair[1]);
+        if (!pair[1] && !firstInvalid) firstInvalid = pair[0];
+      });
+      if (firstInvalid) {
+        firstInvalid.focus();
         return;
       }
 
-      const submitBtn = document.getElementById('submitBtn');
-      submitBtn.disabled = true;
-      submitBtn.querySelector('.btn-text').innerText = 'Enviando mensaje...';
-
-      try {
-        const response = await fetch(form.action, {
-          method: 'POST',
-          body: new FormData(form),
-          headers: { 'Accept': 'application/json' }
-        });
-
-        if (response.ok) {
-          formAlert.classList.add('success');
-          formAlert.innerText = `¡Muchas gracias, ${fullname.value.trim()}! Tu mensaje fue enviado con éxito. Te responderé a la brevedad.`;
-          form.reset();
-          if (userSlider && userCountDisplay) updateUserCount();
-        } else {
-          const data = await response.json().catch(() => null);
-          throw new Error(data && data.errors
-            ? data.errors.map(error => error.message).join(', ')
-            : 'Ocurrió un error al enviar el formulario.');
-        }
-      } catch (err) {
-        formAlert.classList.add('error');
-        formAlert.innerText = err.message || 'Error de conexión. Intentalo nuevamente.';
-      } finally {
-        submitBtn.disabled = false;
-        submitBtn.querySelector('.btn-text').innerText = 'Enviar Mensaje';
+      const endpoint = form.getAttribute('data-endpoint');
+      if (!endpoint) {
+        setStatus('Esta es una vista previa: el formulario envía mensajes solo en el sitio publicado.', '');
+        return;
       }
+
+      const name = fullname.value.trim();
+      submitBtn.disabled = true;
+      submitBtn.textContent = 'Enviando...';
+
+      fetch(endpoint, {
+        method: 'POST',
+        body: new FormData(form),
+        headers: { 'Accept': 'application/json' }
+      })
+        .then(function (response) {
+          if (response.ok) {
+            form.reset();
+            setStatus('Mensaje enviado. Gracias, ' + name + ': te respondo a la brevedad.', 'ok');
+            return;
+          }
+          return response.json().catch(function () { return null; }).then(function (data) {
+            const detail = data && data.errors
+              ? data.errors.map(function (err) { return err.message; }).join(', ')
+              : 'El servicio de envío rechazó el mensaje.';
+            throw new Error(detail);
+          });
+        })
+        .catch(function (err) {
+          const detail = err && err.message && err.message !== 'Failed to fetch'
+            ? err.message
+            : 'No se pudo conectar con el servicio de envío.';
+          setStatus(detail + ' Probá de nuevo o escribime por LinkedIn.', 'error');
+        })
+        .then(function () {
+          submitBtn.disabled = false;
+          submitBtn.textContent = 'Enviar mensaje';
+        });
     });
   }
 
-  // 13. HEADER Y BOTÓN "VOLVER ARRIBA" AL SCROLLEAR
-  const header = document.getElementById('header');
-  const backToTop = document.getElementById('backToTop');
-  const onScroll = () => {
-    const y = window.scrollY;
-    if (header) header.classList.toggle('scrolled', y > 50);
-    if (backToTop) backToTop.classList.toggle('show', y > 600);
-  };
-  window.addEventListener('scroll', onScroll, { passive: true });
-  onScroll();
-
-  // 14. AÑO DEL FOOTER
-  const currentYear = document.getElementById('currentYear');
-  if (currentYear) currentYear.textContent = new Date().getFullYear();
-});
+  /* ---------- 6. Año del pie ---------- */
+  const year = document.getElementById('year');
+  if (year) year.textContent = String(new Date().getFullYear());
+})();

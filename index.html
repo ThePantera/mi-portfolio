@@ -1,533 +1,439 @@
 <!DOCTYPE html>
-<html lang="es" data-theme="light">
+<html lang="es">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Manuel Molina | IT Monitoring Operator · IT Operations</title>
-  <meta name="description" content="Manuel Molina — IT Monitoring Operator y Application Support en Buenos Aires. Más de 7 años en soporte técnico, operaciones IT, monitoreo con Grafana y Zabbix, gestión de incidentes ITIL con Jira y Redmine.">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+  <title>Manuel Molina | IT Monitoring Operator</title>
+  <meta name="description" content="Manuel Molina, IT Monitoring Operator en Buenos Aires. Monitoreo de infraestructura y servicios, gestión de incidentes y soporte de aplicaciones.">
   <meta name="author" content="Manuel Molina">
-  <meta name="theme-color" content="#ffffff">
+  <meta name="theme-color" content="#0b1118">
   <meta property="og:type" content="website">
-  <meta property="og:title" content="Manuel Molina | IT Monitoring Operator · IT Operations">
-  <meta property="og:description" content="Monitoreo de infraestructura, Command Center, gestión de incidentes ITIL y Application Support. Buenos Aires, Argentina.">
+  <meta property="og:title" content="Manuel Molina | IT Monitoring Operator">
+  <meta property="og:description" content="Monitoreo de infraestructura y servicios, gestión de incidentes y soporte de aplicaciones. Buenos Aires, Argentina.">
   <meta property="og:locale" content="es_AR">
-  <link rel="icon" type="image/png" href="favicon.png">
-  <link rel="apple-touch-icon" href="favicon.png">
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Crect width='100' height='100' rx='18' fill='%230b1118'/%3E%3Ctext x='50' y='66' font-family='monospace' font-size='46' font-weight='700' fill='%234cc2f1' text-anchor='middle'%3EMM%3C/text%3E%3C/svg%3E">
 
-  <!-- Aplica el tema guardado antes de pintar la página (evita el parpadeo) -->
+  <!-- Aplica el tema guardado antes de pintar la página. Sin elección guardada, el sitio abre en oscuro. -->
   <script>
-    try { document.documentElement.setAttribute('data-theme', localStorage.getItem('theme') || 'light'); } catch (e) {}
+    try { document.documentElement.setAttribute('data-theme', localStorage.getItem('theme') || 'dark'); } catch (e) { document.documentElement.setAttribute('data-theme', 'dark'); }
   </script>
-  
-  <!-- Google Fonts & Font Awesome -->
+
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,500;12..96,700;12..96,800&family=Manrope:wght@400;500;600;700;800&family=Fira+Code:wght@400;600&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-  
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500&family=IBM+Plex+Sans:wght@400;500;600&display=swap">
   <link rel="stylesheet" href="style.css">
 </head>
 <body>
-  <a href="#inicio" class="skip-link">Saltar al contenido</a>
+  <a href="#contenido" class="skip-link">Saltar al contenido</a>
 
-  <!-- NAVEGACIÓN -->
-  <header id="header">
-    <a href="#inicio" class="logo" aria-label="Manuel Molina — volver al inicio">
-      Manuel Molina <i class="fa-solid fa-wrench logo-icon" aria-hidden="true"></i>
-    </a>
-    
-    <nav class="nav-links" id="navLinks" aria-label="Navegación principal">
-      <a href="#inicio" class="nav-link active">Inicio</a>
-      <a href="#experiencia" class="nav-link">Experiencia</a>
-      <a href="#habilidades" class="nav-link">Habilidades</a>
-      <a href="#formacion" class="nav-link">Formación</a>
-      <a href="#servicios" class="nav-link">Servicios</a>
-      <a href="#contacto" class="nav-link">Contacto</a>
-    </nav>
+  <header class="site-header" id="header">
+    <div class="wrap header-inner">
+      <a href="#inicio" class="brand" aria-label="Manuel Molina, volver al inicio">
+        <span class="brand-mark" aria-hidden="true">MM</span>
+        <span class="brand-name">Manuel Molina</span>
+      </a>
 
-    <div class="header-actions">
-      <!-- VISTAS EN VIVO EN TIEMPO REAL -->
-      <div class="live-views-badge" title="Visitas totales reales">
-        <span class="live-dot"></span>
-        <i class="fa-solid fa-eye"></i>
-        <span id="realViewsCount">—</span>
+      <nav class="site-nav" id="siteNav" aria-label="Navegación principal">
+        <a href="#circuito" class="nav-link">Circuito</a>
+        <a href="#simulacion" class="nav-link">Simulación</a>
+        <a href="#experiencia" class="nav-link">Experiencia</a>
+        <a href="#habilidades" class="nav-link">Habilidades</a>
+        <a href="#laboratorios" class="nav-link">Laboratorios</a>
+        <a href="#contacto" class="nav-link">Contacto</a>
+      </nav>
+
+      <div class="header-actions">
+        <button type="button" id="themeToggle" class="icon-btn" aria-label="Cambiar tema">
+          <svg class="icon icon-sun" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="4.2" fill="none" stroke="currentColor" stroke-width="1.8"/><path d="M12 2.5v2.6M12 18.9v2.6M2.5 12h2.6M18.9 12h2.6M5.3 5.3l1.8 1.8M16.9 16.9l1.8 1.8M5.3 18.7l1.8-1.8M16.9 7.1l1.8-1.8" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg>
+          <svg class="icon icon-moon" viewBox="0 0 24 24" aria-hidden="true"><path d="M20 14.2A8.2 8.2 0 0 1 9.8 4a8.2 8.2 0 1 0 10.2 10.2Z" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"/></svg>
+        </button>
+        <button type="button" id="menuToggle" class="icon-btn menu-btn" aria-label="Abrir menú" aria-expanded="false" aria-controls="siteNav">
+          <svg class="icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M4 7h16M4 12h16M4 17h16" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg>
+        </button>
       </div>
-
-      <!-- BOTÓN LUXURY VIP -->
-      <a href="#contacto" class="btn btn-sm btn-luxury">
-        <i class="fa-solid fa-crown"></i> Servicio Luxury <span class="badge-vip">VIP</span>
-      </a>
-
-      <!-- LINKEDIN SIEMPRE VISIBLE EN EL HEADER -->
-      <a href="https://www.linkedin.com/in/manuelmolina01" class="header-icon-btn linkedin-icon-btn" target="_blank" rel="noopener noreferrer" aria-label="Ver perfil de LinkedIn" title="LinkedIn">
-        <i class="fa-brands fa-linkedin-in" aria-hidden="true"></i>
-      </a>
-
-      <!-- SWITCH MODO OSCURO / DÍA EN EL EXTREMO DERECHO -->
-      <button id="themeToggleBtn" class="theme-toggle-btn" aria-label="Cambiar tema">
-        <i class="fa-solid fa-sun" id="themeIcon" aria-hidden="true"></i>
-      </button>
-
-      <!-- MENÚ MOBILE -->
-      <button id="menuToggleBtn" class="menu-toggle-btn" aria-label="Abrir menú" aria-expanded="false" aria-controls="navLinks">
-        <i class="fa-solid fa-bars" aria-hidden="true"></i>
-      </button>
     </div>
   </header>
 
-  <main>
-    <!-- HERO SECTION -->
-    <section id="inicio" class="hero-section">
-      <div class="hero-container">
-        <div class="hero-content">
-          <div class="badge-status">
-            <span class="pulse-dot"></span> Disponible para roles de IT Monitoring · Command Center · IT Operations
-          </div>
-          <h1>
-            Manuel Molina <br>
-            <span class="sr-only">IT Monitoring Operator e IT Operations</span>
-            <span class="typed-text-container" aria-hidden="true">
-              <span id="typedText"></span><span class="cursor">&nbsp;</span>
-            </span>
-          </h1>
-          <p class="hero-description">
-            Profesional de IT con más de 7 años en soporte técnico, operaciones IT, monitoreo de infraestructura y Application Support. Hoy monitoreo servidores, conectividad y APIs con dashboards, detecto caídas y anomalías a tiempo y escalo cada incidente al sector responsable.
+  <main id="contenido">
+
+    <!-- INICIO -->
+    <section id="inicio" class="hero">
+      <div class="wrap hero-grid">
+        <div class="hero-copy">
+          <p class="eyebrow">IT Monitoring Operator <span aria-hidden="true">|</span> Command Center <span aria-hidden="true">|</span> IT Operations</p>
+          <h1>Manuel Molina</h1>
+          <p class="lead">
+            Monitoreo infraestructura y servicios: observo dashboards, detecto fallas y anomalías, registro el incidente, lo escalo al equipo responsable y hago el seguimiento.
           </p>
-
-          <div class="hero-stats">
-            <div class="stat-item">
-              <span class="stat-number" data-target="7">7</span><span class="stat-plus">+ años</span>
-              <span class="stat-label">Experiencia en IT</span>
-            </div>
-            <div class="stat-item">
-              <span class="stat-number" data-target="5">5</span><span class="stat-plus"> empresas</span>
-              <span class="stat-label">Salud, telco y servicios</span>
-            </div>
-            <div class="stat-item">
-              <span class="stat-number" data-target="2">2</span><span class="stat-plus"> roles</span>
-              <span class="stat-label">Activos en simultáneo</span>
-            </div>
-          </div>
-
-          <div class="btn-group">
-            <a href="#contacto" class="btn btn-accent">
-              <i class="fa-solid fa-paper-plane"></i> Contactar
-            </a>
-            <a href="Manuel_Molina_CV.pdf" class="btn btn-outline" download="Manuel_Molina_CV.pdf">
-              <i class="fa-solid fa-file-arrow-down" aria-hidden="true"></i> Descargar CV
-            </a>
-            <a href="#experiencia" class="btn btn-outline">
-              <i class="fa-solid fa-briefcase"></i> Ver Trayectoria
-            </a>
-            <a href="https://www.linkedin.com/in/manuelmolina01" class="btn btn-linkedin" target="_blank" rel="noopener noreferrer">
-              <i class="fa-brands fa-linkedin" aria-hidden="true"></i> LinkedIn
-            </a>
+          <p class="lead-sub">
+            Llegué al monitoreo después de más de 7 años en soporte técnico y soporte de aplicaciones. Busco crecer en equipos de IT Monitoring, Command Center e IT Operations.
+          </p>
+          <div class="cta-row">
+            <a href="#contacto" class="btn btn-primary">Contactar</a>
+            <a href="https://www.linkedin.com/in/manuelmolina01" class="btn" target="_blank" rel="noopener noreferrer">LinkedIn</a>
+            <a href="https://github.com/ThePantera" class="btn" target="_blank" rel="noopener noreferrer">GitHub</a>
           </div>
         </div>
 
-        <!-- AVATAR HOLOGRÁFICO ANIMADO -->
-        <div class="hero-avatar-wrapper">
-          <div class="avatar-tech-container">
-            <div class="holo-glow"></div>
-            <div class="tech-ring ring-1"></div>
-            <div class="tech-ring ring-2"></div>
-            <div class="tech-ring ring-3"></div>
-            <div class="avatar-icon-box">
-              <img src="avatar-pixel.png" alt="Avatar en pixel art de Manuel Molina" width="176" height="176" class="hero-avatar-img" onerror="this.style.display='none'; document.getElementById('fallbackIcon').style.display='block';">
-              <i class="fa-solid fa-user-gear tech-avatar-icon" id="fallbackIcon" style="display:none;"></i>
-            </div>
+        <aside class="status-panel" aria-label="Resumen del perfil">
+          <div class="panel-head">
+            <span class="panel-title">Resumen del perfil</span>
+            <span class="panel-tag">Buenos Aires</span>
           </div>
-          <div class="avatar-badge">
-            <i class="fa-solid fa-tower-broadcast" aria-hidden="true"></i> Command Center
+          <dl class="status-list">
+            <div class="status-row">
+              <dt><span class="dot dot-ok" aria-hidden="true"></span>Rol actual</dt>
+              <dd>Operador de Monitoreo <span class="at">Sanatorio Otamendi</span></dd>
+            </div>
+            <div class="status-row">
+              <dt><span class="dot dot-ok" aria-hidden="true"></span>Rol actual</dt>
+              <dd>IT Analyst <span class="at">Medicus</span></dd>
+            </div>
+            <div class="status-row">
+              <dt><span class="dot dot-idle" aria-hidden="true"></span>En IT desde</dt>
+              <dd>Marzo 2019</dd>
+            </div>
+            <div class="status-row">
+              <dt><span class="dot dot-idle" aria-hidden="true"></span>En monitoreo desde</dt>
+              <dd>Noviembre 2025</dd>
+            </div>
+            <div class="status-row">
+              <dt><span class="dot dot-idle" aria-hidden="true"></span>Herramientas</dt>
+              <dd>Grafana, Zabbix, Jira, SQL</dd>
+            </div>
+            <div class="status-row">
+              <dt><span class="dot dot-accent" aria-hidden="true"></span>Disponibilidad</dt>
+              <dd>Abierto a propuestas</dd>
+            </div>
+          </dl>
+        </aside>
+      </div>
+    </section>
+
+    <!-- CIRCUITO DE TRABAJO -->
+    <section id="circuito" class="section">
+      <div class="wrap">
+        <header class="section-head">
+          <p class="kicker">Cómo trabajo</p>
+          <h2>Del dashboard al seguimiento</h2>
+          <p class="section-intro">Mi tarea no es reparar la infraestructura. Es detectar rápido, comunicar bien y que ningún incidente quede sin dueño.</p>
+        </header>
+
+        <ol class="flow">
+          <li class="flow-step">
+            <span class="flow-num">01</span>
+            <h3>Monitorear</h3>
+            <p>Observo dashboards y gráficas para controlar el estado de servidores, conectividad y APIs.</p>
+          </li>
+          <li class="flow-step">
+            <span class="flow-num">02</span>
+            <h3>Detectar</h3>
+            <p>Identifico caídas, anomalías y problemas de disponibilidad, y reúno la información inicial.</p>
+          </li>
+          <li class="flow-step">
+            <span class="flow-num">03</span>
+            <h3>Registrar</h3>
+            <p>Cargo el incidente en un ticket con el servicio afectado, el síntoma y la hora de inicio.</p>
+          </li>
+          <li class="flow-step">
+            <span class="flow-num">04</span>
+            <h3>Notificar</h3>
+            <p>Aviso por chat al sector responsable para que el incidente se conozca enseguida.</p>
+          </li>
+          <li class="flow-step">
+            <span class="flow-num">05</span>
+            <h3>Escalar</h3>
+            <p>Derivo el incidente al equipo que puede analizarlo y resolverlo.</p>
+          </li>
+          <li class="flow-step">
+            <span class="flow-num">06</span>
+            <h3>Dar seguimiento</h3>
+            <p>Sigo el evento reportado, con foco en la continuidad de los servicios monitoreados.</p>
+          </li>
+        </ol>
+      </div>
+    </section>
+
+    <!-- SIMULACIÓN -->
+    <section id="simulacion" class="section section-alt">
+      <div class="wrap">
+        <header class="section-head">
+          <p class="kicker">Simulación</p>
+          <h2>Qué hago cuando aparece una alerta</h2>
+          <p class="section-intro">Elegí una alerta y mirá el circuito completo. Los datos son ficticios: es una demostración de mi forma de trabajar, no un sistema de monitoreo real.</p>
+        </header>
+
+        <div class="sim">
+          <div class="sim-alerts" role="tablist" aria-label="Alertas simuladas" id="simTabs">
+            <button type="button" class="sim-alert is-active" role="tab" aria-selected="true" aria-controls="simPanel" id="simTab-api" data-alert="api">
+              <span class="chip chip-crit">Caído</span>
+              <span class="sim-alert-name">API de turnos</span>
+              <span class="sim-alert-meta">HTTP 500 sostenido</span>
+            </button>
+            <button type="button" class="sim-alert" role="tab" aria-selected="false" aria-controls="simPanel" id="simTab-server" data-alert="server" tabindex="-1">
+              <span class="chip chip-crit">Caído</span>
+              <span class="sim-alert-name">Servidor de aplicaciones</span>
+              <span class="sim-alert-meta">Sin respuesta</span>
+            </button>
+            <button type="button" class="sim-alert" role="tab" aria-selected="false" aria-controls="simPanel" id="simTab-wifi" data-alert="wifi" tabindex="-1">
+              <span class="chip chip-warn">Degradado</span>
+              <span class="sim-alert-name">Wi-Fi piso 3</span>
+              <span class="sim-alert-meta">Puntos de acceso sin conexión</span>
+            </button>
+            <button type="button" class="sim-alert" role="tab" aria-selected="false" aria-controls="simPanel" id="simTab-nodata" data-alert="nodata" tabindex="-1">
+              <span class="chip chip-nodata">Sin datos</span>
+              <span class="sim-alert-name">Panel de servidores</span>
+              <span class="sim-alert-meta">Sin métricas hace 10 minutos</span>
+            </button>
+          </div>
+
+          <div class="sim-panel" id="simPanel" role="tabpanel" aria-labelledby="simTab-api" tabindex="0">
+            <ol class="sim-steps" id="simSteps">
+              <li><span class="sim-step-label">Detecto</span><span class="sim-step-text">El panel de APIs muestra respuestas HTTP 500 sostenidas en la API de turnos.</span></li>
+              <li><span class="sim-step-label">Valido</span><span class="sim-step-text">Reviso desde cuándo ocurre, si el error persiste y si otras APIs o el servidor que la aloja también fallan.</span></li>
+              <li><span class="sim-step-label">Registro</span><span class="sim-step-text">Abro un ticket con el servicio afectado, la hora de inicio, el síntoma y una captura del panel.</span></li>
+              <li><span class="sim-step-label">Notifico</span><span class="sim-step-text">Aviso por chat al sector responsable con el número de ticket.</span></li>
+              <li><span class="sim-step-label">Escalo</span><span class="sim-step-text">Derivo el incidente al equipo de Aplicaciones.</span></li>
+              <li><span class="sim-step-label">Sigo</span><span class="sim-step-text">Controlo el panel hasta que la API responda con normalidad y actualizo el ticket.</span></li>
+            </ol>
+
+            <div class="ticket" aria-label="Ticket de ejemplo">
+              <div class="ticket-head">Ticket de ejemplo</div>
+              <dl class="ticket-body" id="simTicket">
+                <div><dt>Título</dt><dd>API de turnos responde HTTP 500</dd></div>
+                <div><dt>Servicio</dt><dd>API de turnos</dd></div>
+                <div><dt>Inicio</dt><dd>10:42</dd></div>
+                <div><dt>Síntoma</dt><dd>Errores 500 sostenidos en el panel de APIs</dd></div>
+                <div><dt>Evidencia</dt><dd>Captura del dashboard</dd></div>
+                <div><dt>Escalado a</dt><dd>Equipo de Aplicaciones</dd></div>
+                <div><dt>Estado</dt><dd>En seguimiento</dd></div>
+              </dl>
+            </div>
           </div>
         </div>
       </div>
     </section>
 
-    <!-- EXPERIENCIA LABORAL -->
+    <!-- EXPERIENCIA -->
     <section id="experiencia" class="section">
-      <div class="section-header reveal">
-        <span class="subtitle">Trayectoria Profesional</span>
-        <h2>Experiencia Laboral</h2>
-        <p>De soporte L1 en telecomunicaciones a monitoreo de infraestructura y Application Support en el sector salud.</p>
-      </div>
+      <div class="wrap">
+        <header class="section-head">
+          <p class="kicker">Trayectoria</p>
+          <h2>Experiencia laboral</h2>
+        </header>
 
-      <div class="timeline">
-        <div class="timeline-item reveal">
-          <div class="timeline-dot"></div>
-          <div class="timeline-content">
-            <span class="timeline-date">Noviembre 2025 - Actualidad</span>
-            <h3>Operador de Monitoreo</h3>
-            <span class="timeline-company">Sanatorio Otamendi</span>
-            <ul>
-              <li>Monitoreo de infraestructura y servicios mediante dashboards y gráficas, supervisando el estado de los servidores.</li>
-              <li>Control de disponibilidad y detección temprana de caídas o anomalías en servidores, conectividad/Wi-Fi y APIs.</li>
-              <li>Registro de cada incidente en ticket, comunicación por chat y escalamiento al sector responsable.</li>
-              <li>Seguimiento de eventos e incidencias con foco en la continuidad y disponibilidad de los servicios.</li>
-            </ul>
-          </div>
-        </div>
-        <div class="timeline-item reveal">
-          <div class="timeline-dot"></div>
-          <div class="timeline-content">
-            <span class="timeline-date">Noviembre 2025 - Actualidad</span>
-            <h3>IT Analyst</h3>
-            <span class="timeline-company">Medicus</span>
-            <ul>
-              <li>Análisis y gestión de incidentes de aplicaciones a partir de reportes de usuarios.</li>
-              <li>Trabajo junto al Squad Funcional en el análisis de problemas, la coordinación de acciones y la resolución.</li>
-              <li>Application Support y troubleshooting sobre sistemas productivos: Thinksoft, Biocom y Binary.</li>
-              <li>Altas, bajas y permisos de usuarios en Active Directory, y soporte remoto.</li>
-              <li>Consultas SQL y MongoDB para el análisis y diagnóstico de incidentes.</li>
-            </ul>
-          </div>
-        </div>
-        <div class="timeline-item reveal">
-          <div class="timeline-dot"></div>
-          <div class="timeline-content">
-            <span class="timeline-date">Febrero 2025 - Enero 2026</span>
-            <h3>Technical Support Analyst</h3>
-            <span class="timeline-company">Sondeos Global</span>
-            <ul>
-              <li>Soporte técnico L1/L2 y gestión de tickets clasificados por impacto y criticidad.</li>
-              <li>Troubleshooting y escalamiento de incidentes complejos a niveles superiores.</li>
-              <li>Participación en la optimización de sistemas IVR y documentación de soluciones para incidentes recurrentes.</li>
-            </ul>
-          </div>
-        </div>
-        <div class="timeline-item reveal">
-          <div class="timeline-dot"></div>
-          <div class="timeline-content">
-            <span class="timeline-date">Mayo 2022 - Febrero 2025</span>
-            <h3>IT / Administrative Support</h3>
-            <span class="timeline-company">Beretta Galarce & Asociados</span>
-            <ul>
-              <li>Soporte operativo a usuarios internos y pruebas funcionales sobre aplicaciones.</li>
-              <li>Documentación de errores y seguimiento de las correcciones con los responsables.</li>
-            </ul>
-          </div>
-        </div>
-        <div class="timeline-item reveal">
-          <div class="timeline-dot"></div>
-          <div class="timeline-content">
-            <span class="timeline-date">Marzo 2019 - Abril 2022</span>
-            <h3>Technical Support Operator</h3>
-            <span class="timeline-company">Claro Argentina</span>
-            <ul>
-              <li>Soporte técnico L1 telefónico y digital: diagnóstico de incidentes de hardware, software y conectividad.</li>
-              <li>Gestión de tickets cumpliendo objetivos de SLA y escalamiento a equipos especializados.</li>
-            </ul>
-          </div>
-        </div>
-      </div>
-      <div class="linkedin-cta reveal">
-        <p>¿Querés ver recomendaciones, certificaciones y el detalle de cada puesto?</p>
-        <a href="https://www.linkedin.com/in/manuelmolina01" class="btn btn-linkedin" target="_blank" rel="noopener noreferrer">
-          <i class="fa-brands fa-linkedin" aria-hidden="true"></i> Ver perfil completo en LinkedIn
-        </a>
+        <ol class="timeline">
+          <li class="job">
+            <p class="job-dates"><span>Nov. 2025</span><span>Actualidad</span></p>
+            <div class="job-body">
+              <h3>Operador de Monitoreo</h3>
+              <p class="job-company">Sanatorio Otamendi</p>
+              <ul>
+                <li>Monitoreo la infraestructura y los servicios mediante dashboards y gráficas, supervisando el estado y funcionamiento de los servidores.</li>
+                <li>Detecto caídas, anomalías y problemas de disponibilidad en servidores, conectividad/Wi-Fi y APIs.</li>
+                <li>Registro cada incidente en ticket, lo comunico por chat y lo escalo al sector responsable.</li>
+                <li>Hago el seguimiento de los eventos reportados, con foco en la continuidad operativa.</li>
+              </ul>
+            </div>
+          </li>
+
+          <li class="job">
+            <p class="job-dates"><span>Nov. 2025</span><span>Actualidad</span></p>
+            <div class="job-body">
+              <h3>IT Analyst</h3>
+              <p class="job-company">Medicus</p>
+              <ul>
+                <li>Analizo incidentes de aplicaciones reportados por usuarios, junto al Squad Funcional.</li>
+                <li>Brindo soporte de aplicaciones y troubleshooting sobre sistemas productivos: Thinksoft, Biocom y Binary.</li>
+                <li>Uso consultas SQL y MongoDB para el diagnóstico de incidentes.</li>
+                <li>Gestiono altas, bajas y permisos de usuarios en Active Directory y doy soporte remoto.</li>
+              </ul>
+            </div>
+          </li>
+
+          <li class="job">
+            <p class="job-dates"><span>Feb. 2025</span><span>Ene. 2026</span></p>
+            <div class="job-body">
+              <h3>Technical Support Analyst</h3>
+              <p class="job-company">Sondeos Global</p>
+              <ul>
+                <li>Soporte técnico L1/L2 y gestión de tickets clasificados por impacto y criticidad.</li>
+                <li>Troubleshooting y escalamiento de incidentes complejos a niveles superiores.</li>
+                <li>Participación en la optimización de sistemas IVR y documentación de soluciones para incidentes recurrentes.</li>
+              </ul>
+            </div>
+          </li>
+
+          <li class="job">
+            <p class="job-dates"><span>May. 2022</span><span>Feb. 2025</span></p>
+            <div class="job-body">
+              <h3>IT / Administrative Support</h3>
+              <p class="job-company">Beretta Galarce &amp; Asociados</p>
+              <ul>
+                <li>Soporte operativo a usuarios internos y pruebas funcionales sobre aplicaciones.</li>
+                <li>Documentación de errores y seguimiento de las correcciones con los responsables.</li>
+              </ul>
+            </div>
+          </li>
+
+          <li class="job">
+            <p class="job-dates"><span>Mar. 2019</span><span>Abr. 2022</span></p>
+            <div class="job-body">
+              <h3>Technical Support Operator</h3>
+              <p class="job-company">Claro Argentina</p>
+              <ul>
+                <li>Soporte técnico de primer nivel (L1) telefónico y digital: diagnóstico de incidentes de hardware, software y conectividad.</li>
+                <li>Gestión de tickets con objetivos de SLA y escalamiento a equipos especializados.</li>
+              </ul>
+            </div>
+          </li>
+        </ol>
       </div>
     </section>
 
-    <!-- HABILIDADES TÉCNICAS -->
-    <section id="habilidades" class="section bg-alt">
-      <div class="section-header reveal">
-        <span class="subtitle">Stack Técnico</span>
-        <h2>Habilidades</h2>
-        <p>Las herramientas y procesos que uso todos los días en monitoreo, incidentes y soporte de aplicaciones.</p>
-      </div>
+    <!-- HABILIDADES -->
+    <section id="habilidades" class="section section-alt">
+      <div class="wrap">
+        <header class="section-head">
+          <p class="kicker">Habilidades</p>
+          <h2>Lo que uso en el trabajo</h2>
+          <p class="section-intro">Solo figura lo que utilizo o utilicé profesionalmente. Lo que estoy estudiando va aparte.</p>
+        </header>
 
-      <div class="skills-grid">
-        <div class="skill-card reveal">
-          <i class="fa-solid fa-chart-line skill-icon" aria-hidden="true"></i>
-          <h4>Monitoreo de Infraestructura</h4>
-          <p>Monitoreo de dashboards, análisis de alertas y detección de eventos sobre servidores, conectividad y APIs.</p>
-          <ul class="tag-list" aria-label="Herramientas"><li>Grafana</li><li>Zabbix</li><li>Alert Analysis</li><li>Event Detection</li></ul>
-          <div class="status-board" aria-label="Simulación de panel de monitoreo">
-            <div class="console-header">
-              <span><i class="fa-solid fa-display" aria-hidden="true"></i> NOC Dashboard (demo)</span>
-              <span class="status-clock" id="statusClock">--:--:--</span>
-            </div>
-            <ul class="status-list" id="statusList">
-              <li data-service="Servidores"><span class="status-dot"></span>Servidores<span class="status-value">UP</span></li>
-              <li data-service="Wi-Fi"><span class="status-dot"></span>Red / Wi-Fi<span class="status-value">UP</span></li>
-              <li data-service="APIs"><span class="status-dot"></span>APIs<span class="status-value">UP</span></li>
-              <li data-service="Base de datos"><span class="status-dot"></span>Base de datos<span class="status-value">UP</span></li>
+        <div class="skills">
+          <div class="skill-group">
+            <h3>Monitoreo</h3>
+            <ul class="tags">
+              <li>Grafana</li><li>Zabbix</li><li>Monitoreo de infraestructura</li><li>Monitoreo de dashboards</li><li>Detección de eventos</li>
             </ul>
-            <div class="status-log" id="statusLog" aria-live="polite">&gt; Todos los servicios operativos.</div>
+          </div>
+          <div class="skill-group">
+            <h3>Gestión de incidentes</h3>
+            <ul class="tags">
+              <li>Jira</li><li>Redmine</li><li>Escalamiento</li><li>Seguimiento de tickets</li><li>SLA</li><li>Procesos basados en ITIL</li>
+            </ul>
+          </div>
+          <div class="skill-group">
+            <h3>Soporte de aplicaciones</h3>
+            <ul class="tags">
+              <li>Troubleshooting</li><li>Thinksoft</li><li>Biocom</li><li>Binary</li><li>Pruebas funcionales</li>
+            </ul>
+          </div>
+          <div class="skill-group">
+            <h3>Sistemas e identidades</h3>
+            <ul class="tags">
+              <li>Windows</li><li>Active Directory</li><li>Alta y baja de usuarios</li><li>Soporte remoto</li>
+            </ul>
+          </div>
+          <div class="skill-group">
+            <h3>Bases de datos</h3>
+            <ul class="tags">
+              <li>SQL</li><li>MongoDB</li>
+            </ul>
+          </div>
+          <div class="skill-group">
+            <h3>Redes, a nivel soporte</h3>
+            <ul class="tags">
+              <li>TCP/IP</li><li>DNS</li><li>DHCP</li><li>VPN</li>
+            </ul>
           </div>
         </div>
 
-        <div class="skill-card reveal">
-          <i class="fa-solid fa-ticket skill-icon" aria-hidden="true"></i>
-          <h4>Gestión de Incidentes & ITSM</h4>
-          <p>Ciclo de vida completo del ticket con procesos basados en ITIL: registro, clasificación por impacto y criticidad, escalamiento y seguimiento hasta el cierre dentro del SLA.</p>
-          <ul class="tag-list" aria-label="Herramientas"><li>Jira</li><li>Redmine</li><li>ITIL</li><li>Incident Management</li><li>SLA</li></ul>
-        </div>
-
-        <div class="skill-card reveal">
-          <i class="fa-solid fa-laptop-medical skill-icon" aria-hidden="true"></i>
-          <h4>Application Support</h4>
-          <p>Troubleshooting y análisis funcional de incidentes sobre sistemas productivos del sector salud, con consultas a bases de datos para el diagnóstico.</p>
-          <ul class="tag-list" aria-label="Herramientas"><li>Thinksoft</li><li>Biocom</li><li>Binary</li><li>SQL</li><li>MongoDB</li></ul>
-        </div>
-
-        <div class="skill-card reveal">
-          <i class="fa-solid fa-user-shield skill-icon" aria-hidden="true"></i>
-          <h4>Sistemas & Identidades</h4>
-          <p>Alta y baja de usuarios (User Provisioning) y gestión de accesos y permisos en entornos Windows.</p>
-          <ul class="tag-list" aria-label="Herramientas"><li>Windows</li><li>Active Directory</li><li>Access Management</li><li>User Provisioning</li></ul>
-        </div>
-
-        <div class="skill-card reveal">
-          <i class="fa-solid fa-network-wired skill-icon" aria-hidden="true"></i>
-          <h4>Redes & Soporte Remoto</h4>
-          <p>Diagnóstico de conectividad y soporte remoto a usuarios, con documentación técnica de cada solución.</p>
-          <ul class="tag-list" aria-label="Herramientas"><li>TCP/IP</li><li>DNS</li><li>DHCP</li><li>VPN</li><li>Microsoft Teams</li><li>NetSupport</li></ul>
-          <div class="ping-console">
-            <div class="console-header">
-              <span><i class="fa-solid fa-terminal" aria-hidden="true"></i> Console Latency Test</span>
-              <button id="runPingBtn" class="ping-btn"><i class="fa-solid fa-play" aria-hidden="true"></i> Ping</button>
-            </div>
-            <div id="pingOutput" class="console-body" aria-live="polite">&gt; Sistema listo. Presioná 'Ping' para medir respuesta.</div>
-          </div>
-        </div>
-
-        <div class="skill-card reveal">
-          <i class="fa-solid fa-robot skill-icon" aria-hidden="true"></i>
-          <h4>Automatización & IA</h4>
-          <p>En formación en Automatización con Inteligencia Artificial (UTN) y Data Science (EducaciónIT). Abi es un pequeño asistente hecho en JavaScript: probalo.</p>
-          
-          <div class="ai-chat-box">
-            <div class="ai-chat-header">
-              <i class="fa-solid fa-wand-magic-sparkles"></i> Asistente IA Abi
-            </div>
-            <div class="ai-chat-input-wrapper">
-              <input type="text" id="aiInput" placeholder="Ej: ¿qué experiencia tenés?" aria-label="Preguntale a Abi" maxlength="200" />
-              <button id="aiSendBtn" aria-label="Enviar pregunta"><i class="fa-solid fa-paper-plane"></i></button>
-            </div>
-            <div id="aiResponse" class="ai-response-area" aria-live="polite">&gt; ¡Hola! Preguntame por experiencia, habilidades, formación o contacto 🚀</div>
-            <div class="ai-suggestions">
-              <button type="button" class="ai-chip" data-q="experiencia">Experiencia</button>
-              <button type="button" class="ai-chip" data-q="formacion">Formación</button>
-              <button type="button" class="ai-chip" data-q="contacto">Contacto</button>
-              <a href="https://www.linkedin.com/in/manuelmolina01" class="ai-chip" target="_blank" rel="noopener noreferrer"><i class="fa-brands fa-linkedin" aria-hidden="true"></i> LinkedIn</a>
-            </div>
-          </div>
-        </div>
-
-      </div>
-    </section>
-
-    <!-- FORMACIÓN E IDIOMAS -->
-    <section id="formacion" class="section">
-      <div class="section-header reveal">
-        <span class="subtitle">Formación Continua</span>
-        <h2>Educación & Idiomas</h2>
-      </div>
-
-      <div class="edu-grid">
-        <div class="edu-card reveal">
-          <div class="edu-icon"><i class="fa-solid fa-graduation-cap" aria-hidden="true"></i></div>
-          <div>
-            <span class="timeline-date">2017 - 2022</span>
-            <h3>Técnico Superior en Informática</h3>
-            <span class="timeline-company">IUTAI</span>
-          </div>
-        </div>
-
-        <div class="edu-card reveal">
-          <div class="edu-icon"><i class="fa-solid fa-wand-magic-sparkles" aria-hidden="true"></i></div>
-          <div>
-            <span class="timeline-date">2025 - Actualidad <span class="in-progress">En curso</span></span>
-            <h3>Automatización con Inteligencia Artificial</h3>
-            <span class="timeline-company">Universidad Tecnológica Nacional (UTN)</span>
-          </div>
-        </div>
-
-        <div class="edu-card reveal">
-          <div class="edu-icon"><i class="fa-solid fa-database" aria-hidden="true"></i></div>
-          <div>
-            <span class="timeline-date">2025 - Actualidad <span class="in-progress">En curso</span></span>
-            <h3>Data Science</h3>
-            <span class="timeline-company">EducaciónIT</span>
-          </div>
-        </div>
-
-        <div class="edu-card reveal">
-          <div class="edu-icon"><i class="fa-solid fa-language" aria-hidden="true"></i></div>
-          <div>
-            <span class="timeline-date">Idiomas</span>
-            <h3>Español nativo · Inglés B1</h3>
-            <span class="timeline-company">Inglés orientado a documentación técnica</span>
-          </div>
+        <div class="learning">
+          <h3>Formación</h3>
+          <ul class="learning-list">
+            <li><span class="learning-name">Técnico Superior en Informática</span><span class="learning-meta">IUTAI, 2017 a 2022</span></li>
+            <li><span class="learning-name">Data Science</span><span class="learning-meta">EducacionIT, en curso</span></li>
+            <li><span class="learning-name">Automatización con Inteligencia Artificial</span><span class="learning-meta">UTN, en curso</span></li>
+            <li><span class="learning-name">Idiomas</span><span class="learning-meta">Español nativo, inglés B1 orientado a documentación técnica</span></li>
+          </ul>
         </div>
       </div>
     </section>
 
-    <!-- SERVICIOS OFRECIDOS -->
-    <section id="servicios" class="section bg-alt">
-      <div class="section-header reveal">
-        <span class="subtitle">Soluciones Profesionales</span>
-        <h2>Servicios IT Independientes</h2>
-      </div>
+    <!-- LABORATORIOS -->
+    <section id="laboratorios" class="section">
+      <div class="wrap">
+        <header class="section-head">
+          <p class="kicker">Laboratorios</p>
+          <h2>Práctica fuera del trabajo</h2>
+          <p class="section-intro">Tengo planificados seis laboratorios para practicar herramientas de monitoreo por mi cuenta. Cada uno se va a publicar en GitHub con su README y capturas cuando esté terminado.</p>
+        </header>
 
-      <div class="services-grid">
-        <div class="service-card highlight reveal">
-          <div class="service-icon"><i class="fa-solid fa-chart-line" aria-hidden="true"></i></div>
-          <h3>Monitoreo & Operaciones IT</h3>
-          <p>Armado y seguimiento de dashboards de disponibilidad (Grafana / Zabbix), definición de alertas y circuito de escalamiento de incidentes.</p>
-          <a href="#contacto" class="service-cta" data-service="Monitoreo & Operaciones IT">Cotizar <i class="fa-solid fa-arrow-right" aria-hidden="true"></i></a>
-        </div>
-
-        <div class="service-card reveal">
-          <div class="service-icon"><i class="fa-solid fa-sliders"></i></div>
-          <h3>Soporte & Mesa de Ayuda L1/L2</h3>
-          <p>Asistencia técnica remota para empresas, resolución de incidencias en puestos de trabajo, redes y software base.</p>
-          <a href="#contacto" class="service-cta" data-service="Soporte & Mesa de Ayuda L1/L2">Cotizar <i class="fa-solid fa-arrow-right" aria-hidden="true"></i></a>
-        </div>
-
-        <div class="service-card reveal">
-          <div class="service-icon"><i class="fa-solid fa-user-lock"></i></div>
-          <h3>Gestión de Accesos & Identidades</h3>
-          <p>Implementación de políticas ABM, administración en Active Directory y control de permisos en sistemas productivos.</p>
-          <a href="#contacto" class="service-cta" data-service="Gestión de Accesos & Identidades">Cotizar <i class="fa-solid fa-arrow-right" aria-hidden="true"></i></a>
-        </div>
-
-        <div class="service-card reveal">
-          <div class="service-icon"><i class="fa-solid fa-bug"></i></div>
-          <h3>Testing Funcional & QA</h3>
-          <p>Revisión manual de aplicaciones internas, detección temprana de errores y documentación técnica de bugs.</p>
-          <a href="#contacto" class="service-cta" data-service="Testing Funcional & QA">Cotizar <i class="fa-solid fa-arrow-right" aria-hidden="true"></i></a>
-        </div>
-
-        <div class="service-card reveal">
-          <div class="service-icon hardware-clean-icon">
-            <i class="fa-solid fa-wrench"></i>
-          </div>
-          <h3>Soporte de Campo & Hardware</h3>
-          <p>Revisión física de hardware de PC, mantenimiento preventivo y correctivo, instalación de aplicativos base y desinfección profunda de malware.</p>
-          <a href="#contacto" class="service-cta" data-service="Soporte de Campo & Hardware">Cotizar <i class="fa-solid fa-arrow-right" aria-hidden="true"></i></a>
-        </div>
-
-        <div class="service-card reveal">
-          <div class="service-icon"><i class="fa-solid fa-network-wired"></i></div>
-          <h3>Redes, Cableado & Infraestructura</h3>
-          <p>Armado e instalación de cableado estructurado de red, configuración de routers y switches, y estructuración integral de puestos de trabajo.</p>
-          <a href="#contacto" class="service-cta" data-service="Redes, Cableado & Infraestructura">Cotizar <i class="fa-solid fa-arrow-right" aria-hidden="true"></i></a>
-        </div>
+        <ul class="labs">
+          <li class="lab"><span class="chip chip-plan">Planificado</span><h3>Monitoreo de servidores con Zabbix</h3></li>
+          <li class="lab"><span class="chip chip-plan">Planificado</span><h3>Dashboard de infraestructura con Grafana</h3></li>
+          <li class="lab"><span class="chip chip-plan">Planificado</span><h3>Monitoreo de una API</h3></li>
+          <li class="lab"><span class="chip chip-plan">Planificado</span><h3>Detección de caída de servicio</h3></li>
+          <li class="lab"><span class="chip chip-plan">Planificado</span><h3>Centralización de logs</h3></li>
+          <li class="lab"><span class="chip chip-plan">Planificado</span><h3>Simulación de Command Center</h3></li>
+        </ul>
       </div>
     </section>
 
-    <!-- FORMULARIO DE CONTACTO Y COTIZACIÓN -->
-    <section id="contacto" class="section">
-      <div class="section-header reveal">
-        <span class="subtitle">Iniciemos Conversación</span>
-        <h2>Cotizador & Contacto Directo</h2>
-        <p>Seleccioná el servicio que te interesa cotizar o enviá una propuesta laboral. También podés escribirme por <a href="https://www.linkedin.com/in/manuelmolina01" target="_blank" rel="noopener noreferrer" class="inline-link"><i class="fa-brands fa-linkedin" aria-hidden="true"></i> LinkedIn</a>.</p>
-      </div>
+    <!-- CONTACTO -->
+    <section id="contacto" class="section section-alt">
+      <div class="wrap contact-grid">
+        <div class="contact-copy">
+          <p class="kicker">Contacto</p>
+          <h2>Hablemos</h2>
+          <p class="section-intro">Si buscás un perfil para IT Monitoring, Command Center o IT Operations, escribime por el formulario o por LinkedIn.</p>
+          <ul class="contact-links">
+            <li><span class="contact-label">LinkedIn</span><a href="https://www.linkedin.com/in/manuelmolina01" target="_blank" rel="noopener noreferrer">linkedin.com/in/manuelmolina01</a></li>
+            <li><span class="contact-label">GitHub</span><a href="https://github.com/ThePantera" target="_blank" rel="noopener noreferrer">github.com/ThePantera</a></li>
+            <li><span class="contact-label">Ubicación</span><span>Ciudad Autónoma de Buenos Aires, Argentina</span></li>
+          </ul>
+        </div>
 
-      <div class="linkedin-cta reveal">
-        <p>¿Preferís hablar por LinkedIn? Enviame un mensaje directo o conectemos.</p>
-        <a href="https://www.linkedin.com/in/manuelmolina01" class="btn btn-linkedin" target="_blank" rel="noopener noreferrer">
-          <i class="fa-brands fa-linkedin" aria-hidden="true"></i> Conectar en LinkedIn
-        </a>
-      </div>
+        <form id="contactForm" class="contact-form" action="https://formspree.io/f/maeypvry" method="POST" data-endpoint="https://formspree.io/f/maeypvry" novalidate>
+          <input type="hidden" name="_subject" value="Nuevo contacto desde el portfolio">
+          <input type="text" name="_gotcha" id="gotcha" class="honeypot" tabindex="-1" autocomplete="off" aria-hidden="true">
 
-      <div class="contact-wrapper">
-        <form id="portfolioForm" class="contact-form" action="https://formspree.io/f/maeypvry" method="POST" novalidate>
-          <input type="hidden" name="_subject" value="Nuevo contacto desde el portafolio">
-          <input type="text" name="_gotcha" class="honeypot" tabindex="-1" autocomplete="off" aria-hidden="true">
-          
-          <div class="form-row">
-            <div class="form-group">
-              <label for="fullname">Nombre y Apellido <span class="required">*</span></label>
-              <div class="input-icon-wrapper">
-                <i class="fa-solid fa-user input-icon"></i>
-                <input type="text" id="fullname" name="fullname" autocomplete="name" placeholder="Ej: Martín Gómez" maxlength="80" required>
-              </div>
-              <span class="error-msg">Ingresá tu nombre completo.</span>
+          <div class="field">
+            <label for="fullname">Nombre y apellido</label>
+            <input type="text" id="fullname" name="fullname" autocomplete="name" maxlength="80" required>
+            <p class="field-error">Ingresá tu nombre completo.</p>
+          </div>
+
+          <div class="field-row">
+            <div class="field">
+              <label for="email">Correo electrónico</label>
+              <input type="email" id="email" name="email" autocomplete="email" maxlength="100" required>
+              <p class="field-error">Revisá el correo: falta algo en la dirección.</p>
             </div>
-
-            <div class="form-group">
-              <label for="company">Nombre de Empresa <span class="optional-tag">(Opcional)</span></label>
-              <div class="input-icon-wrapper">
-                <i class="fa-solid fa-building input-icon"></i>
-                <input type="text" id="company" name="company" autocomplete="organization" placeholder="Ej: Tech Solutions S.A." maxlength="100">
-              </div>
+            <div class="field">
+              <label for="company">Empresa <span class="optional">(opcional)</span></label>
+              <input type="text" id="company" name="company" autocomplete="organization" maxlength="100">
             </div>
           </div>
 
-          <div class="form-row">
-            <div class="form-group">
-              <label for="email">Correo Electrónico <span class="required">*</span></label>
-              <div class="input-icon-wrapper">
-                <i class="fa-solid fa-envelope input-icon"></i>
-                <input type="email" id="email" name="email" autocomplete="email" placeholder="ejemplo@empresa.com" maxlength="100" required>
-              </div>
-              <span class="error-msg">Correo electrónico no válido.</span>
-            </div>
-
-            <div class="form-group">
-              <label for="service_type">Motivo / Servicio a Cotizar <span class="required">*</span></label>
-              <div class="input-icon-wrapper">
-                <i class="fa-solid fa-list-check input-icon"></i>
-                <select id="service_type" name="service_type" class="custom-select" required>
-                  <option value="Propuesta laboral" selected>Propuesta laboral</option>
-                  <option value="Monitoreo & Operaciones IT">Monitoreo & Operaciones IT</option>
-                  <option value="Soporte & Mesa de Ayuda L1/L2">Soporte & Mesa de Ayuda L1/L2</option>
-                  <option value="Gestión de Accesos & Identidades">Gestión de Accesos & Identidades</option>
-                  <option value="Testing Funcional & QA">Testing Funcional & QA</option>
-                  <option value="Soporte de Campo & Hardware">Soporte de Campo & Hardware</option>
-                  <option value="Redes, Cableado & Infraestructura">Redes, Cableado & Infraestructura</option>
-                  <option value="Otros">Otros</option>
-                </select>
-              </div>
-            </div>
+          <div class="field">
+            <label for="reason">Motivo</label>
+            <select id="reason" name="reason">
+              <option value="Propuesta laboral" selected>Propuesta laboral</option>
+              <option value="Consulta">Consulta</option>
+              <option value="Otro">Otro</option>
+            </select>
           </div>
 
-          <!-- SLIDER DE USUARIOS -->
-          <div class="form-group slider-group">
-            <div class="slider-header">
-              <label for="user_count_range">Estimación de Usuarios / Puestos IT:</label>
-              <span id="userCountDisplay" class="user-badge-count">10 usuarios</span>
-            </div>
-            <input type="range" id="user_count_range" name="user_count" min="1" max="500" value="10" class="user-slider">
-            <div class="slider-labels">
-              <span>1</span>
-              <span>100</span>
-              <span>250</span>
-              <span>500+</span>
-            </div>
+          <div class="field">
+            <label for="message">Mensaje</label>
+            <textarea id="message" name="message" rows="5" maxlength="1000" required></textarea>
+            <p class="field-error">Escribí un mensaje de al menos unas palabras.</p>
           </div>
 
-          <div class="form-group">
-            <label for="message">Mensaje / Detalles Adicionales <span class="required">*</span></label>
-            <textarea id="message" name="message" rows="4" placeholder="Describí los requerimientos de tu proyecto o propuesta..." maxlength="1000" required></textarea>
-            <span class="error-msg">Por favor ingresá un mensaje.</span>
-          </div>
-
-          <button type="submit" class="btn btn-accent btn-full" id="submitBtn">
-            <span class="btn-text">Enviar Mensaje</span>
-            <i class="fa-solid fa-paper-plane"></i>
-          </button>
-
-          <div id="formAlert" class="form-alert" role="status" aria-live="polite"></div>
+          <button type="submit" class="btn btn-primary btn-block" id="submitBtn">Enviar mensaje</button>
+          <p id="formStatus" class="form-status" role="status" aria-live="polite"></p>
         </form>
       </div>
     </section>
   </main>
 
-  <footer>
-    <div class="footer-content">
-      <p>&copy; <span id="currentYear">2026</span> <strong>Manuel Molina</strong> | Buenos Aires, Argentina</p>
-      <div class="footer-links">
-        <a href="https://www.linkedin.com/in/manuelmolina01" target="_blank" rel="noopener noreferrer" aria-label="LinkedIn"><i class="fa-brands fa-linkedin" aria-hidden="true"></i></a>
-        <a href="https://github.com/ThePantera" target="_blank" rel="noopener noreferrer" aria-label="GitHub"><i class="fa-brands fa-github" aria-hidden="true"></i></a>
-        <a href="Manuel_Molina_CV.pdf" download="Manuel_Molina_CV.pdf" aria-label="Descargar CV"><i class="fa-solid fa-file-arrow-down" aria-hidden="true"></i></a>
-        <a href="#contacto" aria-label="Contacto"><i class="fa-solid fa-envelope" aria-hidden="true"></i></a>
-      </div>
+  <footer class="site-footer">
+    <div class="wrap footer-inner">
+      <p>&copy; <span id="year">2026</span> Manuel Molina. Buenos Aires, Argentina.</p>
+      <a href="#inicio" class="footer-top">Volver arriba</a>
     </div>
-    <a href="#inicio" class="back-to-top" id="backToTop" aria-label="Volver arriba"><i class="fa-solid fa-arrow-up" aria-hidden="true"></i></a>
   </footer>
 
   <script src="script.js" defer></script>
