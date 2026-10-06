@@ -46,10 +46,55 @@ document.addEventListener('DOMContentLoaded', () => {
   }
 
   function applyTheme(theme) {
+    const dark = theme === 'dark';
     htmlElement.setAttribute('data-theme', theme);
-    if (themeIcon) themeIcon.className = theme === 'dark' ? 'fa-solid fa-sun' : 'fa-solid fa-moon';
-    if (themeToggleBtn) themeToggleBtn.setAttribute('aria-label', theme === 'dark' ? 'Activar modo día' : 'Activar modo oscuro');
-    if (themeColorMeta) themeColorMeta.setAttribute('content', theme === 'dark' ? '#000000' : '#ffffff');
+    if (themeIcon) themeIcon.className = dark ? 'fa-solid fa-moon' : 'fa-solid fa-sun';
+    if (themeToggleBtn) {
+      themeToggleBtn.setAttribute('aria-checked', String(dark));
+      themeToggleBtn.setAttribute('aria-label', dark ? 'Activar modo claro' : 'Activar modo oscuro');
+    }
+    const themeLabel = document.getElementById('themeLabel');
+    if (themeLabel) themeLabel.textContent = dark ? 'Modo oscuro' : 'Modo claro';
+    if (themeColorMeta) themeColorMeta.setAttribute('content', dark ? '#1f2124' : '#e9edf2');
+  }
+
+  // 2b. COLOR PRINCIPAL Y PANEL DE PREFERENCIAS
+  const ACCENTS = ['verde', 'azul', 'naranja', 'magenta', 'violeta'];
+  const swatches = document.querySelectorAll('.swatch');
+
+  function applyAccent(accent) {
+    if (!ACCENTS.includes(accent)) accent = 'verde';
+    htmlElement.setAttribute('data-accent', accent);
+    swatches.forEach(sw => sw.setAttribute('aria-checked', String(sw.dataset.accent === accent)));
+  }
+
+  let savedAccent = 'verde';
+  try { savedAccent = localStorage.getItem('accent') || 'verde'; } catch (e) {}
+  applyAccent(savedAccent);
+
+  swatches.forEach(sw => sw.addEventListener('click', () => {
+    applyAccent(sw.dataset.accent);
+    try { localStorage.setItem('accent', sw.dataset.accent); } catch (e) {}
+  }));
+
+  const prefsBtn = document.getElementById('prefsBtn');
+  const prefsPanel = document.getElementById('prefsPanel');
+  const prefsClose = document.getElementById('prefsClose');
+
+  function setPrefs(open) {
+    if (!prefsPanel || !prefsBtn) return;
+    prefsPanel.hidden = !open;
+    prefsBtn.setAttribute('aria-expanded', String(open));
+    if (open) (themeToggleBtn || prefsClose).focus();
+  }
+
+  if (prefsBtn && prefsPanel) {
+    prefsBtn.addEventListener('click', (e) => { e.stopPropagation(); setPrefs(prefsPanel.hidden); });
+    if (prefsClose) prefsClose.addEventListener('click', () => { setPrefs(false); prefsBtn.focus(); });
+    document.addEventListener('click', (e) => {
+      if (!prefsPanel.hidden && !prefsPanel.contains(e.target) && e.target !== prefsBtn) setPrefs(false);
+    });
+    document.addEventListener('keydown', (e) => { if (e.key === 'Escape' && !prefsPanel.hidden) { setPrefs(false); prefsBtn.focus(); } });
   }
 
   // 3. MENÚ MOBILE
@@ -69,7 +114,7 @@ document.addEventListener('DOMContentLoaded', () => {
     menuToggleBtn.addEventListener('click', () => setMenu(!navLinks.classList.contains('open')));
     navLinks.querySelectorAll('a').forEach(link => link.addEventListener('click', () => setMenu(false)));
     document.addEventListener('keydown', (e) => { if (e.key === 'Escape') setMenu(false); });
-    window.addEventListener('resize', () => { if (window.innerWidth > 900) setMenu(false); });
+    window.addEventListener('resize', () => { if (window.innerWidth > 1100) setMenu(false); });
   }
 
   // 4. MÁQUINA DE ESCRIBIR
