@@ -481,7 +481,7 @@ header.scrolled { box-shadow: 0 4px 0 var(--ink); }
   display: inline-flex; align-items: center; justify-content: center;
   margin-bottom: 1.1rem;
 }
-.skill-card h4 { font-size: 1.3rem; margin-bottom: 0.5rem; }
+.skill-card h3 { font-size: 1.3rem; margin-bottom: 0.5rem; }
 .skill-card p { color: var(--text-muted); font-size: 0.95rem; margin-bottom: 1rem; }
 
 /* Colores rotativos de la paleta para tarjetas */
@@ -516,7 +516,7 @@ header.scrolled { box-shadow: 0 4px 0 var(--ink); }
   color: var(--color-soft-mist);
 }
 .status-clock { color: var(--color-mint-pop); }
-.status-list { list-style: none; display: grid; grid-template-columns: 1fr 1fr; gap: 0.3rem 0.8rem; margin-bottom: 0.45rem; }
+.status-list { list-style: none; display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: 0.3rem 0.8rem; margin-bottom: 0.45rem; }
 .status-list li { display: flex; align-items: center; gap: 0.4rem; }
 .status-dot { width: 8px; height: 8px; border-radius: 2px; background: var(--color-mint-pop); flex-shrink: 0; }
 .status-value { margin-left: auto; color: var(--color-mint-pop); font-weight: 600; }
@@ -589,6 +589,7 @@ a.ai-chip { text-decoration: none; display: inline-flex; align-items: center; ga
   background: var(--color-carbon); color: var(--color-paper-white); font-size: 1.2rem;
 }
 .in-progress {
+  display: inline-block; white-space: nowrap;
   margin-left: 0.3rem; font-size: 0.66rem; font-weight: 700;
   color: var(--color-carbon); background: var(--color-mint-pop);
   border: 1.5px solid var(--color-carbon); padding: 0 0.4rem; border-radius: 999px;
@@ -752,6 +753,11 @@ footer strong { color: var(--color-paper-white); }
 /* ==========================================================
    RESPONSIVE
    ========================================================== */
+/* El header tiene muchos elementos: se ocultan los secundarios antes de que se salgan */
+@media (max-width: 1520px) {
+  .live-views-badge { display: none; }
+}
+
 @media (max-width: 1320px) {
   .btn-luxury { display: none; }
 }
@@ -759,10 +765,10 @@ footer strong { color: var(--color-paper-white); }
 @media (max-width: 1150px) {
   .nav-links { gap: 0.1rem; }
   .nav-link { padding: 0.35rem 0.55rem; }
-  .live-views-badge { display: none; }
 }
 
-@media (max-width: 900px) {
+/* Menú hamburguesa: el menú completo no entra por debajo de ~1100px */
+@media (max-width: 1100px) {
   :root { --header-height: 72px; }
   header { padding: 0.8rem 5%; }
   .menu-toggle-btn { display: flex; }
@@ -772,11 +778,14 @@ footer strong { color: var(--color-paper-white); }
     top: var(--header-height);
     left: 0;
     right: 0;
+    margin: 0;
     flex-direction: column;
     gap: 0.5rem;
     padding: 1rem 5% 1.5rem;
     background: var(--bg);
     border-bottom: var(--border);
+    max-height: calc(100vh - var(--header-height));
+    overflow-y: auto;
     transform: translateY(-120%);
     visibility: hidden;
     transition: transform var(--transition-fast), visibility 0s linear 0.3s;
@@ -784,6 +793,9 @@ footer strong { color: var(--color-paper-white); }
   .nav-links.open { transform: translateY(0); visibility: visible; transition: transform var(--transition-fast); }
   .nav-link { padding: 0.75rem 1rem; border: var(--border); font-size: 1.05rem; }
   body.menu-open { overflow: hidden; }
+}
+
+@media (max-width: 900px) {
 
   .hero-section { padding: 7.5rem 5% 4rem; min-height: auto; }
   .section { padding: 4.5rem 5%; }
@@ -811,8 +823,20 @@ footer strong { color: var(--color-paper-white); }
   .timeline-content { padding: 1.4rem; }
   .skill-card, .service-card { padding: 1.6rem; }
   .status-list { grid-template-columns: 1fr; }
+  /* objetivos táctiles cómodos (mín. ~32px) */
+  .ping-btn, .ai-chip { min-height: 32px; display: inline-flex; align-items: center; padding-top: 0.25rem; padding-bottom: 0.25rem; }
+  .ai-chat-input-wrapper input, .ai-chat-input-wrapper button { min-height: 38px; }
+  .logo { min-height: 40px; }
   .slider-header { flex-direction: column; align-items: flex-start; gap: 0.5rem; }
   .back-to-top { right: 1rem; bottom: 1rem; }
+}
+
+@media (max-width: 400px) {
+  header { padding: 0.7rem 4%; }
+  .logo { font-size: 1rem; }
+  .logo-icon { display: none; }
+  .header-actions { gap: 0.4rem; }
+  .theme-toggle-btn, .menu-toggle-btn, .header-icon-btn { width: 38px; height: 38px; font-size: 0.95rem; }
 }
 
 /* RESPETA "REDUCIR MOVIMIENTO" DEL SISTEMA */

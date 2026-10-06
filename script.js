@@ -69,7 +69,7 @@ document.addEventListener('DOMContentLoaded', () => {
     menuToggleBtn.addEventListener('click', () => setMenu(!navLinks.classList.contains('open')));
     navLinks.querySelectorAll('a').forEach(link => link.addEventListener('click', () => setMenu(false)));
     document.addEventListener('keydown', (e) => { if (e.key === 'Escape') setMenu(false); });
-    window.addEventListener('resize', () => { if (window.innerWidth > 900) setMenu(false); });
+    window.addEventListener('resize', () => { if (window.innerWidth > 1100) setMenu(false); });
   }
 
   // 4. MÁQUINA DE ESCRIBIR
