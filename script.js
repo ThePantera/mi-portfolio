@@ -33,8 +33,8 @@ document.addEventListener('DOMContentLoaded', () => {
   const htmlElement = document.documentElement;
   const themeColorMeta = document.querySelector('meta[name="theme-color"]');
 
-  let savedTheme = 'dark';
-  try { savedTheme = localStorage.getItem('theme') || 'dark'; } catch (e) {}
+  let savedTheme = 'light';
+  try { savedTheme = localStorage.getItem('theme') || 'light'; } catch (e) {}
   applyTheme(savedTheme);
 
   if (themeToggleBtn) {
@@ -49,7 +49,7 @@ document.addEventListener('DOMContentLoaded', () => {
     htmlElement.setAttribute('data-theme', theme);
     if (themeIcon) themeIcon.className = theme === 'dark' ? 'fa-solid fa-sun' : 'fa-solid fa-moon';
     if (themeToggleBtn) themeToggleBtn.setAttribute('aria-label', theme === 'dark' ? 'Activar modo día' : 'Activar modo oscuro');
-    if (themeColorMeta) themeColorMeta.setAttribute('content', theme === 'dark' ? '#090d16' : '#f1f5f9');
+    if (themeColorMeta) themeColorMeta.setAttribute('content', theme === 'dark' ? '#000000' : '#ffffff');
   }
 
   // 3. MENÚ MOBILE
