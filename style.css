@@ -353,3 +353,54 @@ html[lang="es"] .lang-toggle [data-lang="es"], html[lang="en"] .lang-toggle [dat
 .svc[data-state="warn"] .svc-badge { animation: pulse-amber 1.2s infinite; }
 @keyframes pulse-amber { 0%, 100% { box-shadow: 0 0 0 0 rgba(245, 158, 11, .6); } 50% { box-shadow: 0 0 0 6px rgba(245, 158, 11, 0); } }
 .svc[data-state="warn"] .svc-action { background: var(--warn); color: #1a1204; }
+
+/* ---------- Consola: grupos de comandos ---------- */
+.cmd-groups { display: grid; gap: 8px; }
+.cmd-group { display: flex; flex-wrap: wrap; align-items: center; gap: 6px; }
+.cmd-label { font-family: var(--mono); font-size: 10px; text-transform: uppercase; letter-spacing: .08em; color: var(--muted); min-width: 120px; }
+@media (max-width: 640px) { .cmd-label { min-width: 100%; } }
+.cmd-group .cmd-btn { padding: 6px 10px; font-size: 11.5px; }
+
+/* ---------- Stack técnico animado ---------- */
+.stack-panel { position: relative; }
+.stack-panel::after {
+  content: ""; position: absolute; left: 0; right: 0; top: 0; height: 60px; pointer-events: none;
+  background: linear-gradient(180deg, transparent, rgba(34, 211, 238, .07), transparent);
+  animation: scanline 4.5s linear infinite;
+}
+@keyframes scanline { from { transform: translateY(-60px); } to { transform: translateY(900px); } }
+.stack-progress { height: 2px; background: var(--line); }
+.stack-progress span { display: block; height: 100%; width: 0; background: linear-gradient(90deg, var(--cyan), var(--ok)); box-shadow: 0 0 10px var(--cyan); transition: width 1.6s ease; }
+.stack-panel.loaded .stack-progress span { width: 100%; }
+.stack-cat { font-family: var(--mono); font-size: 11px; text-transform: uppercase; letter-spacing: .07em; color: var(--muted); margin-bottom: 8px; display: flex; align-items: center; gap: 6px; }
+.stack-cat i { color: var(--cyan); }
+.stack-chips { display: flex; flex-wrap: wrap; gap: 6px; }
+.stack-chip {
+  display: inline-flex; align-items: center; gap: 6px; font-size: 12px; color: var(--text);
+  background: var(--bg); border: 1px solid var(--line); border-radius: 6px; padding: 5px 9px;
+  transition: transform .2s, border-color .2s, box-shadow .2s, color .2s;
+}
+.stack-chip i { color: var(--cyan); font-size: 11px; transition: transform .3s; }
+.stack-chip:hover { transform: translateY(-2px); border-color: var(--cyan); color: #fff; box-shadow: 0 0 16px rgba(34, 211, 238, .25); }
+.stack-chip:hover i { transform: scale(1.25) rotate(-8deg); }
+.js-reveal .stack-panel .stack-chip { opacity: 0; transform: translateY(8px) scale(.96); }
+.js-reveal .stack-panel.loaded .stack-chip { animation: chip-in .45s ease forwards; animation-delay: calc(var(--i) * 55ms); }
+@keyframes chip-in { to { opacity: 1; transform: none; } }
+
+/* ---------- Políticas ---------- */
+.policies { background: var(--panel); border: 1px solid var(--line); border-radius: 12px; }
+.policies summary { cursor: pointer; list-style: none; padding: 14px 18px; font-family: var(--mono); font-size: 13px; color: var(--text); display: flex; align-items: center; gap: 8px; }
+.policies summary::-webkit-details-marker { display: none; }
+.policies summary::after { content: "+"; margin-left: auto; color: var(--cyan); font-size: 16px; }
+.policies[open] summary::after { content: "−"; }
+.policies summary i { color: var(--cyan); }
+.policies-body { display: grid; gap: 16px; padding: 4px 18px 18px; border-top: 1px solid var(--line); }
+@media (min-width: 768px) { .policies-body { grid-template-columns: 1fr 1fr; } }
+.policies-body h4 { color: #fff; font-size: 14px; font-weight: 600; margin: 12px 0 4px; }
+.policies-body p { color: var(--muted); font-size: 13px; line-height: 1.6; }
+.policies-date { font-family: var(--mono); font-size: 11px !important; grid-column: 1 / -1; }
+
+/* ---------- Modal de descarga del CV ---------- */
+.cv-dialog { width: min(420px, calc(100vw - 32px)); padding: 0; border: 1px solid var(--line); border-radius: 12px; background: var(--panel); color: var(--text); }
+.cv-dialog::backdrop { background: rgba(3, 6, 10, .75); backdrop-filter: blur(3px); }
+.cv-dialog .field input { margin-top: 2px; }

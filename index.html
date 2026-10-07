@@ -30,8 +30,8 @@
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 
   <!-- Tailwind CSS compilado (ver tailwind.config.js) + estilos propios -->
-  <link rel="stylesheet" href="tailwind.css?v=20261007b">
-  <link rel="stylesheet" href="style.css?v=20261007b">
+  <link rel="stylesheet" href="tailwind.css?v=20261007c">
+  <link rel="stylesheet" href="style.css?v=20261007c">
 </head>
 <body class="bg-cc-bg text-cc-text font-sans antialiased">
   <a href="#inicio" class="skip-link" data-en="Skip to content">Saltar al contenido</a>
@@ -45,7 +45,7 @@
       </a>
 
       <nav id="navLinks" class="nav-links" aria-label="Navegación principal">
-        <a href="#flujo" class="nav-link" data-en="L1 Flow">Flujo L1</a>
+        <a href="#flujo" class="nav-link" data-en="Workflow">Flujo</a>
         <a href="#casos" class="nav-link" data-en="Cases">Casos</a>
         <a href="#lab" class="nav-link">LAB</a>
         <a href="#experiencia" class="nav-link" data-en="Experience">Experiencia</a>
@@ -100,7 +100,7 @@
             <a href="#contacto" class="btn-ghost"><i class="fa-solid fa-paper-plane" aria-hidden="true"></i> <span data-en="Contact">Contacto</span></a>
           </div>
           <div class="mt-5 flex flex-wrap gap-4 font-mono text-xs text-cc-muted">
-            <a href="Manuel_Molina_CV.pdf" download="Manuel_Molina_CV.pdf" class="hover:text-cc-cyan"><i class="fa-solid fa-file-arrow-down" aria-hidden="true"></i> <span data-en="Download CV">Descargar CV</span></a>
+            <a href="Manuel_Molina_CV.pdf" class="cv-link hover:text-cc-cyan"><i class="fa-solid fa-file-arrow-down" aria-hidden="true"></i> <span data-en="Download CV">Descargar CV</span></a>
             <a href="https://www.linkedin.com/in/manuelmolina01" target="_blank" rel="noopener noreferrer" class="hover:text-cc-cyan"><i class="fa-brands fa-linkedin" aria-hidden="true"></i> linkedin.com/in/manuelmolina01</a>
           </div>
 
@@ -144,7 +144,7 @@ Command Center Operator <span class="text-cc-ok">[L1]</span>
     <section id="flujo" class="section">
       <div class="section-head reveal">
         <span class="eyebrow" data-en="// operations runbook">// runbook operativo</span>
-        <h2 data-en="My workflow (L1 Operations)">Mi flujo de trabajo (Operativo L1)</h2>
+        <h2 data-en="My workflow">Mi flujo de trabajo</h2>
         <p data-en="How I handle every event, from the moment it shows up on the dashboard until it reaches the team that fixes it.">Así trato cada evento, desde que aparece en el dashboard hasta que llega al equipo que lo resuelve.</p>
       </div>
       <ol class="mx-auto grid max-w-7xl gap-4 px-4 sm:px-6 md:grid-cols-2 lg:grid-cols-4">
@@ -388,12 +388,27 @@ Command Center Operator <span class="text-cc-ok">[L1]</span>
                 <h3 class="widget-title"><i class="fa-solid fa-terminal text-cc-ok" aria-hidden="true"></i> <span data-en="Quick Diagnostics Console · SQL &amp; Logs Viewer">Consola de Diagnóstico Rápido · SQL &amp; Logs Viewer</span></h3>
                 <p class="widget-sub">Host: <span id="consoleHost" class="font-mono text-cc-cyan">srv-app-biocom</span> · <span data-en="read-only session">conexión de solo lectura</span></p>
               </div>
-              <div class="mb-3 flex flex-wrap gap-2">
-                <button type="button" class="cmd-btn" data-cmd="log"><i class="fa-solid fa-file-lines" aria-hidden="true"></i> <span data-en="Check Outage Log">Verificar Log de Caída</span></button>
-                <button type="button" class="cmd-btn" data-cmd="sql"><i class="fa-solid fa-database" aria-hidden="true"></i> <span data-en="Run SQL Diagnostic Query">Ejecutar Consulta de Diagnóstico SQL</span></button>
-                <button type="button" class="cmd-btn" data-cmd="ping"><i class="fa-solid fa-satellite-dish" aria-hidden="true"></i> ipconfig + ping</button>
-                <button type="button" class="cmd-btn" data-cmd="port"><i class="fa-solid fa-network-wired" aria-hidden="true"></i> <span data-en="Port test">Test de puerto</span></button>
-                <button type="button" class="cmd-btn" data-cmd="clear"><i class="fa-solid fa-eraser" aria-hidden="true"></i> clear</button>
+              <div class="cmd-groups mb-3">
+                <div class="cmd-group">
+                  <span class="cmd-label" data-en="Logs &amp; data">Logs y datos</span>
+                  <button type="button" class="cmd-btn" data-cmd="log"><i class="fa-solid fa-file-lines" aria-hidden="true"></i> <span data-en="Check Outage Log">Verificar Log de Caída</span></button>
+                  <button type="button" class="cmd-btn" data-cmd="sql"><i class="fa-solid fa-database" aria-hidden="true"></i> <span data-en="Run SQL Diagnostic Query">Ejecutar Consulta de Diagnóstico SQL</span></button>
+                  <button type="button" class="cmd-btn" data-cmd="api"><i class="fa-solid fa-plug" aria-hidden="true"></i> <span data-en="API health check">Health check de API</span></button>
+                </div>
+                <div class="cmd-group">
+                  <span class="cmd-label" data-en="Network">Red</span>
+                  <button type="button" class="cmd-btn" data-cmd="ping"><i class="fa-solid fa-satellite-dish" aria-hidden="true"></i> ipconfig + ping</button>
+                  <button type="button" class="cmd-btn" data-cmd="port"><i class="fa-solid fa-network-wired" aria-hidden="true"></i> <span data-en="Port test">Test de puerto</span></button>
+                  <button type="button" class="cmd-btn" data-cmd="dns"><i class="fa-solid fa-globe" aria-hidden="true"></i> nslookup</button>
+                  <button type="button" class="cmd-btn" data-cmd="tracert"><i class="fa-solid fa-route" aria-hidden="true"></i> tracert</button>
+                </div>
+                <div class="cmd-group">
+                  <span class="cmd-label" data-en="Server &amp; users">Servidor y usuarios</span>
+                  <button type="button" class="cmd-btn" data-cmd="svc"><i class="fa-solid fa-gears" aria-hidden="true"></i> <span data-en="Service status">Estado del servicio</span></button>
+                  <button type="button" class="cmd-btn" data-cmd="res"><i class="fa-solid fa-memory" aria-hidden="true"></i> <span data-en="CPU / memory / disk">CPU / memoria / disco</span></button>
+                  <button type="button" class="cmd-btn" data-cmd="ad"><i class="fa-solid fa-user-lock" aria-hidden="true"></i> <span data-en="AD user check">Usuario en AD</span></button>
+                  <button type="button" class="cmd-btn" data-cmd="clear"><i class="fa-solid fa-eraser" aria-hidden="true"></i> clear</button>
+                </div>
               </div>
               <div class="terminal">
                 <div id="termOut" class="term-out" aria-live="polite"><span class="t-muted">Last login: Command Center L1 · read-only session</span></div>
@@ -502,24 +517,42 @@ Command Center Operator <span class="text-cc-ok">[L1]</span>
         </ol>
 
         <aside class="space-y-4">
-          <div class="panel p-5 reveal">
-            <h3 class="mb-4 font-mono text-xs uppercase tracking-wider text-cc-cyan" data-en="Tech stack">Stack técnico</h3>
-            <ul class="space-y-3 text-sm">
-              <li class="stack-row"><span><i class="fa-solid fa-chart-line" aria-hidden="true"></i> <span data-en="Monitoring">Monitoreo</span></span><span>Grafana · Zabbix</span></li>
-              <li class="stack-row"><span><i class="fa-solid fa-ticket" aria-hidden="true"></i> ITSM</span><span>Jira · Redmine · ITIL</span></li>
-              <li class="stack-row"><span><i class="fa-solid fa-database" aria-hidden="true"></i> <span data-en="Data">Datos</span></span><span>SQL · MongoDB</span></li>
-              <li class="stack-row"><span><i class="fa-solid fa-plug" aria-hidden="true"></i> APIs</span><span>Postman · REST</span></li>
-              <li class="stack-row"><span><i class="fa-solid fa-user-shield" aria-hidden="true"></i> <span data-en="Identity">Identidades</span></span><span>Active Directory</span></li>
-              <li class="stack-row"><span><i class="fa-solid fa-laptop-medical" aria-hidden="true"></i> Apps</span><span>Thinksoft · Biocom · Binary</span></li>
-              <li class="stack-row"><span><i class="fa-solid fa-network-wired" aria-hidden="true"></i> <span data-en="Networking">Redes</span></span><span>TCP/IP · DNS · DHCP · VPN</span></li>
-              <li class="stack-row"><span><i class="fa-solid fa-phone-volume" aria-hidden="true"></i> <span data-en="Telephony">Telefonía</span></span><span>IVR</span></li>
-              <li class="stack-row"><span><i class="fa-solid fa-comments" aria-hidden="true"></i> <span data-en="Communication">Comunicación</span></span><span>Teams · NetSupport</span></li>
-            </ul>
+          <div class="panel stack-panel overflow-hidden reveal">
+            <div class="panel-bar"><span class="text-cc-cyan" data-en="Tech stack">Stack técnico</span><span>modules: <b id="stackCount" class="text-cc-ok">0</b></span></div>
+            <div class="stack-progress" aria-hidden="true"><span></span></div>
+            <div class="space-y-4 p-5">
+              <div>
+                <p class="stack-cat"><i class="fa-solid fa-chart-line" aria-hidden="true"></i> <span data-en="Monitoring">Monitoreo</span></p>
+                <ul class="stack-chips"><li class="stack-chip" style="--i:0"><i class="fa-solid fa-chart-area" aria-hidden="true"></i>Grafana</li><li class="stack-chip" style="--i:1"><i class="fa-solid fa-tower-broadcast" aria-hidden="true"></i>Zabbix</li><li class="stack-chip" style="--i:2"><i class="fa-solid fa-bell" aria-hidden="true"></i><span data-en="Alerts / Thresholds">Alertas / Umbrales</span></li><li class="stack-chip" style="--i:3"><i class="fa-solid fa-gauge-high" aria-hidden="true"></i>Dashboards</li></ul>
+              </div>
+              <div>
+                <p class="stack-cat"><i class="fa-solid fa-ticket" aria-hidden="true"></i> <span data-en="ITSM &amp; incidents">ITSM e incidentes</span></p>
+                <ul class="stack-chips"><li class="stack-chip" style="--i:4"><i class="fa-brands fa-jira" aria-hidden="true"></i>Jira</li><li class="stack-chip" style="--i:5"><i class="fa-solid fa-list-check" aria-hidden="true"></i>Redmine</li><li class="stack-chip" style="--i:6"><i class="fa-solid fa-book" aria-hidden="true"></i>ITIL</li><li class="stack-chip" style="--i:7"><i class="fa-solid fa-stopwatch" aria-hidden="true"></i>SLA · MTTA</li><li class="stack-chip" style="--i:8"><i class="fa-solid fa-file-signature" aria-hidden="true"></i><span data-en="Documentation &amp; audit">Documentación y auditoría</span></li></ul>
+              </div>
+              <div>
+                <p class="stack-cat"><i class="fa-solid fa-database" aria-hidden="true"></i> <span data-en="Data &amp; APIs">Datos y APIs</span></p>
+                <ul class="stack-chips"><li class="stack-chip" style="--i:9"><i class="fa-solid fa-database" aria-hidden="true"></i>SQL Server</li><li class="stack-chip" style="--i:10"><i class="fa-solid fa-leaf" aria-hidden="true"></i>MongoDB</li><li class="stack-chip" style="--i:11"><i class="fa-solid fa-paper-plane" aria-hidden="true"></i>Postman</li><li class="stack-chip" style="--i:12"><i class="fa-solid fa-code" aria-hidden="true"></i>REST · JSON</li></ul>
+              </div>
+              <div>
+                <p class="stack-cat"><i class="fa-solid fa-user-shield" aria-hidden="true"></i> <span data-en="Systems &amp; identity">Sistemas e identidades</span></p>
+                <ul class="stack-chips"><li class="stack-chip" style="--i:13"><i class="fa-brands fa-windows" aria-hidden="true"></i>Windows · Windows Server</li><li class="stack-chip" style="--i:14"><i class="fa-solid fa-users-gear" aria-hidden="true"></i>Active Directory</li><li class="stack-chip" style="--i:15"><i class="fa-solid fa-terminal" aria-hidden="true"></i>PowerShell · CMD</li><li class="stack-chip" style="--i:16"><i class="fa-solid fa-laptop-medical" aria-hidden="true"></i>Thinksoft · Biocom · Binary</li></ul>
+              </div>
+              <div>
+                <p class="stack-cat"><i class="fa-solid fa-network-wired" aria-hidden="true"></i> <span data-en="Networking &amp; telephony">Redes y telefonía</span></p>
+                <ul class="stack-chips"><li class="stack-chip" style="--i:17"><i class="fa-solid fa-network-wired" aria-hidden="true"></i>TCP/IP · DNS · DHCP</li><li class="stack-chip" style="--i:18"><i class="fa-solid fa-shield-halved" aria-hidden="true"></i>VPN</li><li class="stack-chip" style="--i:19"><i class="fa-solid fa-satellite-dish" aria-hidden="true"></i>ipconfig · ping · tracert</li><li class="stack-chip" style="--i:20"><i class="fa-solid fa-phone-volume" aria-hidden="true"></i>IVR</li></ul>
+              </div>
+              <div>
+                <p class="stack-cat"><i class="fa-solid fa-comments" aria-hidden="true"></i> <span data-en="Collaboration">Colaboración</span></p>
+                <ul class="stack-chips"><li class="stack-chip" style="--i:21"><i class="fa-brands fa-microsoft" aria-hidden="true"></i>Microsoft Teams · 365</li><li class="stack-chip" style="--i:22"><i class="fa-brands fa-slack" aria-hidden="true"></i>Slack</li><li class="stack-chip" style="--i:23"><i class="fa-solid fa-display" aria-hidden="true"></i>NetSupport</li></ul>
+              </div>
+            </div>
           </div>
           <div class="panel p-5 reveal">
             <p class="text-sm text-cc-muted" data-en="Want to see recommendations, certifications and full details for each role?">¿Querés ver recomendaciones, certificaciones y el detalle de cada puesto?</p>
-            <a href="https://www.linkedin.com/in/manuelmolina01" class="btn-linkedin mt-3 w-full justify-center" target="_blank" rel="noopener noreferrer"><i class="fa-brands fa-linkedin" aria-hidden="true"></i> <span data-en="View full LinkedIn profile">Ver perfil completo en LinkedIn</span></a>
-            <a href="Manuel_Molina_CV.pdf" download="Manuel_Molina_CV.pdf" class="btn-ghost mt-2 w-full justify-center"><i class="fa-solid fa-file-arrow-down" aria-hidden="true"></i> <span data-en="Download CV (PDF)">Descargar CV (PDF)</span></a>
+            <div class="mt-3 grid grid-cols-2 gap-2">
+              <a href="https://www.linkedin.com/in/manuelmolina01" class="btn-linkedin justify-center" target="_blank" rel="noopener noreferrer"><i class="fa-brands fa-linkedin" aria-hidden="true"></i> LinkedIn</a>
+              <a href="Manuel_Molina_CV.pdf" class="btn-ghost cv-link justify-center text-center"><i class="fa-solid fa-file-arrow-down" aria-hidden="true"></i> <span data-en="Download CV (PDF)">Descargar CV (PDF)</span></a>
+            </div>
           </div>
         </aside>
       </div>
@@ -531,7 +564,7 @@ Command Center Operator <span class="text-cc-ok">[L1]</span>
         <span class="eyebrow" data-en="// continuous learning">// formación continua</span>
         <h2 data-en="Education &amp; Languages">Educación &amp; Idiomas</h2>
       </div>
-      <div class="mx-auto grid max-w-7xl gap-4 px-4 sm:px-6 sm:grid-cols-2 lg:grid-cols-4">
+      <div class="mx-auto grid max-w-7xl gap-4 px-4 sm:px-6 sm:grid-cols-2 lg:grid-cols-3">
         <div class="edu-card reveal">
           <i class="fa-solid fa-graduation-cap" aria-hidden="true"></i>
           <span class="tl-date">2017 – 2022</span>
@@ -548,6 +581,12 @@ Command Center Operator <span class="text-cc-ok">[L1]</span>
           <i class="fa-solid fa-database" aria-hidden="true"></i>
           <span class="tl-date"><span data-en="2025 – Present">2025 – Actualidad</span> <span class="in-progress" data-en="IN PROGRESS">EN CURSO</span></span>
           <h3>Data Science</h3>
+          <p>EducaciónIT</p>
+        </div>
+        <div class="edu-card reveal">
+          <i class="fa-solid fa-network-wired" aria-hidden="true"></i>
+          <span class="tl-date"><span data-en="2026 – Present (started this term)">2026 – Actualidad (comenzó este cuatrimestre)</span> <span class="in-progress" data-en="IN PROGRESS">EN CURSO</span></span>
+          <h3 data-en="Networking">Redes</h3>
           <p>EducaciónIT</p>
         </div>
         <div class="edu-card reveal">
@@ -623,7 +662,8 @@ Command Center Operator <span class="text-cc-ok">[L1]</span>
             <p><span class="text-cc-cyan" data-en="location">ubicación</span>: Buenos Aires, Argentina</p>
             <p><span class="text-cc-cyan" data-en="work mode">modalidad</span>: <span data-en="100% remote">100% remoto</span></p>
             <p><span class="text-cc-cyan" data-en="target role">rol buscado</span>: Command Center / IT Monitoring</p>
-            <p><span class="text-cc-cyan">cv</span>: <a href="Manuel_Molina_CV.pdf" download="Manuel_Molina_CV.pdf" class="text-white underline hover:text-cc-cyan">Manuel_Molina_CV.pdf</a></p>
+            <p><span class="text-cc-cyan" data-en="also open to">también</span>: Freelance · <span data-en="IT Audit">Auditoría</span></p>
+            <p><span class="text-cc-cyan">cv</span>: <a href="Manuel_Molina_CV.pdf" class="cv-link text-white underline hover:text-cc-cyan">Manuel_Molina_CV.pdf</a></p>
           </div>
         </aside>
 
@@ -668,6 +708,7 @@ Command Center Operator <span class="text-cc-ok">[L1]</span>
                   <option value="Testing Funcional & QA" data-en="Functional Testing &amp; QA">Testing Funcional &amp; QA</option>
                   <option value="Soporte de Campo & Hardware" data-en="Field Support &amp; Hardware">Soporte de Campo &amp; Hardware</option>
                   <option value="Redes, Cableado & Infraestructura" data-en="Networking, Cabling &amp; Infrastructure">Redes, Cableado &amp; Infraestructura</option>
+                  <option value="Freelance / Auditoría" data-en="Freelance / Audit">Freelance / Auditoría</option>
                   <option value="Otros" data-en="Other">Otros</option>
                 </select>
               </div>
@@ -694,18 +735,59 @@ Command Center Operator <span class="text-cc-ok">[L1]</span>
             <i class="fa-solid fa-paper-plane" aria-hidden="true"></i>
           </button>
           <div id="formAlert" class="form-alert" role="status" aria-live="polite"></div>
+          <p class="mt-3 text-xs text-cc-muted" data-en="By sending this form you accept the &lt;a href='#politicas' class='inline-link open-policies'&gt;privacy policy&lt;/a&gt;.">Al enviar el formulario aceptás la <a href="#politicas" class="inline-link open-policies">política de privacidad</a>.</p>
         </form>
       </div>
     </section>
   </main>
 
   <footer class="border-t border-cc-line py-8">
+    <div class="mx-auto mb-6 max-w-7xl px-4 sm:px-6">
+      <details id="politicas" class="policies">
+        <summary><i class="fa-solid fa-shield-halved" aria-hidden="true"></i> <span data-en="Privacy, security &amp; legal notice">Políticas de privacidad, seguridad y aviso legal</span></summary>
+        <div class="policies-body">
+          <div>
+            <h4 data-en="Data controller">Responsable</h4>
+            <p data-en="This portfolio is a personal website of Manuel Molina (Buenos Aires, Argentina). For any question about these policies you can write through the contact form or on LinkedIn.">Este portafolio es un sitio personal de Manuel Molina (Buenos Aires, Argentina). Para cualquier consulta sobre estas políticas podés escribir desde el formulario de contacto o por LinkedIn.</p>
+          </div>
+          <div>
+            <h4 data-en="Data collected and why">Datos que se recopilan y para qué</h4>
+            <p data-en="Only the data you enter voluntarily is collected: name, email, company and message in the contact form, and your email to download the CV. It is used only to reply to you and to know who requested the CV. It is not sold, shared with third parties or used for advertising. Forms are processed by Formspree, an external provider.">Solo se recopilan los datos que ingresás voluntariamente: nombre, correo, empresa y mensaje en el formulario de contacto, y tu correo para descargar el CV. Se usan únicamente para responderte y saber quién solicitó el CV. No se venden, no se ceden a terceros y no se usan para publicidad. Los formularios se procesan a través de Formspree, un proveedor externo.</p>
+          </div>
+          <div>
+            <h4 data-en="Your rights">Tus derechos</h4>
+            <p data-en="Under Argentina's Personal Data Protection Law 25.326, you can request access to, correction or deletion of your data at any time through the contact form. The Agency for Access to Public Information is the authority that oversees that law.">De acuerdo con la Ley 25.326 de Protección de Datos Personales de Argentina, podés pedir el acceso, la rectificación o la eliminación de tus datos en cualquier momento desde el formulario de contacto. La Agencia de Acceso a la Información Pública es el órgano de control de esa ley.</p>
+          </div>
+          <div>
+            <h4 data-en="Local storage and metrics">Almacenamiento local y métricas</h4>
+            <p data-en="The site only stores your language preference and a session flag in your browser so the same visit is not counted twice. Visit and LAB usage counters are anonymous (counterapi.dev). No advertising cookies are used and your identity is not tracked.">El sitio guarda en tu navegador solo tu preferencia de idioma y una marca de sesión para no contar dos veces la misma visita. Los contadores de visitas y de uso del LAB son anónimos (counterapi.dev). No se usan cookies publicitarias ni se rastrea tu identidad.</p>
+          </div>
+          <div>
+            <h4 data-en="Security">Seguridad</h4>
+            <p data-en="It is a static site served over HTTPS (GitHub Pages). It never asks for passwords or sensitive data, and it uses email validation and a honeypot field against bots and spam. Please do not send confidential information through the forms.">Es un sitio estático servido por HTTPS (GitHub Pages). No pide contraseñas ni datos sensibles, y usa validación de correo y un campo trampa contra bots y spam. Por favor no envíes información confidencial a través de los formularios.</p>
+          </div>
+          <div>
+            <h4 data-en="The LAB is a simulation">El LAB es una simulación</h4>
+            <p data-en="The Monitoring LAB is an educational simulation. Servers, IPs, tickets, logs, metrics and messages are fictitious and it does not connect to any real system. The cases describe tasks in general terms, with no patient data, credentials or confidential information from any employer.">El LAB de Monitoreo es una simulación educativa. Los servidores, IPs, tickets, logs, métricas y mensajes son ficticios y no se conecta a ningún sistema real. Los casos describen tareas de forma general, sin datos de pacientes, credenciales ni información confidencial de ningún empleador.</p>
+          </div>
+          <div>
+            <h4 data-en="Trademarks and companies mentioned">Marcas y empresas mencionadas</h4>
+            <p data-en="Grafana, Zabbix, Jira, Redmine, Microsoft, Windows, Teams, Slack, Postman, MongoDB and other names are trademarks of their respective owners and are mentioned only as tools used. The companies named describe Manuel's work experience; this site is personal, does not represent them and implies no endorsement or affiliation.">Grafana, Zabbix, Jira, Redmine, Microsoft, Windows, Teams, Slack, Postman, MongoDB y demás nombres son marcas de sus respectivos titulares y se mencionan solo como herramientas utilizadas. Las empresas nombradas describen la experiencia laboral de Manuel; este sitio es personal, no las representa y no implica respaldo ni afiliación.</p>
+          </div>
+          <div>
+            <h4 data-en="Intellectual property and liability">Propiedad intelectual y responsabilidad</h4>
+            <p data-en="The site's design, texts and code belong to Manuel Molina; copying them for commercial use without permission is not allowed. The information is provided as is, for informational purposes, and no responsibility is assumed for the content of linked external sites.">El diseño, los textos y el código del sitio pertenecen a Manuel Molina; no se permite copiarlos para uso comercial sin autorización. La información se ofrece tal cual, con fines informativos, y no se asume responsabilidad por el contenido de sitios externos enlazados.</p>
+          </div>
+          <p class="policies-date" data-en="Last updated: October 2026.">Última actualización: octubre de 2026.</p>
+        </div>
+      </details>
+    </div>
     <div class="mx-auto flex max-w-7xl flex-col items-center justify-between gap-4 px-4 font-mono text-xs text-cc-muted sm:flex-row sm:px-6">
       <p>&copy; <span id="currentYear">2026</span> <strong class="text-white">Manuel Molina</strong> · Buenos Aires, Argentina · <span class="text-cc-ok">● all systems operational</span></p>
       <div class="flex gap-4 text-base">
         <a href="https://www.linkedin.com/in/manuelmolina01" target="_blank" rel="noopener noreferrer" aria-label="LinkedIn" class="hover:text-cc-cyan"><i class="fa-brands fa-linkedin" aria-hidden="true"></i></a>
         <a href="https://github.com/ThePantera" target="_blank" rel="noopener noreferrer" aria-label="GitHub" class="hover:text-cc-cyan"><i class="fa-brands fa-github" aria-hidden="true"></i></a>
-        <a href="Manuel_Molina_CV.pdf" download="Manuel_Molina_CV.pdf" aria-label="CV" class="hover:text-cc-cyan"><i class="fa-solid fa-file-arrow-down" aria-hidden="true"></i></a>
+        <a href="Manuel_Molina_CV.pdf" aria-label="CV" class="cv-link hover:text-cc-cyan"><i class="fa-solid fa-file-arrow-down" aria-hidden="true"></i></a>
         <a href="#contacto" aria-label="Contacto" class="hover:text-cc-cyan"><i class="fa-solid fa-envelope" aria-hidden="true"></i></a>
       </div>
     </div>
@@ -715,6 +797,22 @@ Command Center Operator <span class="text-cc-ok">[L1]</span>
   <a href="#inicio" class="back-to-top" id="backToTop" aria-label="Volver arriba"><i class="fa-solid fa-arrow-up" aria-hidden="true"></i></a>
   <div id="alertFlash" class="alert-flash" aria-hidden="true"></div>
 
-  <script src="script.js?v=20261007b" defer></script>
+  <dialog id="cvDialog" class="cv-dialog" aria-labelledby="cvDialogTitle">
+    <form id="cvForm" method="dialog" novalidate>
+      <div class="panel-bar"><span id="cvDialogTitle" class="text-cc-cyan"><i class="fa-solid fa-file-arrow-down" aria-hidden="true"></i> <span data-en="Download CV">Descargar CV</span></span><button type="button" id="cvClose" class="text-cc-muted hover:text-white" aria-label="Cerrar"><i class="fa-solid fa-xmark" aria-hidden="true"></i></button></div>
+      <div class="p-5">
+        <p class="text-sm text-cc-muted" data-en="Enter your email to download Manuel's CV. It is only used to know who requested it.">Ingresá tu correo para descargar el CV de Manuel. Solo se usa para saber quién lo solicitó.</p>
+        <input type="text" name="_gotcha" class="honeypot" tabindex="-1" autocomplete="off" aria-hidden="true">
+        <label class="field mt-4" for="cvEmail"><span data-en="Email">Correo electrónico</span>
+          <input type="email" id="cvEmail" name="email" autocomplete="email" placeholder="ejemplo@empresa.com" data-en-placeholder="name@company.com" maxlength="100" required>
+        </label>
+        <label class="mt-3 flex items-start gap-2 text-xs text-cc-muted"><input type="checkbox" id="cvConsent" class="mt-0.5 accent-cyan-400" required> <span data-en="I accept the &lt;a href='#politicas' class='inline-link open-policies'&gt;privacy policy&lt;/a&gt;.">Acepto la <a href="#politicas" class="inline-link open-policies">política de privacidad</a>.</span></label>
+        <p id="cvError" class="mt-2 hidden text-xs text-cc-crit"></p>
+        <button type="submit" id="cvSubmit" class="btn-primary mt-4 w-full justify-center"><i class="fa-solid fa-download" aria-hidden="true"></i> <span data-en="Download CV (PDF)">Descargar CV (PDF)</span></button>
+      </div>
+    </form>
+  </dialog>
+
+  <script src="script.js?v=20261007c" defer></script>
 </body>
 </html>

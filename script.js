@@ -293,6 +293,28 @@ document.addEventListener('DOMContentLoaded', () => {
   }
 
   // 6c. Escenarios de incidente
+  const okDns = (host, ip) => [
+    ['t-white', 'Server:  dc01.clinica.local'],
+    ['t-white', `Name:    ${host}.clinica.local`],
+    ['t-white', `Address: ${ip}`],
+    ['t-ok', L('✔ El nombre resuelve correctamente.', '✔ The name resolves correctly.')]
+  ];
+  const okTrace = (gw, ip) => [
+    ['t-white', `  1    <1 ms    <1 ms    <1 ms  ${gw}`],
+    ['t-white', `  2     1 ms     1 ms     1 ms  ${ip}`],
+    ['t-ok', L('Traza completa ✔', 'Trace complete ✔')]
+  ];
+  // Comando de mesa de ayuda, no depende del incidente (no genera evidencia)
+  const adCheck = () => ({
+    prompt: 'Get-ADUser jperez -Properties Enabled, LockedOut, PasswordExpired',
+    lines: [
+      ['t-white', 'SamAccountName  : jperez'],
+      ['t-ok', 'Enabled         : True'],
+      ['t-err', 'LockedOut       : True'],
+      ['t-white', 'PasswordExpired : False'],
+      ['t-cyan', L('→ Cuenta bloqueada por intentos fallidos: desbloqueo y blanqueo de clave (caso típico de mesa de ayuda).', '→ Account locked after failed attempts: unlock and password reset (a typical help desk case).')]
+    ]
+  });
   const ts = () => new Date().toISOString().replace('T', ' ').slice(0, 19);
   const teams = () => ({
     infra: { name: L('Equipo de Infraestructura N2', 'Infrastructure Team L2'), channel: 'infra-n2-guardia', mention: '@Infra-N2' },
@@ -321,6 +343,34 @@ document.addEventListener('DOMContentLoaded', () => {
       wrongTeam: L('Devs: el código no cambió y la app no llega a la BD por red. Corresponde a Infraestructura, reasignar.', 'Devs: no code changes and the app cannot reach the DB over the network. This belongs to Infrastructure, please reassign.'),
       resolving: L('Infra N2: regla de firewall restaurada hacia sql-prod-01:1433, reiniciando pool de conexiones', 'Infra L2: firewall rule to sql-prod-01:1433 restored, restarting connection pool'),
       console: {
+        api: {
+          prompt: 'curl -s -o /dev/null -w "%{http_code} %{time_total}s" https://srv-app-biocom/health',
+          lines: () => [
+            ['t-err', '500 30.012s'],
+            ['t-cyan', L('→ El health check devuelve 500 y tarda 30 s: se cuelga esperando la BD.', '→ The health check returns 500 and takes 30 s: it hangs waiting for the DB.')]
+          ],
+          evidence: () => 'curl /health → HTTP 500 (30 s)'
+        },
+        dns: { prompt: 'nslookup sql-prod-01', lines: () => okDns('sql-prod-01', '10.20.4.15'), evidence: () => L('nslookup sql-prod-01 OK: se descarta DNS', 'nslookup sql-prod-01 OK: DNS ruled out') },
+        tracert: {
+          prompt: 'tracert -d sql-prod-01',
+          lines: () => [
+            ['t-white', '  1    <1 ms    <1 ms    <1 ms  10.20.3.1'],
+            ['t-white', '  2     1 ms     1 ms     1 ms  10.20.4.15'],
+            ['t-cyan', L('→ La ruta llega al host: el bloqueo está en el puerto 1433 (firewall).', '→ The route reaches the host: port 1433 is being blocked (firewall).')]
+          ],
+          evidence: () => L('tracert sql-prod-01: ruta OK, bloqueo en puerto 1433', 'tracert sql-prod-01: route OK, port 1433 blocked')
+        },
+        svc: {
+          prompt: 'Get-Service BiocomApp | Select Status, Name',
+          lines: () => [['t-ok', 'Running  BiocomApp'], ['t-muted', L('→ El servicio está corriendo, pero no llega a la base.', '→ The service is running, but cannot reach the database.')]],
+          evidence: () => L('Servicio BiocomApp: Running (no es caída del servicio)', 'BiocomApp service: Running (the service itself is up)')
+        },
+        res: {
+          prompt: 'Get-Counter "\\Processor(_Total)\\% Processor Time","\\Memory\\% Committed Bytes In Use"',
+          lines: () => [['t-white', 'CPU 18%   MEM 61%   DISK C: 54%'], ['t-ok', L('→ Recursos normales: no es un problema de capacidad.', '→ Normal resources: not a capacity problem.')]],
+          evidence: () => L('srv-app-biocom: CPU 18%, MEM 61% (recursos normales)', 'srv-app-biocom: CPU 18%, MEM 61% (normal resources)')
+        },
         log: {
           prompt: 'tail -n 8 /var/log/biocom/app.log',
           lines: () => [
@@ -380,6 +430,32 @@ document.addEventListener('DOMContentLoaded', () => {
       wrongTeam: L('Devs: el servidor no responde ni a ping, es un problema de infraestructura. Reasignar a Infra N2.', 'Devs: the server does not even answer ping, this is an infrastructure issue. Reassign to Infra L2.'),
       resolving: L('Infra N2: servidor Holter reiniciado (servicio HolterSync detenido), sincronizando estudios en cola', 'Infra L2: Holter server restarted (HolterSync service was stopped), syncing queued studies'),
       console: {
+        api: {
+          prompt: 'curl -s -m 10 https://srv-holter-01:8080/status',
+          lines: () => [['t-err', 'curl: (28) Connection timed out after 10001 milliseconds']],
+          evidence: () => 'curl srv-holter-01:8080/status → timeout (10 s)'
+        },
+        dns: { prompt: 'nslookup srv-holter-01', lines: () => okDns('srv-holter-01', '10.20.8.40'), evidence: () => L('nslookup srv-holter-01 OK: el nombre resuelve', 'nslookup srv-holter-01 OK: name resolves') },
+        tracert: {
+          prompt: 'tracert -d srv-holter-01',
+          lines: () => [
+            ['t-white', '  1    <1 ms    <1 ms    <1 ms  10.20.8.1'],
+            ['t-err', '  2     *        *        *     Request timed out.'],
+            ['t-err', '  3     *        *        *     Request timed out.'],
+            ['t-cyan', L('→ La ruta muere después del gateway de Cardiología: el servidor no responde.', '→ The route dies after the Cardiology gateway: the server does not respond.')]
+          ],
+          evidence: () => L('tracert srv-holter-01: sin respuesta después de 10.20.8.1', 'tracert srv-holter-01: no response after 10.20.8.1')
+        },
+        svc: {
+          prompt: 'Get-Service -ComputerName srv-holter-01 HolterSync',
+          lines: () => [['t-err', "Get-Service : Cannot open Service Control Manager on computer 'srv-holter-01'."], ['t-err', 'The RPC server is unavailable.']],
+          evidence: () => L('Get-Service HolterSync: servidor RPC no disponible', 'Get-Service HolterSync: RPC server unavailable')
+        },
+        res: {
+          prompt: 'Get-Counter -ComputerName srv-holter-01 "\\Memory\\% Committed Bytes In Use"',
+          lines: () => [['t-err', 'Get-Counter : Unable to connect to the specified computer or the computer is offline.']],
+          evidence: () => L('Get-Counter srv-holter-01: equipo fuera de línea', 'Get-Counter srv-holter-01: computer offline')
+        },
         log: {
           prompt: 'type C:\\HolterSync\\logs\\cliente.log | tail -6',
           lines: () => [
@@ -441,6 +517,23 @@ document.addEventListener('DOMContentLoaded', () => {
       wrongTeam: L('Devs: no es un problema de la aplicación, es espacio en disco del servidor. Reasignar a Infra N2 (DBA).', 'Devs: not an application issue, it is server disk space. Reassign to Infra L2 (DBA).'),
       resolving: L('Infra N2 (DBA): backup del log de transacciones y liberación de espacio en curso', 'Infra L2 (DBA): transaction log backup and space reclaim in progress'),
       console: {
+        api: {
+          prompt: 'curl -s -o /dev/null -w "%{http_code} %{time_total}s" https://srv-app-biocom/health',
+          lines: () => [['t-ok', '200 1.82s'], ['t-warn', L('→ Las apps todavía responden, pero más lento por los autogrow del log.', '→ Apps still respond, but slower because of the log autogrow.')]],
+          evidence: () => L('Apps responden 200 pero en 1,8 s (degradación leve)', 'Apps respond 200 but in 1.8 s (slight degradation)')
+        },
+        dns: { prompt: 'nslookup sql-prod-01', lines: () => okDns('sql-prod-01', '10.20.4.15'), evidence: () => L('nslookup sql-prod-01 OK', 'nslookup sql-prod-01 OK') },
+        tracert: { prompt: 'tracert -d sql-prod-01', lines: () => okTrace('10.20.3.1', '10.20.4.15'), evidence: () => L('tracert sql-prod-01: ruta OK', 'tracert sql-prod-01: route OK') },
+        svc: {
+          prompt: 'Get-Service MSSQLSERVER, SQLSERVERAGENT | Select Status, Name',
+          lines: () => [['t-ok', 'Running  MSSQLSERVER'], ['t-ok', 'Running  SQLSERVERAGENT']],
+          evidence: () => L('Servicios SQL en Running', 'SQL services Running')
+        },
+        res: {
+          prompt: 'Get-PSDrive D | Select Used, Free',
+          lines: () => [['t-white', 'CPU 22%   MEM 70%'], ['t-err', 'DISK D: 96% (19.2 GB libres de 500 GB)'], ['t-cyan', L('→ Al ritmo actual el disco se llena en pocas horas.', '→ At the current rate the disk fills up within hours.')]],
+          evidence: () => L('Disco D: 96% (19,2 GB libres de 500 GB)', 'Disk D: 96% (19.2 GB free of 500 GB)')
+        },
         log: {
           prompt: 'Get-Content ERRORLOG -Tail 5',
           lines: () => [
@@ -497,6 +590,23 @@ document.addEventListener('DOMContentLoaded', () => {
       wrongTeam: L('Infra: el servidor tiene recursos y la red está OK; la memoria la consume la aplicación. Reasignar a Devs N3.', 'Infra: the server has resources and the network is fine; the application is consuming the memory. Reassign to Devs L3.'),
       resolving: L('Devs N3: hotfix de pérdida de memoria desplegado, reiniciando instancias', 'Devs L3: memory leak hotfix deployed, restarting instances'),
       console: {
+        api: {
+          prompt: 'curl -s -o /dev/null -w "%{http_code} %{time_total}s" https://api-turnos/health',
+          lines: () => [['t-warn', '200 2.41s'], ['t-cyan', L('→ Responde, pero 30 veces más lento que lo normal (80 ms).', '→ It responds, but 30 times slower than normal (80 ms).')]],
+          evidence: () => L('curl api-turnos/health → 200 en 2,41 s (normal 80 ms)', 'curl api-turnos/health → 200 in 2.41 s (normal 80 ms)')
+        },
+        dns: { prompt: 'nslookup api-turnos', lines: () => okDns('api-turnos', '10.20.5.40'), evidence: () => L('nslookup api-turnos OK', 'nslookup api-turnos OK') },
+        tracert: { prompt: 'tracert -d api-turnos', lines: () => okTrace('10.20.3.1', '10.20.5.40'), evidence: () => L('tracert api-turnos: ruta OK', 'tracert api-turnos: route OK') },
+        svc: {
+          prompt: 'Get-Service api-turnos | Select Status, StartTime',
+          lines: () => [['t-ok', L('Running   iniciado hace 41 días', 'Running   started 41 days ago')], ['t-muted', L('→ Sin reinicios: la memoria se viene acumulando.', '→ No restarts: memory has been piling up.')]],
+          evidence: () => L('Servicio api-turnos: Running, 41 días sin reinicio', 'api-turnos service: Running, 41 days without restart')
+        },
+        res: {
+          prompt: 'Get-Counter "\\Memory\\% Committed Bytes In Use"; Get-CacheStats',
+          lines: () => [['t-white', 'CPU 64%'], ['t-err', 'MEM 95% (3.8 / 4 GB)   CACHE 97%']],
+          evidence: () => L('api-turnos: MEM 95% (3,8/4 GB), caché 97%', 'api-turnos: MEM 95% (3.8/4 GB), cache 97%')
+        },
         log: {
           prompt: 'tail -n 6 /var/log/api-turnos/app.log',
           lines: () => [
@@ -544,6 +654,11 @@ document.addEventListener('DOMContentLoaded', () => {
 
   // Salidas de consola cuando todo está sano
   const healthyOutput = (cmd, host) => ({
+    api: { prompt: `curl -s -o /dev/null -w "%{http_code} %{time_total}s" https://${host}/health`, lines: [['t-ok', '200 0.081s']] },
+    dns: { prompt: `nslookup ${host}`, lines: okDns(host, '10.20.3.21') },
+    tracert: { prompt: `tracert -d ${host}`, lines: okTrace('10.20.3.1', '10.20.3.21') },
+    svc: { prompt: 'Get-Service BiocomApp | Select Status, Name', lines: [['t-ok', 'Running  BiocomApp']] },
+    res: { prompt: 'Get-Counter (CPU / MEM / DISK)', lines: [['t-ok', 'CPU 15%   MEM 58%   DISK C: 54%']] },
     log: { prompt: `tail -n 4 /var/log/${host}/app.log`, lines: [
       ['t-muted', `${ts()} INFO  [http] GET /health 200 9ms`],
       ['t-muted', `${ts()} INFO  [db] pool: 12/50`],
@@ -984,7 +1099,7 @@ ${evidence}
     }
     const active = incidentActive();
     const host = active ? sc().host : 'srv-app-biocom';
-    const def = active ? sc().console[name] : healthyOutput(name, host);
+    const def = name === 'ad' ? adCheck() : (active ? sc().console[name] : healthyOutput(name, host));
     const lines = typeof def.lines === 'function' ? def.lines() : def.lines;
     termBusy = true;
     $$('.cmd-btn').forEach(b => { b.disabled = true; });
@@ -999,7 +1114,7 @@ ${evidence}
       }
       termBusy = false;
       $$('.cmd-btn').forEach(b => { b.disabled = false; });
-      if (active) {
+      if (active && def.evidence) {
         lab.lastOutput = { id: `${lab.scenario}-${name}`, text: def.evidence };
         if (!lab.triaged) {
           lab.triaged = true;
@@ -1043,14 +1158,7 @@ ${evidence}
   const abiChips = $('#abiChips');
   const normalize = (str) => str.toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g, '');
 
-  function downloadCV() {
-    const link = document.createElement('a');
-    link.href = 'Manuel_Molina_CV.pdf';
-    link.download = 'Manuel_Molina_CV.pdf';
-    document.body.appendChild(link);
-    link.click();
-    link.remove();
-  }
+  function downloadCV() { openCvDialog(); }
 
   const chip = {
     lab: () => L('¿Qué hago en el LAB?', 'What do I do in the LAB?'),
@@ -1113,7 +1221,7 @@ ${evidence}
       } },
     { keys: ['simular', 'disparar', 'generar evento', 'caida', 'probar', 'demo', 'simulate', 'trigger', 'outage'], answer: () => startSim() },
     { keys: ['que hago', 'ahora', 'siguiente', 'paso', 'ayuda', 'como funciona', 'lab', 'laboratorio', 'simulador', 'estado', 'what do i do', 'next', 'help', 'how does', 'status'], answer: labGuide },
-    { keys: ['ir a la consola', 'consola', 'log', 'diagnostico', 'console', 'go to console'], answer: () => { gotoTab('console'); return { text: L('Te llevé a la Consola de Diagnóstico. Probá el log, la consulta SQL o ipconfig + ping.', 'I took you to the Diagnostics Console. Try the log, the SQL query or ipconfig + ping.') }; } },
+    { keys: ['ir a la consola', 'consola', 'log', 'diagnostico', 'console', 'go to console'], answer: () => { gotoTab('console'); return { text: L('Te llevé a la Consola de Diagnóstico. Tenés logs, SQL, health check de API, ipconfig + ping, nslookup, tracert, estado del servicio y recursos.', 'I took you to the Diagnostics Console. You have logs, SQL, API health check, ipconfig + ping, nslookup, tracert, service status and resources.') }; } },
     { keys: ['abrir ticket', 'ir a tickets', 'ticket', 'jira', 'open ticket', 'go to tickets'], answer: () => {
         if (lab.phase === 'detected') { openIncident(); return { text: L('Abrí el ticket en Jira con los datos precargados según el escenario.', 'I opened the Jira ticket with the data prefilled for this scenario.'), chips: [chip.lab()] }; }
         if (lab.phase === 'idle') return { text: L('Todavía no hay incidentes. Primero simulá una caída.', 'There are no incidents yet. Simulate an outage first.'), chips: [chip.sim()] };
@@ -1125,7 +1233,7 @@ ${evidence}
     { keys: ['caso', 'casos', 'ejemplo', 'case', 'cases', 'example'],
       answer: () => { setTimeout(() => scrollToEl($('#casos')), 900); return { text: L('Algunos casos reales: el servidor de Holters de Cardiología, la memoria y caché de las APIs en Otamendi, ~10 casos cada 20 minutos en Medicus (blanqueo de claves, ABM en AD, corrección de DNI/nombre/apellido de pacientes) y validación de APIs con Postman y árboles IVR en Sondeos Global. Te llevo a la sección 👇',
         'Some real cases: the Cardiology Holter server, API memory and cache at Otamendi, ~10 cases every 20 minutes at Medicus (password resets, AD provisioning, fixing patient ID/name records) and API checks with Postman plus IVR trees at Sondeos Global. Taking you there 👇') }; } },
-    { keys: ['medicus', 'volumen', 'blanqueo', 'clave', 'password', 'dni', 'paciente', 'patient', 'auditoria', 'audit', 'documenta'],
+    { keys: ['medicus', 'volumen', 'blanqueo', 'clave', 'password', 'dni', 'paciente', 'patient', 'documenta'],
       answer: () => ({ text: L('En Medicus atiende alrededor de 10 casos cada 20 minutos. Los más típicos: blanqueo de claves y ABM en Active Directory, y corrección de datos de pacientes mal cargados (DNI, nombre, apellido). Además documenta todo lo que pasa en cada jornada, para auditoría y futuras prácticas.',
         'At Medicus he handles around 10 cases every 20 minutes. Most common: password resets and Active Directory provisioning, and fixing patient records loaded with errors (ID number, first and last name). He also documents everything that happens each shift, for audits and future reference.') }) },
     { keys: ['postman', 'renaper', 'ivr', 'sondeos', 'llamad', 'cobranza', 'api'],
@@ -1138,22 +1246,22 @@ ${evidence}
       answer: () => ({ text: L('Más de 7 años en IT. Hoy es Operador de Monitoreo en Sanatorio Otamendi e IT Analyst en Medicus. Antes: Sondeos Global, Beretta Galarce & Asociados y Claro Argentina.',
         '7+ years in IT. Currently Monitoring Operator at Sanatorio Otamendi and IT Analyst at Medicus. Before: Sondeos Global, Beretta Galarce & Asociados and Claro Argentina.'), chips: [chip.cases(), chip.stack()] }) },
     { keys: ['formacion', 'estudi', 'educacion', 'titulo', 'carrera', 'curso', 'utn', 'iutai', 'data science', 'ingles', 'idioma', 'education', 'degree', 'english', 'language'],
-      answer: () => ({ text: L('Técnico Superior en Informática (IUTAI). En curso: Automatización con IA (UTN) y Data Science (EducaciónIT). Idiomas: español nativo e inglés B1 orientado a documentación técnica 🎓',
-        'Higher Technical Degree in Computer Science (IUTAI). In progress: Automation with AI (UTN) and Data Science (EducaciónIT). Languages: native Spanish and B1 English focused on technical documentation 🎓') }) },
+      answer: () => ({ text: L('Técnico Superior en Informática (IUTAI). En curso: Automatización con IA (UTN), Data Science y Redes (EducaciónIT; Redes comenzó este cuatrimestre). Idiomas: español nativo e inglés B1 orientado a documentación técnica 🎓',
+        'Higher Technical Degree in Computer Science (IUTAI). In progress: Automation with AI (UTN), Data Science and Networking (EducaciónIT; Networking started this term). Languages: native Spanish and B1 English focused on technical documentation 🎓') }) },
     { keys: ['stack', 'habilidad', 'skill', 'sabe', 'herramienta', 'redmine', 'active directory', 'grafana', 'zabbix', 'monitoreo', 'sql', 'mongo', 'tecnologia', 'tools', 'monitoring', 'tech'],
-      answer: () => ({ text: L('Monitoreo con Grafana y Zabbix, incidentes ITIL con Jira y Redmine, SQL y MongoDB, Postman, Active Directory, Application Support (Thinksoft, Biocom, Binary), IVR y redes (TCP/IP, DNS, DHCP, VPN, ipconfig/ping).',
-        'Monitoring with Grafana and Zabbix, ITIL incidents with Jira and Redmine, SQL and MongoDB, Postman, Active Directory, Application Support (Thinksoft, Biocom, Binary), IVR and networking (TCP/IP, DNS, DHCP, VPN, ipconfig/ping).'), chips: [chip.sim()] }) },
-    { keys: ['servicio', 'ofrece', 'freelance', 'independiente', 'cableado', 'hardware', 'qa', 'testing', 'services', 'offer'],
+      answer: () => ({ text: L('Monitoreo con Grafana y Zabbix, incidentes ITIL con Jira y Redmine, SQL Server y MongoDB, Postman, Windows Server, Active Directory y PowerShell, Application Support (Thinksoft, Biocom, Binary), IVR, redes (TCP/IP, DNS, DHCP, VPN, ipconfig, ping, tracert) y Teams/Slack.',
+        'Monitoring with Grafana and Zabbix, ITIL incidents with Jira and Redmine, SQL Server and MongoDB, Postman, Windows Server, Active Directory and PowerShell, Application Support (Thinksoft, Biocom, Binary), IVR, networking (TCP/IP, DNS, DHCP, VPN, ipconfig, ping, tracert) and Teams/Slack.'), chips: [chip.sim()] }) },
+    { keys: ['servicio', 'ofrece', 'independiente', 'cableado', 'hardware', 'qa', 'testing', 'services', 'offer'],
       answer: () => ({ text: L('Ofrece: monitoreo y operaciones IT, mesa de ayuda L1/L2, gestión de accesos, testing funcional/QA, soporte de hardware y redes. Podés cotizar desde el formulario 📋',
         'He offers: monitoring and IT operations, L1/L2 help desk, access management, functional testing/QA, hardware and network support. You can request a quote from the form 📋'), chips: [L('Cotizar', 'Get a quote')] }) },
-    { keys: ['cv', 'curriculum', 'descargar', 'pdf', 'resume', 'download'], answer: () => { setTimeout(downloadCV, 700); return { text: L('¡Claro! Te descargo el CV de Manuel en PDF 📄', 'Sure! Downloading Manuel\'s CV as PDF 📄') }; } },
+    { keys: ['cv', 'curriculum', 'descargar', 'pdf', 'resume', 'download'], answer: () => { setTimeout(downloadCV, 700); return { text: L('¡Claro! Dejame tu correo en la ventana y se descarga el CV 📄', 'Sure! Leave your email in the window and the CV will download 📄') }; } },
     { keys: ['precio', 'costo', 'cotiz', 'presupuesto', 'cuanto', 'tarifa', 'valor', 'price', 'quote', 'cost', 'rate'],
       answer: () => { setTimeout(() => scrollToEl($('#contacto')), 700); return { text: L('El presupuesto depende del servicio y la cantidad de usuarios. Te llevo al cotizador: elegí el servicio, mové el slider de usuarios y Manuel te responde a la brevedad 💬', 'The price depends on the service and number of users. Taking you to the quote form: pick the service, move the users slider and Manuel will reply shortly 💬') }; } },
     { keys: ['linkedin', 'perfil', 'profile'], answer: () => ({ text: L('Acá tenés el LinkedIn de Manuel 👉', 'Here is Manuel\'s LinkedIn 👉'), link: { href: LINKEDIN_URL, text: 'linkedin.com/in/manuelmolina01' } }) },
     { keys: ['contact', 'mail', 'correo', 'hablar', 'escrib', 'whatsapp', 'telefono', 'email', 'talk', 'reach'],
       answer: () => { setTimeout(() => scrollToEl($('#contacto')), 900); return { text: L('Podés escribirle desde el formulario de contacto o por LinkedIn. ¡Te llevo al formulario! 📲', 'You can write to him from the contact form or on LinkedIn. Taking you to the form! 📲'), link: { href: LINKEDIN_URL, text: 'linkedin.com/in/manuelmolina01' } }; } },
-    { keys: ['disponib', 'busca', 'empleo', 'propuesta', 'contrat', 'remoto', 'hibrido', 'puesto', 'rol', 'available', 'hire', 'hiring', 'remote', 'role', 'position'],
-      answer: () => ({ text: L('Sí: Manuel busca un rol de Operador de Monitoreo de Servidores y Servicios / Command Center Operator, 100% remoto. Elegí "Propuesta laboral" en el formulario 🚀', 'Yes: Manuel is looking for a Server & Service Monitoring Operator / Command Center Operator role, 100% remote. Choose "Job offer" in the form 🚀'), chips: [chip.contact(), chip.cv()] }) },
+    { keys: ['disponib', 'busca', 'empleo', 'freelance', 'auditoria', 'audit', 'propuesta', 'contrat', 'remoto', 'hibrido', 'puesto', 'rol', 'available', 'hire', 'hiring', 'remote', 'role', 'position'],
+      answer: () => ({ text: L('Sí: Manuel busca un rol de Operador de Monitoreo de Servidores y Servicios / Command Center Operator, 100% remoto. También toma proyectos freelance y de auditoría. Elegí "Propuesta laboral" o "Freelance / Auditoría" en el formulario 🚀', 'Yes: Manuel is looking for a Server & Service Monitoring Operator / Command Center Operator role, 100% remote. He also takes freelance and audit projects. Choose "Job offer" or "Freelance / Audit" in the form 🚀'), chips: [chip.contact(), chip.cv()] }) },
     { keys: ['hola', 'buenas', 'hey', 'buen dia', 'que tal', 'hello', 'hi', 'good morning'], answer: () => ({ text: L('¡Hola! Soy Abi 🤖. Puedo contarte sobre Manuel o guiarte en el LAB de Monitoreo.', 'Hi! I am Abi 🤖. I can tell you about Manuel or guide you through the Monitoring LAB.'), chips: [chip.lab(), chip.exp(), chip.cases()] }) },
     { keys: ['gracias', 'genial', 'buenisimo', 'excelente', 'thanks', 'thank you', 'great', 'awesome'], answer: () => ({ text: L('¡De nada! Si te sirvió el perfil, Manuel estaría feliz de hablar con vos 😊', 'You are welcome! If the profile was useful, Manuel would be happy to talk 😊'), chips: [chip.contact(), chip.linkedin()] }) },
     { keys: ['quien sos', 'que sos', 'abi', 'bot', 'ia', 'who are you', 'ai'], answer: () => ({ text: L('Soy Abi, un asistente hecho en JavaScript vanilla (sin servidores ni APIs). Conozco el perfil de Manuel y sigo en tiempo real lo que pasa en el LAB 😄', 'I am Abi, an assistant built with vanilla JavaScript (no servers or APIs). I know Manuel\'s profile and follow what happens in the LAB in real time 😄') }) }
@@ -1337,6 +1445,93 @@ ${evidence}
         submitText().innerText = L('Enviar Mensaje', 'Send Message');
       }
     });
+  }
+
+  // 8b. DESCARGA DEL CV: se pide un correo antes (filtro contra bots y spam)
+  const cvDialog = $('#cvDialog');
+  const cvForm = $('#cvForm');
+  const cvEmail = $('#cvEmail');
+  const cvConsent = $('#cvConsent');
+  const cvError = $('#cvError');
+
+  function saveCvFile() {
+    const link = document.createElement('a');
+    link.href = 'Manuel_Molina_CV.pdf';
+    link.download = 'Manuel_Molina_CV.pdf';
+    document.body.appendChild(link);
+    link.click();
+    link.remove();
+  }
+
+  function openCvDialog() {
+    if (store.get('cvEmailOk', sessionStorage) === '1') { saveCvFile(); return; }
+    if (!cvDialog || typeof cvDialog.showModal !== 'function') { scrollToEl($('#contacto')); return; }
+    cvError.classList.add('hidden');
+    cvDialog.showModal();
+    setTimeout(() => cvEmail.focus(), 50);
+  }
+
+  document.addEventListener('click', (e) => {
+    const link = e.target.closest('.cv-link');
+    if (!link) return;
+    e.preventDefault();
+    openCvDialog();
+  });
+  if ($('#cvClose')) $('#cvClose').addEventListener('click', () => cvDialog.close());
+
+  if (cvForm) {
+    cvForm.addEventListener('submit', async (e) => {
+      e.preventDefault();
+      const showErr = (msg) => { cvError.textContent = msg; cvError.classList.remove('hidden'); };
+      if (!emailRegex.test(cvEmail.value.trim())) return showErr(L('Ingresá un correo válido.', 'Please enter a valid email.'));
+      if (!cvConsent.checked) return showErr(L('Tenés que aceptar la política de privacidad.', 'You need to accept the privacy policy.'));
+      // Si el campo trampa tiene contenido, es un bot: no se descarga nada
+      if (cvForm.querySelector('[name="_gotcha"]').value) { cvDialog.close(); return; }
+      const btn = $('#cvSubmit');
+      btn.disabled = true;
+      const data = new FormData();
+      data.append('email', cvEmail.value.trim());
+      data.append('motivo', 'Descarga de CV');
+      data.append('idioma', lang);
+      data.append('_subject', 'Descarga de CV desde el portafolio');
+      try {
+        await fetch(form ? form.action : 'https://formspree.io/f/maeypvry', { method: 'POST', body: data, headers: { 'Accept': 'application/json' } });
+      } catch (err) { /* aunque falle el aviso, el visitante ya dejó un correo válido */ }
+      btn.disabled = false;
+      store.set('cvEmailOk', '1', sessionStorage);
+      cvDialog.close();
+      cvForm.reset();
+      saveCvFile();
+    });
+  }
+
+  // Enlaces a las políticas: abren el bloque desplegable del pie
+  document.addEventListener('click', (e) => {
+    const link = e.target.closest('.open-policies');
+    if (!link) return;
+    e.preventDefault();
+    if (cvDialog && cvDialog.open) cvDialog.close();
+    const det = $('#politicas');
+    det.open = true;
+    scrollToEl(det);
+  });
+
+  // 8c. STACK TÉCNICO: carga animada al entrar en pantalla
+  const stackPanel = $('.stack-panel');
+  if (stackPanel) {
+    const total = $$('.stack-chip', stackPanel).length;
+    const stackCount = $('#stackCount');
+    const load = () => {
+      stackPanel.classList.add('loaded');
+      if (prefersReducedMotion) { stackCount.textContent = total; return; }
+      let n = 0;
+      const t = setInterval(() => { stackCount.textContent = ++n; if (n >= total) clearInterval(t); }, 55);
+    };
+    if ('IntersectionObserver' in window) {
+      new IntersectionObserver((entries, obs) => {
+        if (entries.some(en => en.isIntersecting)) { load(); obs.disconnect(); }
+      }, { threshold: 0.2 }).observe(stackPanel);
+    } else load();
   }
 
   // 9. HEADER, "VOLVER ARRIBA" Y AÑO DEL FOOTER
