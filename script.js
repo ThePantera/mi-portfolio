@@ -6,23 +6,60 @@ document.addEventListener('DOMContentLoaded', () => {
   const timeNow = () => new Date().toLocaleTimeString('es-AR', { hour12: false });
   const scrollToEl = (el) => el && el.scrollIntoView({ behavior: prefersReducedMotion ? 'auto' : 'smooth' });
   const LINKEDIN_URL = 'https://www.linkedin.com/in/manuelmolina01';
+  const COUNTER_NS = 'manuel-molina-portfolio-2026';
+
+  const store = {
+    get: (k, s = localStorage) => { try { return s.getItem(k); } catch (e) { return null; } },
+    set: (k, v, s = localStorage) => { try { s.setItem(k, v); } catch (e) { /* almacenamiento no disponible */ } }
+  };
+
+  // ==========================================================
+  // 0. IDIOMA (ES / EN)
+  // Los textos fijos llevan su traducción en data-en; los textos que arma
+  // el JavaScript usan L('español', 'english').
+  // ==========================================================
+  let lang = store.get('lang') || ((navigator.language || 'es').toLowerCase().startsWith('es') ? 'es' : 'en');
+  const L = (es, en) => (lang === 'en' ? en : es);
+  const langListeners = [];
+
+  function applyLang(newLang) {
+    lang = newLang;
+    document.documentElement.lang = lang;
+    $$('[data-en]').forEach(el => {
+      if (el.dataset.es === undefined) el.dataset.es = el.innerHTML;
+      el.innerHTML = lang === 'en' ? el.dataset.en : el.dataset.es;
+    });
+    $$('[data-en-placeholder]').forEach(el => {
+      if (el.dataset.esPlaceholder === undefined) el.dataset.esPlaceholder = el.placeholder;
+      el.placeholder = lang === 'en' ? el.dataset.enPlaceholder : el.dataset.esPlaceholder;
+    });
+    const toggle = $('#langToggle');
+    if (toggle) toggle.setAttribute('aria-label', L('Switch to English', 'Cambiar a español'));
+    const formLang = $('#formLang');
+    if (formLang) formLang.value = lang;
+    langListeners.forEach(fn => fn());
+  }
+
+  const langToggle = $('#langToggle');
+  if (langToggle) {
+    langToggle.addEventListener('click', () => {
+      const next = lang === 'es' ? 'en' : 'es';
+      store.set('lang', next);
+      applyLang(next);
+    });
+  }
 
   // 1. CONTADOR DE VISITAS REALES
   // Solo suma una visita por sesión para no inflar el número al recargar.
   const realViewsCount = $('#realViewsCount');
   if (realViewsCount) {
-    const namespace = 'manuel-molina-portfolio-2026';
-    const key = 'pageviews';
-    let alreadyCounted = false;
-    try { alreadyCounted = sessionStorage.getItem('viewCounted') === '1'; } catch (e) {}
-    const endpoint = `https://api.counterapi.dev/v1/${namespace}/${key}${alreadyCounted ? '' : '/up'}`;
-
-    fetch(endpoint)
+    const alreadyCounted = store.get('viewCounted', sessionStorage) === '1';
+    fetch(`https://api.counterapi.dev/v1/${COUNTER_NS}/pageviews${alreadyCounted ? '' : '/up'}`)
       .then(res => res.json())
       .then(data => {
         if (data && data.count) {
           realViewsCount.innerText = data.count.toLocaleString('es-AR');
-          try { sessionStorage.setItem('viewCounted', '1'); } catch (e) {}
+          store.set('viewCounted', '1', sessionStorage);
         }
       })
       .catch(() => {
@@ -40,7 +77,7 @@ document.addEventListener('DOMContentLoaded', () => {
     if (!menuToggleBtn || !navLinks) return;
     navLinks.classList.toggle('open', open);
     menuToggleBtn.setAttribute('aria-expanded', String(open));
-    menuToggleBtn.setAttribute('aria-label', open ? 'Cerrar menú' : 'Abrir menú');
+    menuToggleBtn.setAttribute('aria-label', open ? L('Cerrar menú', 'Close menu') : L('Abrir menú', 'Open menu'));
     menuToggleBtn.querySelector('i').className = open ? 'fa-solid fa-xmark' : 'fa-solid fa-bars';
   }
 
@@ -53,17 +90,18 @@ document.addEventListener('DOMContentLoaded', () => {
 
   // 3. MÁQUINA DE ESCRIBIR DEL HERO
   const typedTextSpan = $('#typedText');
-  const textArray = [
+  const typedLines = () => [
     'tail -f eventos.log | grep CRITICAL',
-    'Detección → Triage → Ticket → Escalamiento N2/N3',
+    L('Detección → Triage → Ticket → Escalamiento N2/N3', 'Detection → Triage → Ticket → L2/L3 Escalation'),
     'Grafana · Zabbix · Jira · Redmine · SQL · AD · ITIL'
   ];
   let textArrayIndex = 0;
   let charIndex = 0;
 
   function type() {
-    if (charIndex < textArray[textArrayIndex].length) {
-      typedTextSpan.textContent += textArray[textArrayIndex].charAt(charIndex++);
+    const text = typedLines()[textArrayIndex];
+    if (charIndex < text.length) {
+      typedTextSpan.textContent += text.charAt(charIndex++);
       setTimeout(type, 55);
     } else {
       setTimeout(erase, 2200);
@@ -71,16 +109,20 @@ document.addEventListener('DOMContentLoaded', () => {
   }
   function erase() {
     if (charIndex > 0) {
-      typedTextSpan.textContent = textArray[textArrayIndex].substring(0, --charIndex);
+      typedTextSpan.textContent = typedLines()[textArrayIndex].substring(0, --charIndex);
       setTimeout(erase, 25);
     } else {
-      textArrayIndex = (textArrayIndex + 1) % textArray.length;
+      textArrayIndex = (textArrayIndex + 1) % typedLines().length;
       setTimeout(type, 400);
     }
   }
   if (typedTextSpan) {
-    if (prefersReducedMotion) typedTextSpan.textContent = textArray[1];
-    else setTimeout(type, 500);
+    if (prefersReducedMotion) {
+      langListeners.push(() => { typedTextSpan.textContent = typedLines()[1]; });
+    } else {
+      langListeners.push(() => { typedTextSpan.textContent = typedLines()[textArrayIndex].substring(0, charIndex); });
+      setTimeout(type, 500);
+    }
   }
 
   // 4. NAVEGACIÓN ACTIVA, ANIMACIONES Y CONTADORES
@@ -154,14 +196,39 @@ document.addEventListener('DOMContentLoaded', () => {
     if (!prefersReducedMotion) setInterval(drawHero, 1500);
   }
 
+  // Contadores públicos del LAB (counterapi.dev): una vez por sesión y por acción
+  function countLab(key, onCount) {
+    const flag = `counted-${key}`;
+    const already = store.get(flag, sessionStorage) === '1';
+    fetch(`https://api.counterapi.dev/v1/${COUNTER_NS}/${key}${already ? '' : '/up'}`)
+      .then(res => res.json())
+      .then(data => {
+        store.set(flag, '1', sessionStorage);
+        if (data && data.count && onCount) onCount(data.count);
+      })
+      .catch(() => { /* la medición nunca debe romper el LAB */ });
+  }
+  const showLabStats = (count) => {
+    $('#labStats').textContent = count.toLocaleString('es-AR');
+    $('#labStatsWrap').classList.remove('hidden');
+  };
+  // Lectura inicial sin sumar
+  fetch(`https://api.counterapi.dev/v1/${COUNTER_NS}/lab-simulations`)
+    .then(res => res.json())
+    .then(data => { if (data && data.count) showLabStats(data.count); })
+    .catch(() => {});
+
   // ==========================================================
   // 6. LAB: SIMULADOR DE COMMAND CENTER
   // ==========================================================
   const lab = {
     phase: 'idle',          // idle → detected → ticket → escalated → resolved
+    scenario: null,
     detectedAt: null,
     escalatedAt: null,
     ticketNum: 1041,
+    ticketStatus: 'open',   // open | reassign | escalated | resolved
+    escalatedTeam: null,
     evidence: [],
     lastOutput: null,
     triaged: false,
@@ -197,7 +264,10 @@ document.addEventListener('DOMContentLoaded', () => {
       if (next) { e.preventDefault(); selectTab(next, true); }
     });
   });
-  $$('[data-goto]').forEach(btn => btn.addEventListener('click', () => gotoTab(btn.dataset.goto)));
+  document.addEventListener('click', (e) => {
+    const btn = e.target.closest('[data-goto]');
+    if (btn) gotoTab(btn.dataset.goto);
+  });
 
   // 6b. Registro de eventos
   const eventLog = $('#eventLog');
@@ -222,7 +292,274 @@ document.addEventListener('DOMContentLoaded', () => {
     eventCount.textContent = ++events;
   }
 
-  // 6c. Línea de tiempo y barra de estado
+  // 6c. Escenarios de incidente
+  const ts = () => new Date().toISOString().replace('T', ' ').slice(0, 19);
+  const teams = () => ({
+    infra: { name: L('Equipo de Infraestructura N2', 'Infrastructure Team L2'), channel: 'infra-n2-guardia', mention: '@Infra-N2' },
+    devs: { name: L('Equipo Devs (N3)', 'Dev Team (L3)'), channel: 'devs-guardia', mention: '@Devs-N3' }
+  });
+  const svcName = (svc) => ({
+    web: L('Servidor Web 01', 'Web Server 01'),
+    api: L('API Pagos', 'Payments API'),
+    sql: L('Base de Datos SQL', 'SQL Database'),
+    biocom: L('Servidor App Biocom', 'Biocom App Server'),
+    holter: L('Servidor Holter · Cardiología', 'Holter Server · Cardiology'),
+    turnos: L('API Turnos', 'Appointments API')
+  })[svc];
+
+  const SCENARIOS = {
+    biocom: () => ({
+      svc: 'biocom', host: 'srv-app-biocom', state: 'crit', port: 1433,
+      badge: 'CRITICAL 500', detail: 'HTTP 500', lat: 'TIMEOUT',
+      priority: 'P1', impact: 'users', team: 'infra',
+      summary: L('[P1] Servidor App Biocom caído · CRITICAL HTTP 500 en producción', '[P1] Biocom App Server down · CRITICAL HTTP 500 in production'),
+      symptom: L('HTTP 500 Internal Server Error · health-check 3/3 fallidos', 'HTTP 500 Internal Server Error · health check 3/3 failed'),
+      l1: L('Evento validado (no es falso positivo).', 'Event validated (not a false positive).'),
+      warnEvent: L('srv-app-biocom: latencia > 2000 ms (umbral superado)', 'srv-app-biocom: latency > 2000 ms (threshold exceeded)'),
+      critEvent: L('srv-app-biocom: HTTP 500 · health-check 3/3 fallidos. Clic para abrir incidente', 'srv-app-biocom: HTTP 500 · health check 3/3 failed. Click to open incident'),
+      triage: L('Triage: la app no llega a la base de datos por el puerto 1433', 'Triage: the app cannot reach the database on port 1433'),
+      wrongTeam: L('Devs: el código no cambió y la app no llega a la BD por red. Corresponde a Infraestructura, reasignar.', 'Devs: no code changes and the app cannot reach the DB over the network. This belongs to Infrastructure, please reassign.'),
+      resolving: L('Infra N2: regla de firewall restaurada hacia sql-prod-01:1433, reiniciando pool de conexiones', 'Infra L2: firewall rule to sql-prod-01:1433 restored, restarting connection pool'),
+      console: {
+        log: {
+          prompt: 'tail -n 8 /var/log/biocom/app.log',
+          lines: () => [
+            ['t-muted', `${ts()} INFO  [http] GET /api/turnos 200 64ms`],
+            ['t-warn', `${ts()} WARN  [db] pool: esperando conexión libre (30s)...`],
+            ['t-err', `${ts()} ERROR [db] Connection TimeOut: Database unreachable on Port 1433 (sql-prod-01)`],
+            ['t-err', `${ts()} ERROR [db] java.sql.SQLException: Login timeout expired`],
+            ['t-err', `${ts()} ERROR [http] GET /api/turnos 500 Internal Server Error 30012ms`],
+            ['t-warn', L('⚠ 214 errores HTTP 500 en los últimos 5 minutos.', '⚠ 214 HTTP 500 errors in the last 5 minutes.')]
+          ],
+          evidence: () => L('app.log: "Connection TimeOut: Database unreachable on Port 1433" + 214 HTTP 500 en 5 min', 'app.log: "Connection TimeOut: Database unreachable on Port 1433" + 214 HTTP 500 in 5 min')
+        },
+        sql: {
+          prompt: 'sqlcmd -S sql-prod-01,1433 -Q "SELECT @@SERVERNAME, GETDATE();"',
+          lines: () => [
+            ['t-err', 'Sqlcmd: Error: Microsoft ODBC Driver 17 for SQL Server : TCP Provider: Timeout error [258].'],
+            ['t-err', 'Sqlcmd: Error: Login timeout expired.'],
+            ['t-err', 'Connection TimeOut: Database unreachable on Port 1433'],
+            ['t-cyan', L('→ La BD está OK en Grafana pero no es alcanzable desde la app: red / firewall. Escalar a Infraestructura N2.', '→ The DB is OK in Grafana but unreachable from the app: network / firewall. Escalate to Infrastructure L2.')]
+          ],
+          evidence: () => L('sqlcmd desde srv-app-biocom: "Login timeout expired · Database unreachable on Port 1433"', 'sqlcmd from srv-app-biocom: "Login timeout expired · Database unreachable on Port 1433"')
+        },
+        ping: {
+          prompt: 'ipconfig && ping -n 4 sql-prod-01',
+          lines: () => [
+            ['t-white', '   IPv4 Address. . . . : 10.20.3.21'],
+            ['t-white', '   Default Gateway . . : 10.20.3.1'],
+            ['t-white', 'Reply from 10.20.4.15: bytes=32 time=1ms TTL=127  (x4)'],
+            ['t-ok', 'Packets: Sent = 4, Received = 4, Lost = 0 (0% loss)'],
+            ['t-warn', L('→ Hay ping al servidor de BD: el host vive, el problema está en el puerto.', '→ The DB server answers ping: the host is up, the problem is the port.')]
+          ],
+          evidence: () => L('ping sql-prod-01 OK (0% pérdida): el host responde, falla el servicio/puerto', 'ping sql-prod-01 OK (0% loss): host is up, service/port fails')
+        },
+        port: {
+          prompt: 'Test-NetConnection sql-prod-01 -Port 1433',
+          lines: () => [
+            ['t-warn', 'WARNING: TCP connect to (10.20.4.15 : 1433) failed'],
+            ['t-white', 'RemotePort       : 1433'],
+            ['t-white', 'PingSucceeded    : True'],
+            ['t-err', 'TcpTestSucceeded : False']
+          ],
+          evidence: () => 'Test-NetConnection sql-prod-01:1433 → Ping OK, TcpTestSucceeded: False'
+        }
+      }
+    }),
+
+    holter: () => ({
+      svc: 'holter', host: 'srv-holter-01', state: 'crit', port: 8080,
+      badge: 'DOWN', detail: L('sin señal', 'no signal'), lat: 'NO DATA',
+      priority: 'P1', impact: 'patients', team: 'infra', notify: L('@Guardia-Cardiología', '@Cardiology-OnCall'),
+      summary: L('[P1] Servidor Holter caído · los estudios no llegan a Cardiología', '[P1] Holter server down · studies are not reaching Cardiology'),
+      symptom: L('Sin señal de srv-holter-01: los Holters no transfieren el ritmo cardíaco a las PCs de Cardiología. Sin servidor, el estudio no se puede hacer y el paciente no puede ser atendido.', 'No signal from srv-holter-01: Holters are not transferring heart rhythm data to the Cardiology PCs. Without the server the study cannot be done and the patient cannot be seen.'),
+      l1: L('Validado con ipconfig y ping desde la PC de Cardiología: la red de la PC está OK, el servidor no responde.', 'Validated with ipconfig and ping from the Cardiology PC: the PC network is OK, the server does not respond.'),
+      warnEvent: L('srv-holter-01: sin transacciones de HolterSync hace 5 min', 'srv-holter-01: no HolterSync transactions for 5 min'),
+      critEvent: L('srv-holter-01 DOWN · los estudios Holter no llegan a Cardiología. Clic para abrir incidente', 'srv-holter-01 DOWN · Holter studies are not reaching Cardiology. Click to open incident'),
+      triage: L('Triage: la PC de Cardiología tiene red, el servidor Holter no responde', 'Triage: the Cardiology PC has network, the Holter server does not respond'),
+      wrongTeam: L('Devs: el servidor no responde ni a ping, es un problema de infraestructura. Reasignar a Infra N2.', 'Devs: the server does not even answer ping, this is an infrastructure issue. Reassign to Infra L2.'),
+      resolving: L('Infra N2: servidor Holter reiniciado (servicio HolterSync detenido), sincronizando estudios en cola', 'Infra L2: Holter server restarted (HolterSync service was stopped), syncing queued studies'),
+      console: {
+        log: {
+          prompt: 'type C:\\HolterSync\\logs\\cliente.log | tail -6',
+          lines: () => [
+            ['t-muted', `${ts()} INFO  ${L('Estudio H-2231 recibido del equipo Holter #4', 'Study H-2231 received from Holter device #4')}`],
+            ['t-err', `${ts()} ERROR ${L('No se pudo conectar con srv-holter-01:8080 (timeout)', 'Could not connect to srv-holter-01:8080 (timeout)')}`],
+            ['t-err', `${ts()} ERROR ${L('Transferencia del estudio H-2231 fallida, reintento 3/3', 'Transfer of study H-2231 failed, retry 3/3')}`],
+            ['t-warn', `${ts()} WARN  ${L('6 estudios en cola sin transferir', '6 studies queued, not transferred')}`],
+            ['t-warn', L('⚠ Los estudios Holter no llegan a las PCs de Cardiología.', '⚠ Holter studies are not reaching the Cardiology PCs.')]
+          ],
+          evidence: () => L('HolterSync: "No se pudo conectar con srv-holter-01:8080" · 6 estudios en cola', 'HolterSync: "Could not connect to srv-holter-01:8080" · 6 studies queued')
+        },
+        sql: {
+          prompt: 'SELECT TOP 4 estudio, equipo, estado FROM holter_estudios ORDER BY fecha DESC;',
+          lines: () => [
+            ['t-white', 'estudio  equipo      estado'],
+            ['t-white', '-------  ----------  -----------------------'],
+            ['t-err', 'H-2231   Holter #4   PENDIENTE_TRANSFERENCIA'],
+            ['t-err', 'H-2230   Holter #2   PENDIENTE_TRANSFERENCIA'],
+            ['t-err', 'H-2229   Holter #7   PENDIENTE_TRANSFERENCIA'],
+            ['t-ok', 'H-2228   Holter #1   TRANSFERIDO'],
+            ['t-cyan', L('→ Las transacciones se cortaron: desde H-2229 nada se transfirió.', '→ Transactions stopped: nothing has been transferred since H-2229.')]
+          ],
+          evidence: () => L('holter_estudios: 6 estudios en PENDIENTE_TRANSFERENCIA desde H-2229', 'holter_estudios: 6 studies stuck in PENDIENTE_TRANSFERENCIA since H-2229')
+        },
+        ping: {
+          prompt: 'ipconfig && ping -n 4 srv-holter-01',
+          lines: () => [
+            ['t-white', '   IPv4 Address. . . . : 10.20.8.57'],
+            ['t-white', '   Default Gateway . . : 10.20.8.1'],
+            ['t-err', 'Request timed out.  (x4)'],
+            ['t-err', 'Packets: Sent = 4, Received = 0, Lost = 4 (100% loss)'],
+            ['t-cyan', L('→ La PC tiene IP y gateway OK; el servidor Holter no responde. Escalar P1 a Infraestructura.', '→ The PC has a valid IP and gateway; the Holter server does not respond. Escalate P1 to Infrastructure.')]
+          ],
+          evidence: () => L('ipconfig OK en la PC de Cardiología · ping srv-holter-01: 100% de pérdida', 'ipconfig OK on the Cardiology PC · ping srv-holter-01: 100% loss')
+        },
+        port: {
+          prompt: 'Test-NetConnection srv-holter-01 -Port 8080',
+          lines: () => [
+            ['t-warn', 'WARNING: Ping to srv-holter-01 failed with status: TimedOut'],
+            ['t-white', 'RemotePort       : 8080'],
+            ['t-err', 'PingSucceeded    : False'],
+            ['t-err', 'TcpTestSucceeded : False']
+          ],
+          evidence: () => 'Test-NetConnection srv-holter-01:8080 → Ping False, TcpTestSucceeded: False'
+        }
+      }
+    }),
+
+    sql: () => ({
+      svc: 'sql', host: 'sql-prod-01', state: 'warn', port: 1433,
+      badge: 'WARN DISK 96%', detail: 'DISK D: 96%', lat: 'DISK 96%',
+      priority: 'P2', impact: 'risk', team: 'infra',
+      summary: L('[P2] Base de Datos SQL · disco de datos al 96%', '[P2] SQL Database · data disk at 96%'),
+      symptom: L('Disco D: al 96% en sql-prod-01 y en aumento por el log de transacciones. Si se llena, la BD deja de escribir y cae la operación.', 'Disk D: at 96% on sql-prod-01 and growing because of the transaction log. If it fills up, the DB stops writing and operations go down.'),
+      l1: L('Evento preventivo: todavía no hay impacto en usuarios.', 'Preventive event: no user impact yet.'),
+      warnEvent: L('sql-prod-01: disco D: supera el 90%', 'sql-prod-01: disk D: above 90%'),
+      critEvent: L('sql-prod-01: disco D: al 96% y creciendo. Clic para abrir incidente', 'sql-prod-01: disk D: at 96% and growing. Click to open incident'),
+      triage: L('Triage: el log de transacciones ocupa 180 GB', 'Triage: the transaction log takes 180 GB'),
+      wrongTeam: L('Devs: no es un problema de la aplicación, es espacio en disco del servidor. Reasignar a Infra N2 (DBA).', 'Devs: not an application issue, it is server disk space. Reassign to Infra L2 (DBA).'),
+      resolving: L('Infra N2 (DBA): backup del log de transacciones y liberación de espacio en curso', 'Infra L2 (DBA): transaction log backup and space reclaim in progress'),
+      console: {
+        log: {
+          prompt: 'Get-Content ERRORLOG -Tail 5',
+          lines: () => [
+            ['t-muted', `${ts()} spid51  Log was backed up 26 hours ago.`],
+            ['t-warn', `${ts()} spid64  Autogrow of file 'clinica_log' in database 'clinica' took 18250 ms.`],
+            ['t-warn', `${ts()} spid64  Disk D: 96% used (19.2 GB free of 500 GB).`],
+            ['t-warn', L('⚠ El log de transacciones crece sin backups recientes.', '⚠ The transaction log keeps growing without recent backups.')]
+          ],
+          evidence: () => L('ERRORLOG: autogrow de clinica_log (18 s) · disco D: al 96% · último backup de log hace 26 h', 'ERRORLOG: clinica_log autogrow (18 s) · disk D: 96% · last log backup 26 h ago')
+        },
+        sql: {
+          prompt: 'SELECT name, size_gb, used_pct FROM vw_archivos_bd;',
+          lines: () => [
+            ['t-white', 'name           size_gb  used_pct'],
+            ['t-white', '-------------  -------  --------'],
+            ['t-white', 'clinica_data   290      71'],
+            ['t-err', 'clinica_log    180      99'],
+            ['t-cyan', L('→ El log ocupa 180 GB: falta el backup de log. Escalar a Infra N2 (DBA).', '→ The log takes 180 GB: log backup is missing. Escalate to Infra L2 (DBA).')]
+          ],
+          evidence: () => L('clinica_log: 180 GB al 99% de uso', 'clinica_log: 180 GB, 99% used')
+        },
+        ping: {
+          prompt: 'ipconfig && ping -n 4 sql-prod-01',
+          lines: () => [
+            ['t-white', '   IPv4 Address. . . . : 10.20.3.21'],
+            ['t-white', 'Reply from 10.20.4.15: bytes=32 time=1ms TTL=127  (x4)'],
+            ['t-ok', 'Packets: Sent = 4, Received = 4, Lost = 0 (0% loss)'],
+            ['t-muted', L('→ Conectividad OK: el problema es de espacio, no de red.', '→ Connectivity OK: this is a space issue, not a network one.')]
+          ],
+          evidence: () => L('ping sql-prod-01 OK: se descarta problema de red', 'ping sql-prod-01 OK: network issue ruled out')
+        },
+        port: {
+          prompt: 'Test-NetConnection sql-prod-01 -Port 1433',
+          lines: () => [
+            ['t-white', 'RemotePort       : 1433'],
+            ['t-ok', 'TcpTestSucceeded : True'],
+            ['t-muted', L('→ El servicio SQL responde.', '→ The SQL service responds.')]
+          ],
+          evidence: () => 'Test-NetConnection sql-prod-01:1433 → True'
+        }
+      }
+    }),
+
+    turnos: () => ({
+      svc: 'turnos', host: 'api-turnos', state: 'warn', port: 443,
+      badge: 'WARN MEM 95%', detail: 'MEM 95% · cache 97%', lat: 'MEM 95%',
+      priority: 'P2', impact: 'risk', team: 'devs',
+      summary: L('[P2] API Turnos · memoria al 95% y caché saturada', '[P2] Appointments API · memory at 95% and cache saturated'),
+      symptom: L('Memoria al 95% y caché al 97% en api-turnos. Si se satura, el sistema hospitalario deja de dar turnos.', 'Memory at 95% and cache at 97% on api-turnos. If it saturates, the hospital system stops booking appointments.'),
+      l1: L('Limpieza de caché ejecutada por runbook (95% → 71%), pero el consumo vuelve a subir: posible pérdida de memoria.', 'Cache cleanup run per runbook (95% → 71%), but usage climbs again: possible memory leak.'),
+      warnEvent: L('api-turnos: memoria > 85%', 'api-turnos: memory > 85%'),
+      critEvent: L('api-turnos: memoria 95% · caché 97%. Clic para abrir incidente', 'api-turnos: memory 95% · cache 97%. Click to open incident'),
+      triage: L('Triage: tras limpiar la caché la memoria vuelve a subir', 'Triage: memory climbs again after the cache cleanup'),
+      wrongTeam: L('Infra: el servidor tiene recursos y la red está OK; la memoria la consume la aplicación. Reasignar a Devs N3.', 'Infra: the server has resources and the network is fine; the application is consuming the memory. Reassign to Devs L3.'),
+      resolving: L('Devs N3: hotfix de pérdida de memoria desplegado, reiniciando instancias', 'Devs L3: memory leak hotfix deployed, restarting instances'),
+      console: {
+        log: {
+          prompt: 'tail -n 6 /var/log/api-turnos/app.log',
+          lines: () => [
+            ['t-warn', `${ts()} WARN  [jvm] heap 95% (3.8 / 4 GB)`],
+            ['t-warn', `${ts()} WARN  [cache] evictions/s 1240 · hit ratio 41%`],
+            ['t-ok', `${ts()} INFO  ${L('Runbook L1: limpieza de caché ejecutada → MEM 95% → 71%', 'L1 runbook: cache cleanup executed → MEM 95% → 71%')}`],
+            ['t-warn', `${ts()} WARN  [jvm] heap 83% ${L('a los 10 min', 'after 10 min')}`],
+            ['t-cyan', L('→ El consumo vuelve a subir después de limpiar: posible pérdida de memoria. Escalar a Devs N3.', '→ Usage climbs again after the cleanup: possible memory leak. Escalate to Devs L3.')]
+          ],
+          evidence: () => L('app.log: heap 95%, limpieza de caché → 71%, vuelve a 83% en 10 min', 'app.log: heap 95%, cache cleanup → 71%, back to 83% in 10 min')
+        },
+        sql: {
+          prompt: 'SELECT COUNT(*) AS sesiones FROM turnos_sesiones WHERE activa = 1;',
+          lines: () => [
+            ['t-white', 'sesiones'],
+            ['t-white', '--------'],
+            ['t-warn', '48213'],
+            ['t-cyan', L('→ Las sesiones no se liberan (normal: ~3.000).', '→ Sessions are not being released (normal: ~3,000).')]
+          ],
+          evidence: () => L('turnos_sesiones: 48.213 sesiones activas (normal ~3.000)', 'turnos_sesiones: 48,213 active sessions (normal ~3,000)')
+        },
+        ping: {
+          prompt: 'ipconfig && ping -n 4 api-turnos',
+          lines: () => [
+            ['t-white', '   IPv4 Address. . . . : 10.20.3.21'],
+            ['t-white', 'Reply from 10.20.5.40: bytes=32 time=2ms TTL=127  (x4)'],
+            ['t-ok', 'Packets: Sent = 4, Received = 4, Lost = 0 (0% loss)'],
+            ['t-muted', L('→ Red OK: el problema es de la aplicación.', '→ Network OK: the issue is in the application.')]
+          ],
+          evidence: () => L('ping api-turnos OK: se descarta problema de red', 'ping api-turnos OK: network issue ruled out')
+        },
+        port: {
+          prompt: 'Test-NetConnection api-turnos -Port 443',
+          lines: () => [
+            ['t-white', 'RemotePort       : 443'],
+            ['t-ok', 'TcpTestSucceeded : True'],
+            ['t-warn', L('→ Responde, pero con tiempos de 2,4 s por la presión de memoria.', '→ It responds, but with 2.4 s response times due to memory pressure.')]
+          ],
+          evidence: () => L('api-turnos:443 responde con 2,4 s de latencia', 'api-turnos:443 responds with 2.4 s latency')
+        }
+      }
+    })
+  };
+  const sc = () => (lab.scenario ? SCENARIOS[lab.scenario]() : null);
+
+  // Salidas de consola cuando todo está sano
+  const healthyOutput = (cmd, host) => ({
+    log: { prompt: `tail -n 4 /var/log/${host}/app.log`, lines: [
+      ['t-muted', `${ts()} INFO  [http] GET /health 200 9ms`],
+      ['t-muted', `${ts()} INFO  [db] pool: 12/50`],
+      ['t-ok', L('✔ Sin errores en los últimos 15 minutos.', '✔ No errors in the last 15 minutes.')]] },
+    sql: { prompt: 'sqlcmd -S sql-prod-01,1433 -Q "SELECT @@SERVERNAME, GETDATE();"', lines: [
+      ['t-white', `SQL-PROD-01       ${ts()}`],
+      ['t-ok', L('(1 fila) ✔ Consulta OK en 11 ms', '(1 row) ✔ Query OK in 11 ms')]] },
+    ping: { prompt: `ipconfig && ping -n 4 ${host}`, lines: [
+      ['t-white', '   IPv4 Address. . . . : 10.20.3.21'],
+      ['t-white', '   Default Gateway . . : 10.20.3.1'],
+      ['t-ok', 'Packets: Sent = 4, Received = 4, Lost = 0 (0% loss)']] },
+    port: { prompt: `Test-NetConnection ${host} -Port 443`, lines: [
+      ['t-ok', 'TcpTestSucceeded : True']] }
+  })[cmd];
+
+  // 6d. Línea de tiempo y barra de estado
   const stepOrder = ['detect', 'triage', 'ticket', 'escalate', 'resolve'];
   function updateSteps() {
     const done = {
@@ -240,50 +577,78 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   }
 
-  const globalDot = $('#globalDot');
-  const globalStatus = $('#globalStatus');
+  const incidentActive = () => ['detected', 'ticket', 'escalated'].includes(lab.phase);
+
   function updateGlobal() {
     const crit = $$('.svc[data-state="crit"]').length;
+    const warn = $$('.svc[data-state="warn"], .svc[data-state="recovering"]').length;
     const total = $$('.svc').length;
-    $('#svcOkCount').textContent = `${total - crit}/${total}`;
-    const open = ['detected', 'ticket', 'escalated'].includes(lab.phase) ? 1 : 0;
-    $('#openIncidents').textContent = open;
+    $('#svcOkCount').textContent = `${total - crit - warn}/${total}`;
+    $('#openIncidents').textContent = incidentActive() ? 1 : 0;
+    const dot = $('#globalDot');
+    const status = $('#globalStatus');
     if (crit) {
-      globalDot.className = 'h-2.5 w-2.5 rounded-full bg-cc-crit animate-pulse';
-      globalStatus.className = 'text-cc-crit';
-      globalStatus.textContent = 'MAJOR OUTAGE · 1 SERVICIO CRÍTICO';
+      dot.className = 'h-2.5 w-2.5 rounded-full bg-cc-crit animate-pulse';
+      status.className = 'text-cc-crit';
+      status.textContent = L('MAJOR OUTAGE · 1 SERVICIO CRÍTICO', 'MAJOR OUTAGE · 1 CRITICAL SERVICE');
+    } else if (warn) {
+      dot.className = 'h-2.5 w-2.5 rounded-full bg-cc-warn animate-pulse';
+      status.className = 'text-cc-warn';
+      status.textContent = L('DEGRADED · 1 SERVICIO EN ALERTA', 'DEGRADED · 1 SERVICE IN WARNING');
     } else {
-      globalDot.className = 'h-2.5 w-2.5 rounded-full bg-cc-ok';
-      globalStatus.className = 'text-cc-ok';
-      globalStatus.textContent = 'ALL SYSTEMS OPERATIONAL';
+      dot.className = 'h-2.5 w-2.5 rounded-full bg-cc-ok';
+      status.className = 'text-cc-ok';
+      status.textContent = 'ALL SYSTEMS OPERATIONAL';
     }
     $('#jiraBadge').classList.toggle('hidden', !['detected', 'ticket'].includes(lab.phase));
+    $('#consoleHost').textContent = incidentActive() ? sc().host : 'srv-app-biocom';
   }
 
-  // 6d. Widget 1: tarjetas de servicio con métricas en vivo
+  function renderDashHint() {
+    const hint = $('#dashHint');
+    if (!hint) return;
+    if (lab.phase === 'idle') {
+      hint.innerHTML = L('<span class="text-cc-cyan">tip:</span> elegí un escenario y presioná <b class="text-white">Simular Evento de Caída</b>. Después seguí el incidente por las pestañas.',
+        '<span class="text-cc-cyan">tip:</span> pick a scenario and press <b class="text-white">Simulate Outage Event</b>. Then follow the incident through the tabs.');
+    } else if (lab.phase === 'resolved') {
+      hint.innerHTML = L('<span class="text-cc-ok">ok:</span> incidente resuelto. Podés reiniciar el escenario desde la pestaña Tickets.',
+        '<span class="text-cc-ok">ok:</span> incident resolved. You can reset the scenario from the Tickets tab.');
+    } else {
+      hint.innerHTML = L(`<span class="text-cc-crit">alerta:</span> hacé clic en <b class="text-white">${svcName(sc().svc)}</b> para registrar y escalar el incidente.`,
+        `<span class="text-cc-crit">alert:</span> click <b class="text-white">${svcName(sc().svc)}</b> to log and escalate the incident.`);
+    }
+  }
+
+  // 6e. Widget 1: tarjetas de servicio con métricas en vivo
   const services = $$('.svc').map(card => {
-    const base = { web: 42, api: 88, sql: 12, biocom: 65 }[card.dataset.svc] || 50;
+    const base = { web: 42, api: 88, sql: 12, biocom: 65, holter: 30, turnos: 75 }[card.dataset.svc] || 50;
     return {
       card,
       base,
       values: Array.from({ length: 30 }, () => base + (Math.random() - 0.5) * base * 0.3),
       line: $('.spark polyline', card),
-      lat: $('.svc-lat', card)
+      lat: $('.svc-lat', card),
+      hostEl: $('.svc-host', card),
+      badge: $('.svc-badge', card)
     };
   });
-  const biocom = services.find(s => s.card.dataset.svc === 'biocom');
+  const svcBy = (id) => services.find(s => s.card.dataset.svc === id);
 
   function tickServices() {
     services.forEach(s => {
       const state = s.card.dataset.state;
+      const max = s.base * 2.6;
       let v;
-      if (state === 'crit') v = 300 + Math.random() * 40;              // timeouts
-      else if (state === 'recovering') v = s.base * (1.6 + Math.random() * 0.4);
+      if (state === 'crit') v = max;
+      else if (state === 'warn') v = s.base * (2 + Math.random() * 0.4);
+      else if (state === 'recovering') v = s.base * (1.4 + Math.random() * 0.3);
       else v = s.base + (Math.random() - 0.5) * s.base * 0.35;
       s.values.shift();
       s.values.push(v);
-      s.line.setAttribute('points', toPoints(s.values, 200, 40, s.base * 2.2 > 300 ? s.base * 2.2 : 320));
-      s.lat.textContent = state === 'crit' ? 'TIMEOUT' : `${Math.round(v)} ms`;
+      s.line.setAttribute('points', toPoints(s.values, 200, 40, max));
+      s.lat.textContent = (state === 'crit' || state === 'warn') && lab.scenario === s.card.dataset.svc
+        ? sc().lat
+        : `${Math.round(v)} ms`;
     });
   }
   if (services.length) {
@@ -292,25 +657,23 @@ document.addEventListener('DOMContentLoaded', () => {
   }
 
   function setServiceState(s, state) {
-    const card = s.card;
-    card.dataset.state = state;
-    const badge = $('.svc-badge', card);
-    const row = $('.svc-row span', card);
-    if (state === 'crit') {
-      badge.textContent = 'CRITICAL 500';
-      row.textContent = `${card.dataset.host} · HTTP 500`;
+    s.card.dataset.state = state;
+    const scen = sc();
+    if (state === 'crit' || state === 'warn') {
+      s.badge.textContent = scen.badge;
+      s.hostEl.textContent = `${s.card.dataset.host} · ${scen.detail}`;
     } else if (state === 'recovering') {
-      badge.textContent = 'RECOVERING';
-      row.textContent = `${card.dataset.host} · HTTP 200 (warming up)`;
+      s.badge.textContent = 'RECOVERING';
+      s.hostEl.textContent = `${s.card.dataset.host} · ${L('normalizando', 'recovering')}`;
     } else {
-      badge.textContent = 'OK';
-      row.textContent = `${card.dataset.host} · HTTP 200`;
+      s.badge.textContent = 'OK';
+      s.hostEl.textContent = `${s.card.dataset.host} · ${s.card.dataset.detail}`;
     }
   }
 
   // "Beep" visual + sonoro (opcional)
   let audioCtx = null;
-  function beep() {
+  function beep(critical) {
     const flash = $('#alertFlash');
     if (flash && !prefersReducedMotion) {
       flash.classList.remove('on');
@@ -320,11 +683,11 @@ document.addEventListener('DOMContentLoaded', () => {
     if (!lab.sound) return;
     try {
       audioCtx = audioCtx || new (window.AudioContext || window.webkitAudioContext)();
-      [0, 0.28].forEach(offset => {
+      (critical ? [0, 0.28] : [0]).forEach(offset => {
         const osc = audioCtx.createOscillator();
         const gain = audioCtx.createGain();
         osc.type = 'square';
-        osc.frequency.value = 880;
+        osc.frequency.value = critical ? 880 : 660;
         gain.gain.setValueAtTime(0.0001, audioCtx.currentTime + offset);
         gain.gain.exponentialRampToValueAtTime(0.06, audioCtx.currentTime + offset + 0.02);
         gain.gain.exponentialRampToValueAtTime(0.0001, audioCtx.currentTime + offset + 0.2);
@@ -345,77 +708,97 @@ document.addEventListener('DOMContentLoaded', () => {
   }
 
   const simulateBtn = $('#simulateBtn');
+  const scenarioSelect = $('#scenarioSelect');
   const openIncidentBtn = $('#openIncidentBtn');
 
-  function simulateOutage() {
-    if (lab.phase !== 'idle' || !biocom) return false;
+  function simulateOutage(forced) {
+    if (lab.phase !== 'idle') return false;
+    let id = forced || (scenarioSelect ? scenarioSelect.value : 'random');
+    if (!SCENARIOS[id]) {
+      const ids = Object.keys(SCENARIOS);
+      id = ids[Math.floor(Math.random() * ids.length)];
+    }
+    lab.scenario = id;
     lab.phase = 'detected';
     lab.detectedAt = Date.now();
-    setServiceState(biocom, 'crit');
-    biocom.card.classList.add('shake');
-    setTimeout(() => biocom.card.classList.remove('shake'), 500);
-    tickServices();
-    beep();
-    simulateBtn.disabled = true;
+    const scen = sc();
+    const s = svcBy(scen.svc);
+    setServiceState(s, scen.state);
+    s.card.classList.add('shake');
+    setTimeout(() => s.card.classList.remove('shake'), 500);
+    s.card.appendChild(openIncidentBtn);
     openIncidentBtn.classList.remove('hidden');
-    $('#dashHint').innerHTML = '<span class="text-cc-crit">alerta:</span> hacé clic en <b class="text-white">Servidor App Biocom</b> para registrar y escalar el incidente.';
-    addEvent('WARN', 'srv-app-biocom: latencia > 2000 ms (umbral superado)');
-    setTimeout(() => {
-      addEvent('CRIT', 'srv-app-biocom: HTTP 500 Internal Server Error · health-check 3/3 fallidos. Clic para abrir incidente', openIncident);
-    }, 350);
+    tickServices();
+    beep(scen.state === 'crit');
+    simulateBtn.disabled = true;
+    if (scenarioSelect) scenarioSelect.disabled = true;
+    addEvent('WARN', scen.warnEvent);
+    setTimeout(() => addEvent(scen.state === 'crit' ? 'CRIT' : 'WARN', scen.critEvent, openIncident), 350);
     updateGlobal();
     updateSteps();
+    renderDashHint();
+    countLab('lab-simulations', showLabStats);
     return true;
   }
 
   function openIncident() {
     if (lab.phase === 'detected') {
+      const scen = sc();
       lab.phase = 'ticket';
       lab.ticketNum++;
+      lab.ticketStatus = 'open';
       $('#ticketKey').textContent = `MON-${lab.ticketNum}`;
-      $('#jSummary').value = '[P1] Servidor App Biocom caído · CRITICAL HTTP 500 en producción';
-      $('#jPriority').value = 'P1';
-      $('#jImpact').selectedIndex = 0;
-      $('#ticketStatus').dataset.status = 'open';
-      $('#ticketStatus').textContent = 'ABIERTO';
+      $('#jPriority').value = scen.priority;
+      $('#jImpact').value = scen.impact;
       $('#jiraEmpty').classList.add('hidden');
       $('#jiraForm').classList.remove('hidden');
       $('#escalateBtn').disabled = false;
       $('#chatMsg').classList.add('hidden');
-      updateDescription();
-      updateEvidenceHint();
-      addEvent('INFO', `Ticket MON-${lab.ticketNum} creado en Jira · Prioridad P1`);
+      renderTicket();
+      addEvent('INFO', L(`Ticket MON-${lab.ticketNum} creado en Jira · Prioridad ${scen.priority}`, `Ticket MON-${lab.ticketNum} created in Jira · Priority ${scen.priority}`));
       updateGlobal();
       updateSteps();
     }
     if (lab.phase !== 'idle') gotoTab('jira');
   }
 
-  if (simulateBtn) simulateBtn.addEventListener('click', simulateOutage);
+  if (simulateBtn) simulateBtn.addEventListener('click', () => simulateOutage());
   if (openIncidentBtn) openIncidentBtn.addEventListener('click', (e) => { e.stopPropagation(); openIncident(); });
-  if (biocom) biocom.card.addEventListener('click', () => { if (biocom.card.dataset.state === 'crit') openIncident(); });
+  services.forEach(s => s.card.addEventListener('click', () => {
+    if (incidentActive() && lab.scenario === s.card.dataset.svc) openIncident();
+  }));
 
-  // 6e. Widget 2: ticket de Jira y escalamiento
-  const teamLabels = {
-    infra: { name: 'Equipo de Infraestructura N2', channel: 'infra-n2-guardia', mention: '@Infra-N2' },
-    devs: { name: 'Equipo Devs (N3)', channel: 'devs-biocom', mention: '@Devs-Biocom' }
-  };
+  // Botones "Reproducir en el LAB" de los casos reales
+  $$('.case-lab[data-scenario]').forEach(btn => {
+    btn.addEventListener('click', () => {
+      const id = btn.dataset.scenario;
+      if (scenarioSelect) scenarioSelect.value = id;
+      if (lab.phase === 'resolved') resetScenario(true);
+      gotoTab('dash');
+      scrollToEl($('#lab'));
+      if (lab.phase === 'idle') setTimeout(() => simulateOutage(id), prefersReducedMotion ? 0 : 700);
+    });
+  });
+
+  // 6f. Widget 2: ticket de Jira y escalamiento
   const selectedTeam = () => ($('input[name="jTeam"]:checked') || {}).value || 'infra';
+  const selectedText = (sel) => { const el = $(sel); return el && el.selectedOptions[0] ? el.selectedOptions[0].textContent.trim() : ''; };
 
   function updateDescription() {
     const desc = $('#jDesc');
-    if (!desc) return;
+    const scen = sc();
+    if (!desc || !scen) return;
     const detected = lab.detectedAt ? new Date(lab.detectedAt).toLocaleTimeString('es-AR', { hour12: false }) : '--';
     const evidence = lab.evidence.length
-      ? lab.evidence.map(e => `  - ${e}`).join('\n')
-      : '  - (pendiente: adjuntar desde la Consola de Diagnóstico)';
+      ? lab.evidence.map(e => `  - ${e.text()}`).join('\n')
+      : L('  - (pendiente: adjuntar desde la Consola de Diagnóstico)', '  - (pending: attach from the Diagnostics Console)');
     desc.value =
-`[Detección] ${detected} · Grafana: CRITICAL en srv-app-biocom
-[Síntoma] HTTP 500 Internal Server Error · health-check 3/3 fallidos
-[Impacto] ${$('#jImpact').value}
-[Evidencia]
+`[${L('Detección', 'Detection')}] ${detected} · Grafana: ${scen.badge} ${L('en', 'on')} ${scen.host}
+[${L('Síntoma', 'Symptom')}] ${scen.symptom}
+[${L('Impacto', 'Impact')}] ${selectedText('#jImpact')}
+[${L('Evidencia', 'Evidence')}]
 ${evidence}
-[Acción L1] Evento validado (no es falso positivo). Se escala a ${teamLabels[selectedTeam()].name}.`;
+[${L('Acción L1', 'L1 action')}] ${scen.l1} ${L('Se escala a', 'Escalating to')} ${teams()[selectedTeam()].name}.`;
   }
 
   function updateEvidenceHint() {
@@ -423,12 +806,27 @@ ${evidence}
     if (!hint) return;
     if (lab.evidence.length) {
       hint.className = 'mt-2 font-mono text-xs text-cc-ok';
-      hint.innerHTML = `<i class="fa-solid fa-paperclip" aria-hidden="true"></i> ${lab.evidence.length} evidencia(s) adjunta(s) desde la consola.`;
+      hint.innerHTML = `<i class="fa-solid fa-paperclip" aria-hidden="true"></i> ${L(`${lab.evidence.length} evidencia(s) adjunta(s) desde la consola.`, `${lab.evidence.length} piece(s) of evidence attached from the console.`)}`;
     } else {
       hint.className = 'mt-2 font-mono text-xs text-cc-warn';
-      hint.innerHTML = '<i class="fa-solid fa-circle-info" aria-hidden="true"></i> Sin evidencia adjunta. <button type="button" class="underline hover:text-white" data-goto="console">Ir a la Consola de Diagnóstico</button> para justificar el escalamiento.';
-      $('[data-goto]', hint).addEventListener('click', () => gotoTab('console'));
+      hint.innerHTML = `<i class="fa-solid fa-circle-info" aria-hidden="true"></i> ${L('Sin evidencia adjunta.', 'No evidence attached.')} <button type="button" class="underline hover:text-white" data-goto="console">${L('Ir a la Consola de Diagnóstico', 'Go to the Diagnostics Console')}</button> ${L('para justificar el escalamiento.', 'to justify the escalation.')}`;
     }
+  }
+
+  function renderTicket() {
+    const scen = sc();
+    if (!scen) return;
+    $('#jSummary').value = scen.summary;
+    const status = $('#ticketStatus');
+    status.dataset.status = lab.ticketStatus === 'reassign' ? 'open' : lab.ticketStatus;
+    status.textContent = {
+      open: L('ABIERTO', 'OPEN'),
+      reassign: L('REASIGNAR', 'REASSIGN'),
+      escalated: `${L('ESCALADO', 'ESCALATED')} · ${lab.escalatedTeam ? teams()[lab.escalatedTeam].name.toUpperCase() : ''}`,
+      resolved: L('RESUELTO', 'RESOLVED')
+    }[lab.ticketStatus];
+    updateDescription();
+    updateEvidenceHint();
   }
 
   ['#jImpact', '#jPriority'].forEach(sel => $(sel) && $(sel).addEventListener('change', updateDescription));
@@ -439,48 +837,71 @@ ${evidence}
     return s < 60 ? `${s}s` : `${Math.floor(s / 60)}m ${s % 60}s`;
   };
 
+  function renderChat({ app, channel, author, avatar, color, html, card }) {
+    const chat = $('#chatMsg');
+    chat.dataset.app = app;
+    chat.innerHTML = `
+      <div class="chat-top"><i class="${app === 'teams' ? 'fa-brands fa-microsoft' : 'fa-brands fa-slack'}" aria-hidden="true"></i> ${app === 'teams' ? 'Microsoft Teams' : 'Slack'} · #${channel}</div>
+      <div class="chat-body">
+        <div class="chat-avatar" style="background:${color}">${avatar}</div>
+        <div class="min-w-0 flex-1">
+          <p><b class="text-white">${author}</b> <span class="text-xs text-cc-muted">${timeNow()}</span></p>
+          <p class="mt-1">${html}</p>
+          ${card ? '<div class="chat-card"></div>' : ''}
+        </div>
+      </div>`;
+    if (card) $('.chat-card', chat).textContent = card;
+    chat.classList.remove('hidden');
+  }
+
   const jiraForm = $('#jiraForm');
   if (jiraForm) {
     jiraForm.addEventListener('submit', (e) => {
       e.preventDefault();
       if (lab.phase !== 'ticket') return;
-      lab.phase = 'escalated';
-      lab.escalatedAt = Date.now();
-      const team = teamLabels[selectedTeam()];
+      const scen = sc();
+      const teamId = selectedTeam();
+      const team = teams()[teamId];
       const app = $('#jChannel').value;
       const key = `MON-${lab.ticketNum}`;
       const priority = $('#jPriority').value;
 
-      $('#ticketStatus').dataset.status = 'escalated';
-      $('#ticketStatus').textContent = `ESCALADO · ${team.name.toUpperCase()}`;
+      // Equipo equivocado: el ticket rebota, como pasa en la vida real
+      if (teamId !== scen.team) {
+        lab.ticketStatus = 'reassign';
+        renderTicket();
+        renderChat({
+          app, channel: team.channel, author: team.name, avatar: teamId === 'devs' ? 'DV' : 'N2', color: '#64748b',
+          html: `<span class="mention">@Command-Center-L1</span> ${scen.wrongTeam.replace(/</g, '&lt;')}`
+        });
+        addEvent('WARN', L(`${key} rebotado por ${team.name}: reasignar`, `${key} bounced by ${team.name}: reassign`));
+        return;
+      }
+
+      lab.phase = 'escalated';
+      lab.escalatedAt = Date.now();
+      lab.ticketStatus = 'escalated';
+      lab.escalatedTeam = teamId;
+      renderTicket();
       $('#escalateBtn').disabled = true;
       $('#resolveBtn').classList.remove('hidden');
       $('#mttaValue').textContent = fmtDuration(lab.escalatedAt - lab.detectedAt);
 
       const evidenceLine = lab.evidence.length
-        ? `Evidencia: ${lab.evidence[lab.evidence.length - 1]}`
-        : 'Evidencia: pendiente (health-check 3/3 fallidos)';
-      const chat = $('#chatMsg');
-      chat.dataset.app = app;
-      chat.innerHTML = `
-        <div class="chat-top"><i class="${app === 'teams' ? 'fa-brands fa-microsoft' : 'fa-brands fa-slack'}" aria-hidden="true"></i> ${app === 'teams' ? 'Microsoft Teams' : 'Slack'} · #${team.channel}</div>
-        <div class="chat-body">
-          <div class="chat-avatar">CC</div>
-          <div class="min-w-0 flex-1">
-            <p><b class="text-white">Command Center L1</b> <span class="text-xs text-cc-muted">${timeNow()}</span></p>
-            <p class="mt-1"><span class="mention">${team.mention}</span> 🚨 <b>Incidente ${priority} escalado</b>: Servidor App Biocom devuelve HTTP 500 en producción.</p>
-            <div class="chat-card"></div>
-            <p class="mt-2 text-xs text-cc-muted">Por favor confirmar toma del ticket. Sigo monitoreando y actualizo el hilo ante cualquier cambio.</p>
-          </div>
-        </div>`;
-      $('.chat-card', chat).textContent =
-        `Ticket: ${key} · ${priority}\nServicio: srv-app-biocom\nImpacto: ${$('#jImpact').value}\n${evidenceLine}\nAsignado a: ${team.name}`;
-      chat.classList.remove('hidden');
+        ? `${L('Evidencia', 'Evidence')}: ${lab.evidence[lab.evidence.length - 1].text()}`
+        : `${L('Evidencia', 'Evidence')}: ${L('pendiente', 'pending')}`;
+      const mentions = `<span class="mention">${team.mention}</span>${scen.notify ? ` <span class="mention">${scen.notify}</span>` : ''}`;
+      renderChat({
+        app, channel: team.channel, author: 'Command Center L1', avatar: 'CC', color: scen.state === 'crit' ? '#ef4444' : '#f59e0b',
+        html: `${mentions} ${scen.state === 'crit' ? '🚨' : '⚠️'} <b>${L('Incidente', 'Incident')} ${priority} ${L('escalado', 'escalated')}</b>: ${scen.summary.replace(/^\[P\d\]\s*/, '')}. ${L('Por favor confirmar toma del ticket; sigo monitoreando y actualizo el hilo.', 'Please confirm you are taking the ticket; I keep monitoring and will update the thread.')}`,
+        card: `Ticket: ${key} · ${priority}\n${L('Servicio', 'Service')}: ${scen.host}\n${L('Impacto', 'Impact')}: ${selectedText('#jImpact')}\n${evidenceLine}\n${L('Asignado a', 'Assigned to')}: ${team.name}`
+      });
 
-      addEvent('ESC', `${key} escalado a ${team.name} vía ${app === 'teams' ? 'Teams' : 'Slack'}`);
+      addEvent('ESC', L(`${key} escalado a ${team.name} vía ${app === 'teams' ? 'Teams' : 'Slack'}`, `${key} escalated to ${team.name} via ${app === 'teams' ? 'Teams' : 'Slack'}`));
       setTimeout(() => {
-        if (lab.phase === 'escalated') addEvent('INFO', `${team.name}: ticket ${key} tomado ✔`);
+        if (lab.phase === 'escalated') addEvent('INFO', L(`${team.name}: ticket ${key} tomado ✔`, `${team.name}: ticket ${key} acknowledged ✔`));
       }, 1800);
+      countLab('lab-escalations');
       updateGlobal();
       updateSteps();
     });
@@ -490,35 +911,41 @@ ${evidence}
   if (resolveBtn) {
     resolveBtn.addEventListener('click', () => {
       if (lab.phase !== 'escalated') return;
+      const scen = sc();
+      const s = svcBy(scen.svc);
       resolveBtn.disabled = true;
-      setServiceState(biocom, 'recovering');
-      addEvent('INFO', 'N2: regla de firewall restaurada hacia sql-prod-01:1433. Reiniciando pool de conexiones');
+      setServiceState(s, 'recovering');
+      addEvent('INFO', scen.resolving);
       updateGlobal();
       setTimeout(() => {
         lab.phase = 'resolved';
-        setServiceState(biocom, 'ok');
+        lab.ticketStatus = 'resolved';
+        setServiceState(s, 'ok');
         openIncidentBtn.classList.add('hidden');
-        $('#ticketStatus').dataset.status = 'resolved';
-        $('#ticketStatus').textContent = 'RESUELTO';
-        addEvent('OK', `srv-app-biocom recuperado · MON-${lab.ticketNum} resuelto · MTTR ${fmtDuration(Date.now() - lab.detectedAt)}`);
+        renderTicket();
+        addEvent('OK', L(`${scen.host} recuperado · MON-${lab.ticketNum} resuelto · MTTR ${fmtDuration(Date.now() - lab.detectedAt)}`, `${scen.host} recovered · MON-${lab.ticketNum} resolved · MTTR ${fmtDuration(Date.now() - lab.detectedAt)}`));
         resolveBtn.classList.add('hidden');
         resolveBtn.disabled = false;
         $('#resetBtn').classList.remove('hidden');
-        $('#dashHint').innerHTML = '<span class="text-cc-ok">ok:</span> incidente resuelto. Podés reiniciar el escenario desde la pestaña Tickets.';
+        renderDashHint();
         updateGlobal();
         updateSteps();
       }, 2600);
     });
   }
 
-  function resetScenario() {
+  function resetScenario(silent) {
+    if (lab.scenario) setServiceState(svcBy(sc().svc), 'ok');
     lab.phase = 'idle';
+    lab.scenario = null;
     lab.detectedAt = lab.escalatedAt = null;
     lab.evidence = [];
     lab.lastOutput = null;
     lab.triaged = false;
-    setServiceState(biocom, 'ok');
+    lab.ticketStatus = 'open';
+    lab.escalatedTeam = null;
     simulateBtn.disabled = false;
+    if (scenarioSelect) scenarioSelect.disabled = false;
     openIncidentBtn.classList.add('hidden');
     $('#jiraForm').classList.add('hidden');
     $('#jiraEmpty').classList.remove('hidden');
@@ -526,76 +953,20 @@ ${evidence}
     $('#attachEvidenceBtn').classList.add('hidden');
     $('#attachMsg').textContent = '';
     $('#mttaValue').textContent = '—';
-    $('#dashHint').innerHTML = '<span class="text-cc-cyan">tip:</span> presioná <b class="text-white">Simular Evento de Caída</b> y seguí el incidente por las pestañas.';
-    addEvent('INFO', 'Escenario reiniciado · todos los servicios operativos');
+    $('input[name="jTeam"][value="infra"]').checked = true;
+    if (!silent) addEvent('INFO', L('Escenario reiniciado · todos los servicios operativos', 'Scenario reset · all services operational'));
+    renderDashHint();
     updateGlobal();
     updateSteps();
     gotoTab('dash');
   }
-  if ($('#resetBtn')) $('#resetBtn').addEventListener('click', resetScenario);
+  if ($('#resetBtn')) $('#resetBtn').addEventListener('click', () => resetScenario());
 
-  // 6f. Widget 3: consola de diagnóstico
+  // 6g. Widget 3: consola de diagnóstico
   const termOut = $('#termOut');
   const terminal = termOut ? termOut.parentElement : null;
   const attachBtn = $('#attachEvidenceBtn');
   let termBusy = false;
-  const incidentActive = () => ['detected', 'ticket', 'escalated'].includes(lab.phase);
-
-  const ts = () => new Date().toISOString().replace('T', ' ').slice(0, 19);
-  const commands = {
-    log: {
-      prompt: 'tail -n 8 /var/log/biocom/app.log',
-      healthy: () => [
-        ['t-muted', `${ts()} INFO  [http] GET /api/turnos 200 61ms`],
-        ['t-muted', `${ts()} INFO  [db] pool: 12/50 conexiones activas`],
-        ['t-muted', `${ts()} INFO  [http] GET /health 200 9ms`],
-        ['t-ok', '✔ Sin errores en los últimos 15 minutos.']
-      ],
-      incident: () => [
-        ['t-muted', `${ts()} INFO  [http] GET /api/turnos 200 64ms`],
-        ['t-warn', `${ts()} WARN  [db] pool: esperando conexión libre (30s)...`],
-        ['t-err', `${ts()} ERROR [db] Connection TimeOut: Database unreachable on Port 1433 (sql-prod-01)`],
-        ['t-err', `${ts()} ERROR [db] java.sql.SQLException: Login timeout expired`],
-        ['t-err', `${ts()} ERROR [http] GET /api/turnos 500 Internal Server Error 30012ms`],
-        ['t-err', `${ts()} ERROR [http] GET /health 500 Internal Server Error`],
-        ['t-warn', '⚠ 214 errores HTTP 500 en los últimos 5 minutos.']
-      ],
-      evidence: 'app.log: "Connection TimeOut: Database unreachable on Port 1433" + 214 HTTP 500 en 5 min'
-    },
-    sql: {
-      prompt: 'sqlcmd -S sql-prod-01,1433 -Q "SELECT @@SERVERNAME, GETDATE();"',
-      healthy: () => [
-        ['t-white', 'SERVERNAME        FECHA'],
-        ['t-white', '----------------- -----------------------'],
-        ['t-white', `SQL-PROD-01       ${ts()}`],
-        ['t-ok', '(1 row affected) ✔ Consulta OK en 11 ms']
-      ],
-      incident: () => [
-        ['t-err', 'Sqlcmd: Error: Microsoft ODBC Driver 17 for SQL Server : TCP Provider: Timeout error [258].'],
-        ['t-err', 'Sqlcmd: Error: Login timeout expired.'],
-        ['t-err', 'Connection TimeOut: Database unreachable on Port 1433'],
-        ['t-warn', '→ La BD responde en su consola local (Grafana: OK), pero no es alcanzable desde srv-app-biocom.'],
-        ['t-cyan', '→ Sospecha: red / firewall entre app y BD. Corresponde escalar a Infraestructura N2.']
-      ],
-      evidence: 'sqlcmd desde srv-app-biocom: "Login timeout expired · Database unreachable on Port 1433"'
-    },
-    port: {
-      prompt: 'Test-NetConnection sql-prod-01 -Port 1433',
-      healthy: () => [
-        ['t-white', 'ComputerName     : sql-prod-01'],
-        ['t-white', 'RemotePort       : 1433'],
-        ['t-ok', 'TcpTestSucceeded : True']
-      ],
-      incident: () => [
-        ['t-warn', 'WARNING: TCP connect to (10.20.4.15 : 1433) failed'],
-        ['t-white', 'ComputerName     : sql-prod-01'],
-        ['t-white', 'RemotePort       : 1433'],
-        ['t-white', 'PingSucceeded    : True'],
-        ['t-err', 'TcpTestSucceeded : False']
-      ],
-      evidence: 'Test-NetConnection sql-prod-01:1433 → Ping OK, TcpTestSucceeded: False'
-    }
-  };
 
   function appendLine(cls, text) {
     const span = document.createElement('span');
@@ -608,70 +979,69 @@ ${evidence}
   function runCommand(name) {
     if (!termOut || termBusy) return;
     if (name === 'clear') {
-      termOut.innerHTML = '<span class="t-cyan">ops@srv-app-biocom:~$</span> ';
+      termOut.innerHTML = '';
       return;
     }
-    const cmd = commands[name];
     const active = incidentActive();
-    const lines = active ? cmd.incident() : cmd.healthy();
+    const host = active ? sc().host : 'srv-app-biocom';
+    const def = active ? sc().console[name] : healthyOutput(name, host);
+    const lines = typeof def.lines === 'function' ? def.lines() : def.lines;
     termBusy = true;
     $$('.cmd-btn').forEach(b => { b.disabled = true; });
-    appendLine('t-cyan', `ops@srv-app-biocom:~$ ${cmd.prompt}`);
+    appendLine('t-cyan', `ops@${host}:~$ ${def.prompt}`);
     let i = 0;
     const next = () => {
       if (i < lines.length) {
         appendLine(lines[i][0], lines[i][1]);
         i++;
-        setTimeout(next, prefersReducedMotion ? 0 : 180);
+        setTimeout(next, prefersReducedMotion ? 0 : 160);
         return;
       }
       termBusy = false;
       $$('.cmd-btn').forEach(b => { b.disabled = false; });
       if (active) {
-        lab.lastOutput = cmd.evidence;
+        lab.lastOutput = { id: `${lab.scenario}-${name}`, text: def.evidence };
         if (!lab.triaged) {
           lab.triaged = true;
-          addEvent('INFO', 'Triage: causa probable identificada (BD no alcanzable desde la app)');
+          addEvent('INFO', sc().triage);
           updateSteps();
         }
-        const already = lab.evidence.includes(cmd.evidence);
-        attachBtn.classList.toggle('hidden', already || lab.phase === 'resolved');
-        $('#attachMsg').textContent = already ? '✔ Esta evidencia ya está en el ticket' : '';
+        const already = lab.evidence.some(e => e.id === lab.lastOutput.id);
+        attachBtn.classList.toggle('hidden', already);
+        $('#attachMsg').textContent = already ? L('✔ Esta evidencia ya está en el ticket', '✔ This evidence is already in the ticket') : '';
       } else {
         attachBtn.classList.add('hidden');
         $('#attachMsg').textContent = '';
       }
     };
-    setTimeout(next, prefersReducedMotion ? 0 : 250);
+    setTimeout(next, prefersReducedMotion ? 0 : 220);
   }
 
   $$('.cmd-btn').forEach(btn => btn.addEventListener('click', () => runCommand(btn.dataset.cmd)));
 
   if (attachBtn) {
     attachBtn.addEventListener('click', () => {
-      if (!lab.lastOutput || lab.evidence.includes(lab.lastOutput)) return;
+      if (!lab.lastOutput || lab.evidence.some(e => e.id === lab.lastOutput.id)) return;
       lab.evidence.push(lab.lastOutput);
       attachBtn.classList.add('hidden');
       updateDescription();
       updateEvidenceHint();
-      const where = lab.phase === 'detected' ? 'se adjuntará al abrir el ticket' : `adjuntada a MON-${lab.ticketNum}`;
-      $('#attachMsg').textContent = `✔ Evidencia ${where}`;
-      addEvent('INFO', `Evidencia ${where}`);
+      const where = lab.phase === 'detected'
+        ? L('se adjuntará al abrir el ticket', 'will be attached when the ticket is opened')
+        : L(`adjuntada a MON-${lab.ticketNum}`, `attached to MON-${lab.ticketNum}`);
+      $('#attachMsg').textContent = `✔ ${L('Evidencia', 'Evidence')} ${where}`;
+      addEvent('INFO', `${L('Evidencia', 'Evidence')} ${where}`);
     });
   }
 
-  updateGlobal();
-  updateSteps();
-  addEvent('OK', 'Monitoreo iniciado · 4 servicios en producción OK');
-
   // ==========================================================
-  // 7. ASISTENTE ABI (mejorado: chat, contexto del LAB, acciones)
+  // 7. ASISTENTE ABI (chat, contexto del LAB, acciones y bilingüe)
   // ==========================================================
   const abiLog = $('#abiLog');
   const abiForm = $('#abiForm');
   const abiInput = $('#abiInput');
   const abiChips = $('#abiChips');
-  const normalize = (str) => str.toLowerCase().normalize('NFD').replace(/[̀-ͯ]/g, '');
+  const normalize = (str) => str.toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g, '');
 
   function downloadCV() {
     const link = document.createElement('a');
@@ -682,84 +1052,118 @@ ${evidence}
     link.remove();
   }
 
+  const chip = {
+    lab: () => L('¿Qué hago en el LAB?', 'What do I do in the LAB?'),
+    sim: () => L('Simular caída', 'Simulate outage'),
+    holter: () => L('Simular caso Holter', 'Simulate Holter case'),
+    exp: () => L('Experiencia', 'Experience'),
+    cases: () => L('Casos reales', 'Real cases'),
+    stack: () => L('Stack técnico', 'Tech stack'),
+    cv: () => L('Descargar CV', 'Download CV'),
+    contact: () => L('Contacto', 'Contact'),
+    console: () => L('Ir a la consola', 'Go to console'),
+    ticket: () => L('Abrir ticket', 'Open ticket'),
+    flow: () => L('¿Cómo es tu flujo?', 'What is your workflow?'),
+    available: () => L('¿Está disponible?', 'Is he available?'),
+    linkedin: () => 'LinkedIn'
+  };
+
   function labGuide() {
+    const scen = sc();
     switch (lab.phase) {
       case 'idle':
-        return { text: 'El LAB simula un turno en un Command Center. Paso 1: andá al Dashboard y presioná "Simular Evento de Caída". ¿Querés que lo dispare yo?', chips: ['Simular caída', '¿Cómo es tu flujo?'] };
+        return { text: L('El LAB simula un turno en un Command Center con 4 escenarios: App Biocom caída, servidor Holter de Cardiología, disco SQL casi lleno y memoria/caché saturadas. Elegí uno en el Dashboard y presioná "Simular Evento de Caída". ¿Querés que lo dispare yo?',
+          'The LAB simulates a Command Center shift with 4 scenarios: Biocom app down, Cardiology Holter server, SQL disk almost full and saturated memory/cache. Pick one on the Dashboard and press "Simulate Outage Event". Want me to trigger it?'), chips: [chip.sim(), chip.holter(), chip.flow()] };
       case 'detected':
-        return { text: '🚨 Hay un evento CRITICAL en Servidor App Biocom. Te recomiendo: 1) correr "Verificar Log de Caída" en la consola para validar, 2) hacer clic en la tarjeta roja para abrir el ticket.', chips: ['Ir a la consola', 'Abrir ticket'] };
+        return { text: L(`🚨 Hay un evento en ${svcName(scen.svc)}. Te recomiendo: 1) validar en la consola (log, SQL o ipconfig + ping), 2) adjuntar la evidencia y 3) hacer clic en la tarjeta para abrir el ticket.`,
+          `🚨 There is an event on ${svcName(scen.svc)}. I suggest: 1) validate in the console (log, SQL or ipconfig + ping), 2) attach the evidence and 3) click the card to open the ticket.`), chips: [chip.console(), chip.ticket()] };
       case 'ticket':
-        return { text: lab.evidence.length
-          ? `El ticket MON-${lab.ticketNum} ya tiene evidencia. Como la BD no es alcanzable por el puerto 1433, lo correcto es escalar a Infraestructura N2. Presioná "Escalar Ticket".`
-          : `El ticket MON-${lab.ticketNum} está abierto pero sin evidencia. Antes de escalar, adjuntá el log o la consulta SQL desde la consola: así N2 no tiene que volver a preguntar.`, chips: lab.evidence.length ? ['Ir a tickets'] : ['Ir a la consola'] };
+        if (!lab.evidence.length) {
+          return { text: L(`El ticket MON-${lab.ticketNum} está abierto pero sin evidencia. Antes de escalar, adjuntá algo desde la consola: así el equipo no tiene que volver a preguntar.`,
+            `Ticket MON-${lab.ticketNum} is open but has no evidence. Before escalating, attach something from the console so the team does not have to ask again.`), chips: [chip.console()] };
+        }
+        return { text: L(`Con la evidencia que juntaste, ¿a quién escalarías? Pista: si el problema es de red, servidor o espacio en disco va a ${teams().infra.name}; si es la aplicación consumiendo memoria, va a ${teams().devs.name}. Si elegís mal, el ticket rebota.`,
+          `With the evidence you collected, who would you escalate to? Hint: network, server or disk space issues go to ${teams().infra.name}; an application eating memory goes to ${teams().devs.name}. Pick wrong and the ticket bounces.`), chips: [L('Ir a tickets', 'Go to tickets')] };
       case 'escalated':
-        return { text: `MON-${lab.ticketNum} está escalado y notificado por chat. En la vida real ahora sigo monitoreando y actualizo el hilo. Podés simular la resolución de N2 desde la pestaña Tickets.`, chips: ['Ir a tickets'] };
+        return { text: L(`MON-${lab.ticketNum} está escalado y notificado por chat. En la vida real ahora sigo monitoreando y actualizo el hilo. Podés simular la resolución desde la pestaña Tickets.`,
+          `MON-${lab.ticketNum} is escalated and notified via chat. In real life I keep monitoring and update the thread. You can simulate the resolution from the Tickets tab.`), chips: [L('Ir a tickets', 'Go to tickets')] };
       default:
-        return { text: '✅ Incidente resuelto de punta a punta: detección, triage, ticket con evidencia y escalamiento. Ese es el trabajo diario de Manuel. ¿Lo hablamos?', chips: ['Contacto', 'Descargar CV'] };
+        return { text: L('✅ Incidente resuelto de punta a punta: detección, triage, ticket con evidencia y escalamiento al equipo correcto. Ese es el trabajo diario de Manuel. ¿Lo hablamos?',
+          '✅ Incident resolved end to end: detection, triage, ticket with evidence and escalation to the right team. That is Manuel\'s daily job. Shall we talk?'), chips: [chip.contact(), chip.cv()] };
     }
   }
 
+  function startSim(id) {
+    if (lab.phase === 'resolved') resetScenario(true);
+    if (lab.phase !== 'idle') return labGuide();
+    if (id && scenarioSelect) scenarioSelect.value = id;
+    simulateOutage(id);
+    gotoTab('dash');
+    return { text: L(`⚡ Listo, disparé el evento en ${svcName(sc().svc)}. Mirá el Dashboard y hacé clic en la tarjeta en alerta para abrir el ticket.`,
+      `⚡ Done, I triggered the event on ${svcName(sc().svc)}. Check the Dashboard and click the alerting card to open the ticket.`), chips: [chip.lab(), chip.console()] };
+  }
+
   const abiKnowledge = [
-    {
-      keys: ['simular', 'disparar', 'generar evento', 'caida', 'probar lab', 'demo'],
-      answer: () => {
-        if (simulateOutage()) {
-          gotoTab('dash');
-          return { text: '⚡ Listo, disparé una caída en Servidor App Biocom. Mirá el Dashboard: está en CRITICAL 500. Hacé clic en la tarjeta roja para abrir el ticket.', chips: ['¿Qué hago ahora?', 'Ir a la consola'] };
+    { keys: ['simular caso holter', 'simulate holter case', 'holter', 'cardiolog', 'ritmo cardiaco', 'heart'], answer: () => {
+        if (lab.phase === 'idle' || lab.phase === 'resolved') {
+          if (/simul|reproduc|replay|prob|try/.test(lastQuery)) return startSim('holter');
         }
-        return labGuide();
-      }
-    },
-    { keys: ['que hago', 'ahora', 'siguiente', 'paso', 'ayuda', 'como funciona', 'lab', 'laboratorio', 'simulador', 'estado'], answer: labGuide },
-    { keys: ['ir a la consola', 'consola', 'log', 'diagnostico'], answer: () => { gotoTab('console'); return { text: 'Te llevé a la Consola de Diagnóstico. Probá "Verificar Log de Caída" o la consulta SQL.' }; } },
-    { keys: ['abrir ticket', 'ir a tickets', 'ticket', 'jira'], answer: () => {
-        if (lab.phase === 'detected') { openIncident(); return { text: 'Abrí el ticket en Jira con los datos precargados: P1, producción, usuarios afectados.' }; }
-        if (lab.phase === 'idle') return { text: 'Todavía no hay incidentes. Primero simulá una caída en el Dashboard.', chips: ['Simular caída'] };
-        gotoTab('jira'); return { text: `Te llevé al ticket MON-${lab.ticketNum}.` };
+        return { text: L('En Sanatorio Otamendi, los Holters registran el ritmo cardíaco del paciente y envían el estudio a un servidor que lo transfiere a las PCs de Cardiología. Si ese servidor se cae, el estudio no se puede hacer y el paciente no puede ser atendido. Manuel verifica esas señales y transacciones y escala como P1. Podés reproducirlo en el LAB.',
+          'At Sanatorio Otamendi, Holters record the patient\'s heart rhythm and send the study to a server that transfers it to the Cardiology PCs. If that server goes down, the study cannot be done and the patient cannot be seen. Manuel checks those signals and transactions and escalates as P1. You can replay it in the LAB.'), chips: [chip.holter(), chip.cases()] };
       } },
-    {
-      keys: ['flujo', 'proceso', 'escal', 'triage', 'n2', 'n3', 'itil', 'incidente', 'workflow'],
-      answer: () => ({ text: 'Su flujo L1 tiene 4 pasos:\n1) Detección en dashboards (Grafana/Zabbix)\n2) Triage y validación con logs y SQL\n3) Ticket en Jira/Redmine con prioridad, impacto y evidencia\n4) Escalamiento a N2/N3 por chat y seguimiento hasta el cierre dentro del SLA.', chips: ['Simular caída', 'Experiencia'] })
-    },
-    {
-      keys: ['experiencia', 'trabajo', 'trayectoria', 'empresa', 'medicus', 'otamendi', 'claro', 'sondeos', 'beretta', 'anos'],
-      answer: () => ({ text: 'Más de 7 años en IT. Hoy es Operador de Monitoreo en Sanatorio Otamendi e IT Analyst en Medicus. Antes: Sondeos Global, Beretta Galarce & Asociados y Claro Argentina.', chips: ['Ver experiencia', 'Stack técnico'] })
-    },
-    { keys: ['ver experiencia'], answer: () => { scrollToEl($('#experiencia')); return { text: 'Te llevo a la sección Experiencia 👇' }; } },
-    {
-      keys: ['formacion', 'estudi', 'educacion', 'titulo', 'carrera', 'curso', 'utn', 'iutai', 'data science', 'ingles', 'idioma'],
-      answer: () => ({ text: 'Técnico Superior en Informática (IUTAI). En curso: Automatización con IA (UTN) y Data Science (EducaciónIT). Idiomas: español nativo e inglés B1 orientado a documentación técnica 🎓' })
-    },
-    {
-      keys: ['stack', 'habilidad', 'skill', 'sabe', 'herramienta', 'redmine', 'active directory', 'grafana', 'zabbix', 'monitoreo', 'sql', 'mongo', 'tecnologia'],
-      answer: () => ({ text: 'Monitoreo con Grafana y Zabbix, gestión de incidentes ITIL con Jira y Redmine, Application Support (Thinksoft, Biocom, Binary), SQL y MongoDB, Active Directory y redes (TCP/IP, DNS, DHCP, VPN).', chips: ['Simular caída'] })
-    },
-    {
-      keys: ['servicio', 'ofrece', 'freelance', 'independiente', 'red', 'cableado', 'hardware', 'qa', 'testing'],
-      answer: () => ({ text: 'Ofrece: monitoreo y operaciones IT, mesa de ayuda L1/L2, gestión de accesos, testing funcional/QA, soporte de hardware y redes. Podés cotizar desde el formulario 📋', chips: ['Cotizar'] })
-    },
-    { keys: ['cv', 'curriculum', 'descargar', 'pdf', 'resume'], answer: () => { setTimeout(downloadCV, 700); return { text: '¡Claro! Te descargo el CV de Manuel en PDF 📄' }; } },
-    {
-      keys: ['precio', 'costo', 'cotiz', 'presupuesto', 'cuanto', 'tarifa', 'valor'],
-      answer: () => { setTimeout(() => scrollToEl($('#contacto')), 700); return { text: 'El presupuesto depende del servicio y la cantidad de usuarios. Te llevo al cotizador: elegí el servicio, mové el slider de usuarios y Manuel te responde a la brevedad 💬' }; }
-    },
-    { keys: ['linkedin', 'perfil'], answer: () => ({ text: 'Acá tenés el LinkedIn de Manuel, escribile o conectá con él 👉', link: { href: LINKEDIN_URL, text: 'linkedin.com/in/manuelmolina01' } }) },
-    {
-      keys: ['contact', 'mail', 'correo', 'hablar', 'escrib', 'whatsapp', 'telefono'],
-      answer: () => { setTimeout(() => scrollToEl($('#contacto')), 900); return { text: 'Podés escribirle desde el formulario de contacto o por LinkedIn. ¡Te llevo al formulario! 📲', link: { href: LINKEDIN_URL, text: 'linkedin.com/in/manuelmolina01' } }; }
-    },
-    {
-      keys: ['disponib', 'busca', 'empleo', 'propuesta', 'contrat', 'remoto', 'hibrido', 'puesto', 'rol'],
-      answer: () => ({ text: 'Sí: Manuel busca un rol de Operador de Monitoreo de Servidores y Servicios / Command Center Operator, 100% remoto. Elegí "Propuesta laboral" en el formulario 🚀', chips: ['Contacto', 'Descargar CV'] })
-    },
-    { keys: ['hola', 'buenas', 'hey', 'buen dia', 'que tal'], answer: () => ({ text: '¡Hola! Soy Abi 🤖. Puedo contarte sobre Manuel o guiarte en el LAB de Monitoreo.', chips: ['¿Qué hago en el LAB?', 'Experiencia', 'Stack técnico'] }) },
-    { keys: ['gracias', 'genial', 'buenisimo', 'excelente'], answer: () => ({ text: '¡De nada! Si te sirvió el perfil, Manuel estaría feliz de hablar con vos 😊', chips: ['Contacto', 'LinkedIn'] }) },
-    { keys: ['quien sos', 'que sos', 'abi', 'bot', 'ia'], answer: () => ({ text: 'Soy Abi, un asistente hecho en JavaScript vanilla (sin servidores ni APIs). Conozco el perfil de Manuel y sigo en tiempo real lo que pasa en el LAB 😄' }) }
+    { keys: ['simular', 'disparar', 'generar evento', 'caida', 'probar', 'demo', 'simulate', 'trigger', 'outage'], answer: () => startSim() },
+    { keys: ['que hago', 'ahora', 'siguiente', 'paso', 'ayuda', 'como funciona', 'lab', 'laboratorio', 'simulador', 'estado', 'what do i do', 'next', 'help', 'how does', 'status'], answer: labGuide },
+    { keys: ['ir a la consola', 'consola', 'log', 'diagnostico', 'console', 'go to console'], answer: () => { gotoTab('console'); return { text: L('Te llevé a la Consola de Diagnóstico. Probá el log, la consulta SQL o ipconfig + ping.', 'I took you to the Diagnostics Console. Try the log, the SQL query or ipconfig + ping.') }; } },
+    { keys: ['abrir ticket', 'ir a tickets', 'ticket', 'jira', 'open ticket', 'go to tickets'], answer: () => {
+        if (lab.phase === 'detected') { openIncident(); return { text: L('Abrí el ticket en Jira con los datos precargados según el escenario.', 'I opened the Jira ticket with the data prefilled for this scenario.'), chips: [chip.lab()] }; }
+        if (lab.phase === 'idle') return { text: L('Todavía no hay incidentes. Primero simulá una caída.', 'There are no incidents yet. Simulate an outage first.'), chips: [chip.sim()] };
+        gotoTab('jira'); return { text: L(`Te llevé al ticket MON-${lab.ticketNum}.`, `I took you to ticket MON-${lab.ticketNum}.`) };
+      } },
+    { keys: ['flujo', 'proceso', 'escal', 'triage', 'n2', 'n3', 'itil', 'incidente', 'workflow', 'process', 'incident', 'l2', 'l3'],
+      answer: () => ({ text: L('Su flujo L1 tiene 4 pasos:\n1) Detección en dashboards (Grafana/Zabbix)\n2) Triage con ipconfig, ping, logs y SQL\n3) Ticket en Jira/Redmine con prioridad, impacto y evidencia\n4) Escalamiento a N2/N3 por chat y seguimiento hasta el cierre dentro del SLA.',
+        'His L1 workflow has 4 steps:\n1) Detection on dashboards (Grafana/Zabbix)\n2) Triage with ipconfig, ping, logs and SQL\n3) Jira/Redmine ticket with priority, impact and evidence\n4) Escalation to L2/L3 via chat and follow-up until closure within SLA.'), chips: [chip.sim(), chip.exp()] }) },
+    { keys: ['caso', 'casos', 'ejemplo', 'case', 'cases', 'example'],
+      answer: () => { setTimeout(() => scrollToEl($('#casos')), 900); return { text: L('Algunos casos reales: el servidor de Holters de Cardiología, la memoria y caché de las APIs en Otamendi, ~10 casos cada 20 minutos en Medicus (blanqueo de claves, ABM en AD, corrección de DNI/nombre/apellido de pacientes) y validación de APIs con Postman y árboles IVR en Sondeos Global. Te llevo a la sección 👇',
+        'Some real cases: the Cardiology Holter server, API memory and cache at Otamendi, ~10 cases every 20 minutes at Medicus (password resets, AD provisioning, fixing patient ID/name records) and API checks with Postman plus IVR trees at Sondeos Global. Taking you there 👇') }; } },
+    { keys: ['medicus', 'volumen', 'blanqueo', 'clave', 'password', 'dni', 'paciente', 'patient', 'auditoria', 'audit', 'documenta'],
+      answer: () => ({ text: L('En Medicus atiende alrededor de 10 casos cada 20 minutos. Los más típicos: blanqueo de claves y ABM en Active Directory, y corrección de datos de pacientes mal cargados (DNI, nombre, apellido). Además documenta todo lo que pasa en cada jornada, para auditoría y futuras prácticas.',
+        'At Medicus he handles around 10 cases every 20 minutes. Most common: password resets and Active Directory provisioning, and fixing patient records loaded with errors (ID number, first and last name). He also documents everything that happens each shift, for audits and future reference.') }) },
+    { keys: ['postman', 'renaper', 'ivr', 'sondeos', 'llamad', 'cobranza', 'api'],
+      answer: () => ({ text: L('En Sondeos Global hacía y verificaba consultas a servicios externos como RENAPER con Postman, revisaba los logs de llamadas de cada ruta y armaba árboles IVR para los llamadores hacia consultoras y estudios de cobranza.',
+        'At Sondeos Global he ran and verified queries against external services such as RENAPER with Postman, reviewed call logs for each route and built IVR trees for callers to consulting firms and collection agencies.') }) },
+    { keys: ['memoria', 'cache', 'memory', 'otamendi'],
+      answer: () => ({ text: L('En Sanatorio Otamendi monitorea paneles con el estado de las APIs y el porcentaje de memoria y caché. Cuando hace falta, hace la limpieza para que no se sature el sistema hospitalario. También verifica las señales de equipos médicos como los Holters.',
+        'At Sanatorio Otamendi he monitors dashboards with API status and memory and cache usage. When needed, he runs the cleanup so the hospital system does not get saturated. He also checks signals from medical equipment such as Holters.'), chips: [chip.holter(), chip.cases()] }) },
+    { keys: ['experiencia', 'trabajo', 'trayectoria', 'empresa', 'claro', 'beretta', 'anos', 'experience', 'work', 'career', 'years', 'job history'],
+      answer: () => ({ text: L('Más de 7 años en IT. Hoy es Operador de Monitoreo en Sanatorio Otamendi e IT Analyst en Medicus. Antes: Sondeos Global, Beretta Galarce & Asociados y Claro Argentina.',
+        '7+ years in IT. Currently Monitoring Operator at Sanatorio Otamendi and IT Analyst at Medicus. Before: Sondeos Global, Beretta Galarce & Asociados and Claro Argentina.'), chips: [chip.cases(), chip.stack()] }) },
+    { keys: ['formacion', 'estudi', 'educacion', 'titulo', 'carrera', 'curso', 'utn', 'iutai', 'data science', 'ingles', 'idioma', 'education', 'degree', 'english', 'language'],
+      answer: () => ({ text: L('Técnico Superior en Informática (IUTAI). En curso: Automatización con IA (UTN) y Data Science (EducaciónIT). Idiomas: español nativo e inglés B1 orientado a documentación técnica 🎓',
+        'Higher Technical Degree in Computer Science (IUTAI). In progress: Automation with AI (UTN) and Data Science (EducaciónIT). Languages: native Spanish and B1 English focused on technical documentation 🎓') }) },
+    { keys: ['stack', 'habilidad', 'skill', 'sabe', 'herramienta', 'redmine', 'active directory', 'grafana', 'zabbix', 'monitoreo', 'sql', 'mongo', 'tecnologia', 'tools', 'monitoring', 'tech'],
+      answer: () => ({ text: L('Monitoreo con Grafana y Zabbix, incidentes ITIL con Jira y Redmine, SQL y MongoDB, Postman, Active Directory, Application Support (Thinksoft, Biocom, Binary), IVR y redes (TCP/IP, DNS, DHCP, VPN, ipconfig/ping).',
+        'Monitoring with Grafana and Zabbix, ITIL incidents with Jira and Redmine, SQL and MongoDB, Postman, Active Directory, Application Support (Thinksoft, Biocom, Binary), IVR and networking (TCP/IP, DNS, DHCP, VPN, ipconfig/ping).'), chips: [chip.sim()] }) },
+    { keys: ['servicio', 'ofrece', 'freelance', 'independiente', 'cableado', 'hardware', 'qa', 'testing', 'services', 'offer'],
+      answer: () => ({ text: L('Ofrece: monitoreo y operaciones IT, mesa de ayuda L1/L2, gestión de accesos, testing funcional/QA, soporte de hardware y redes. Podés cotizar desde el formulario 📋',
+        'He offers: monitoring and IT operations, L1/L2 help desk, access management, functional testing/QA, hardware and network support. You can request a quote from the form 📋'), chips: [L('Cotizar', 'Get a quote')] }) },
+    { keys: ['cv', 'curriculum', 'descargar', 'pdf', 'resume', 'download'], answer: () => { setTimeout(downloadCV, 700); return { text: L('¡Claro! Te descargo el CV de Manuel en PDF 📄', 'Sure! Downloading Manuel\'s CV as PDF 📄') }; } },
+    { keys: ['precio', 'costo', 'cotiz', 'presupuesto', 'cuanto', 'tarifa', 'valor', 'price', 'quote', 'cost', 'rate'],
+      answer: () => { setTimeout(() => scrollToEl($('#contacto')), 700); return { text: L('El presupuesto depende del servicio y la cantidad de usuarios. Te llevo al cotizador: elegí el servicio, mové el slider de usuarios y Manuel te responde a la brevedad 💬', 'The price depends on the service and number of users. Taking you to the quote form: pick the service, move the users slider and Manuel will reply shortly 💬') }; } },
+    { keys: ['linkedin', 'perfil', 'profile'], answer: () => ({ text: L('Acá tenés el LinkedIn de Manuel 👉', 'Here is Manuel\'s LinkedIn 👉'), link: { href: LINKEDIN_URL, text: 'linkedin.com/in/manuelmolina01' } }) },
+    { keys: ['contact', 'mail', 'correo', 'hablar', 'escrib', 'whatsapp', 'telefono', 'email', 'talk', 'reach'],
+      answer: () => { setTimeout(() => scrollToEl($('#contacto')), 900); return { text: L('Podés escribirle desde el formulario de contacto o por LinkedIn. ¡Te llevo al formulario! 📲', 'You can write to him from the contact form or on LinkedIn. Taking you to the form! 📲'), link: { href: LINKEDIN_URL, text: 'linkedin.com/in/manuelmolina01' } }; } },
+    { keys: ['disponib', 'busca', 'empleo', 'propuesta', 'contrat', 'remoto', 'hibrido', 'puesto', 'rol', 'available', 'hire', 'hiring', 'remote', 'role', 'position'],
+      answer: () => ({ text: L('Sí: Manuel busca un rol de Operador de Monitoreo de Servidores y Servicios / Command Center Operator, 100% remoto. Elegí "Propuesta laboral" en el formulario 🚀', 'Yes: Manuel is looking for a Server & Service Monitoring Operator / Command Center Operator role, 100% remote. Choose "Job offer" in the form 🚀'), chips: [chip.contact(), chip.cv()] }) },
+    { keys: ['hola', 'buenas', 'hey', 'buen dia', 'que tal', 'hello', 'hi', 'good morning'], answer: () => ({ text: L('¡Hola! Soy Abi 🤖. Puedo contarte sobre Manuel o guiarte en el LAB de Monitoreo.', 'Hi! I am Abi 🤖. I can tell you about Manuel or guide you through the Monitoring LAB.'), chips: [chip.lab(), chip.exp(), chip.cases()] }) },
+    { keys: ['gracias', 'genial', 'buenisimo', 'excelente', 'thanks', 'thank you', 'great', 'awesome'], answer: () => ({ text: L('¡De nada! Si te sirvió el perfil, Manuel estaría feliz de hablar con vos 😊', 'You are welcome! If the profile was useful, Manuel would be happy to talk 😊'), chips: [chip.contact(), chip.linkedin()] }) },
+    { keys: ['quien sos', 'que sos', 'abi', 'bot', 'ia', 'who are you', 'ai'], answer: () => ({ text: L('Soy Abi, un asistente hecho en JavaScript vanilla (sin servidores ni APIs). Conozco el perfil de Manuel y sigo en tiempo real lo que pasa en el LAB 😄', 'I am Abi, an assistant built with vanilla JavaScript (no servers or APIs). I know Manuel\'s profile and follow what happens in the LAB in real time 😄') }) }
   ];
 
   // Puntúa cada respuesta por la cantidad de coincidencias (al inicio de palabra) y elige la mejor.
+  let lastQuery = '';
   function findAnswer(query) {
     const q = normalize(query);
+    lastQuery = q;
     let best = null;
     let bestScore = 0;
     abiKnowledge.forEach(item => {
@@ -786,10 +1190,12 @@ ${evidence}
     return div;
   }
 
-  const defaultChips = ['¿Qué hago en el LAB?', 'Simular caída', 'Experiencia', 'Stack técnico', 'Descargar CV', 'Contacto'];
+  const defaultChips = () => [chip.lab(), chip.sim(), chip.cases(), chip.exp(), chip.stack(), chip.cv(), chip.contact()];
+  let currentChips = null;
   function renderChips(list) {
+    currentChips = list && list.length ? list : null;
     abiChips.innerHTML = '';
-    (list && list.length ? list : defaultChips).forEach(label => {
+    (currentChips || defaultChips()).forEach(label => {
       const b = document.createElement('button');
       b.type = 'button';
       b.className = 'ai-chip';
@@ -806,13 +1212,13 @@ ${evidence}
     abiBusy = true;
     addAbiMsg('user', query);
     const typing = addAbiMsg('bot', '');
-    typing.innerHTML = '<span class="abi-typing" aria-label="Abi está escribiendo"><span></span><span></span><span></span></span>';
+    typing.innerHTML = '<span class="abi-typing" aria-label="Abi..."><span></span><span></span><span></span></span>';
     setTimeout(() => {
       typing.remove();
       const match = findAnswer(query);
       const res = match ? match.answer() : {
-        text: 'Esa no la sé 🤔. Probá preguntar por "experiencia", "stack", "qué hago en el LAB" o "contacto". Y si es algo puntual, Manuel te responde por el formulario.',
-        chips: defaultChips
+        text: L('Esa no la sé 🤔. Probá preguntar por "experiencia", "casos", "stack", "qué hago en el LAB" o "contacto". Y si es algo puntual, Manuel te responde por el formulario.',
+          'I do not know that one 🤔. Try asking about "experience", "cases", "stack", "what do I do in the LAB" or "contact". For anything specific, Manuel will reply through the form.')
       };
       addAbiMsg('bot', res.text, res.link);
       renderChips(res.chips);
@@ -820,9 +1226,10 @@ ${evidence}
     }, prefersReducedMotion ? 100 : 650);
   }
 
+  const abiGreeting = () => L('¡Hola! Soy Abi 🤖, la asistente del Command Center. Te puedo contar sobre la experiencia de Manuel o guiarte paso a paso en el LAB. ¿Por dónde empezamos?',
+    'Hi! I am Abi 🤖, the Command Center assistant. I can tell you about Manuel\'s experience or guide you step by step through the LAB. Where do we start?');
+
   if (abiLog && abiForm) {
-    addAbiMsg('bot', '¡Hola! Soy Abi 🤖, la asistente del Command Center. Te puedo contar sobre la experiencia de Manuel o guiarte paso a paso en el LAB. ¿Por dónde empezamos?');
-    renderChips();
     abiForm.addEventListener('submit', (e) => {
       e.preventDefault();
       askAbi(abiInput.value);
@@ -847,7 +1254,9 @@ ${evidence}
 
   function updateUserCount() {
     const val = parseInt(userSlider.value, 10);
-    userCountDisplay.innerText = val >= 500 ? '500+ usuarios (Enterprise)' : `${val} usuario${val > 1 ? 's' : ''}`;
+    userCountDisplay.innerText = val >= 500
+      ? L('500+ usuarios (Enterprise)', '500+ users (Enterprise)')
+      : `${val} ${L(val > 1 ? 'usuarios' : 'usuario', val > 1 ? 'users' : 'user')}`;
   }
   if (userSlider && userCountDisplay) userSlider.addEventListener('input', updateUserCount);
 
@@ -863,6 +1272,7 @@ ${evidence}
   const email = $('#email');
   const message = $('#message');
   const formAlert = $('#formAlert');
+  const submitText = () => $('#submitBtn .btn-text');
   const emailRegex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
 
   function setError(inputElement) {
@@ -898,7 +1308,7 @@ ${evidence}
 
       const submitBtn = $('#submitBtn');
       submitBtn.disabled = true;
-      submitBtn.querySelector('.btn-text').innerText = 'Enviando mensaje...';
+      submitText().innerText = L('Enviando mensaje...', 'Sending message...');
 
       try {
         const response = await fetch(form.action, {
@@ -909,21 +1319,22 @@ ${evidence}
 
         if (response.ok) {
           formAlert.classList.add('success');
-          formAlert.innerText = `¡Muchas gracias, ${fullname.value.trim()}! Tu mensaje fue enviado con éxito. Te responderé a la brevedad.`;
+          formAlert.innerText = L(`¡Muchas gracias, ${fullname.value.trim()}! Tu mensaje fue enviado con éxito. Te responderé a la brevedad.`,
+            `Thank you, ${fullname.value.trim()}! Your message was sent successfully. I will get back to you shortly.`);
           form.reset();
           if (userSlider && userCountDisplay) updateUserCount();
         } else {
           const data = await response.json().catch(() => null);
           throw new Error(data && data.errors
             ? data.errors.map(error => error.message).join(', ')
-            : 'Ocurrió un error al enviar el formulario.');
+            : L('Ocurrió un error al enviar el formulario.', 'There was an error sending the form.'));
         }
       } catch (err) {
         formAlert.classList.add('error');
-        formAlert.innerText = err.message || 'Error de conexión. Intentalo nuevamente.';
+        formAlert.innerText = err.message || L('Error de conexión. Intentalo nuevamente.', 'Connection error. Please try again.');
       } finally {
         submitBtn.disabled = false;
-        submitBtn.querySelector('.btn-text').innerText = 'Enviar Mensaje';
+        submitText().innerText = L('Enviar Mensaje', 'Send Message');
       }
     });
   }
@@ -941,4 +1352,27 @@ ${evidence}
 
   const currentYear = $('#currentYear');
   if (currentYear) currentYear.textContent = new Date().getFullYear();
+
+  // 10. TEXTOS QUE DEPENDEN DEL IDIOMA Y ARRANQUE
+  langListeners.push(() => {
+    renderDashHint();
+    updateGlobal();
+    if (lab.phase !== 'idle') {
+      const scen = sc();
+      const s = svcBy(scen.svc);
+      if (s.card.dataset.state !== 'ok') setServiceState(s, s.card.dataset.state);
+      renderTicket();
+    }
+    if (userSlider && userCountDisplay) updateUserCount();
+    if (submitText() && !$('#submitBtn').disabled) submitText().innerText = L('Enviar Mensaje', 'Send Message');
+    if (abiChips) renderChips();
+    // Si todavía no hubo conversación, el saludo de Abi cambia de idioma
+    if (abiLog && abiLog.children.length === 1) abiLog.firstElementChild.textContent = abiGreeting();
+    if (backToTop) backToTop.setAttribute('aria-label', L('Volver arriba', 'Back to top'));
+  });
+
+  applyLang(lang);
+  if (abiLog) addAbiMsg('bot', abiGreeting());
+  updateSteps();
+  addEvent('OK', L('Monitoreo iniciado · 6 servicios en producción OK', 'Monitoring started · 6 production services OK'));
 });
