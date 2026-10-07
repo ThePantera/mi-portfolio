@@ -1,15 +1,15 @@
 <!DOCTYPE html>
-<html lang="es" data-theme="light">
+<html lang="es">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Manuel Molina | IT Monitoring Operator · IT Operations</title>
-  <meta name="description" content="Manuel Molina — IT Monitoring Operator y Application Support en Buenos Aires. Más de 7 años en soporte técnico, operaciones IT, monitoreo con Grafana y Zabbix, gestión de incidentes ITIL con Jira y Redmine.">
+  <title>Manuel Molina | IT Monitoring & Command Center Operator</title>
+  <meta name="description" content="Manuel Molina — IT Monitoring & Command Center Operator (100% remoto). Monitoreo proactivo de servidores y APIs con Grafana y Zabbix, gestión de eventos, tickets en Jira/Redmine y escalamiento N2/N3 con ITIL.">
   <meta name="author" content="Manuel Molina">
-  <meta name="theme-color" content="#ffffff">
+  <meta name="theme-color" content="#070b12">
   <meta property="og:type" content="website">
-  <meta property="og:title" content="Manuel Molina | IT Monitoring Operator · IT Operations">
-  <meta property="og:description" content="Monitoreo de infraestructura, Command Center, gestión de incidentes ITIL y Application Support. Buenos Aires, Argentina.">
+  <meta property="og:title" content="Manuel Molina | IT Monitoring & Command Center Operator">
+  <meta property="og:description" content="Monitoreo proactivo de servidores y APIs, gestión de eventos y escalamiento ágil de incidentes. Probá el LAB interactivo de Command Center.">
   <meta property="og:locale" content="es_AR">
   <meta property="og:url" content="https://thepantera.github.io/mi-portfolio/">
   <meta property="og:site_name" content="Manuel Molina — Portafolio">
@@ -22,165 +22,357 @@
   <link rel="icon" type="image/png" href="favicon.png">
   <link rel="apple-touch-icon" href="favicon.png">
 
-  <!-- Aplica el tema guardado antes de pintar la página (evita el parpadeo) -->
-  <script>
-    try { document.documentElement.setAttribute('data-theme', localStorage.getItem('theme') || 'light'); } catch (e) {}
-  </script>
-  
-  <!-- Google Fonts & Font Awesome -->
+  <!-- Fuentes e íconos -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,500;12..96,700;12..96,800&family=Manrope:wght@400;500;600;700;800&family=Fira+Code:wght@400;600&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-  
-  <link rel="stylesheet" href="style.css?v=20261006d">
+
+  <!-- Tailwind CSS compilado (ver tailwind.config.js) + estilos propios -->
+  <link rel="stylesheet" href="tailwind.css?v=20261007a">
+  <link rel="stylesheet" href="style.css?v=20261007a">
 </head>
-<body>
+<body class="bg-cc-bg text-cc-text font-sans antialiased">
   <a href="#inicio" class="skip-link">Saltar al contenido</a>
 
-  <!-- NAVEGACIÓN -->
-  <header id="header">
-    <a href="#inicio" class="logo" aria-label="Manuel Molina — volver al inicio">
-      Manuel Molina <i class="fa-solid fa-wrench logo-icon" aria-hidden="true"></i>
-    </a>
-    
-    <nav class="nav-links" id="navLinks" aria-label="Navegación principal">
-      <a href="#inicio" class="nav-link active">Inicio</a>
-      <a href="#experiencia" class="nav-link">Experiencia</a>
-      <a href="#habilidades" class="nav-link">Habilidades</a>
-      <a href="#formacion" class="nav-link">Formación</a>
-      <a href="#servicios" class="nav-link">Servicios</a>
-      <a href="#contacto" class="nav-link">Contacto</a>
-    </nav>
+  <!-- ============ NAVEGACIÓN ============ -->
+  <header id="header" class="fixed inset-x-0 top-0 z-50 border-b border-transparent transition-colors">
+    <div class="mx-auto flex h-16 max-w-7xl items-center justify-between gap-4 px-4 sm:px-6">
+      <a href="#inicio" class="flex items-center gap-2 font-mono text-sm font-bold text-cc-text" aria-label="Manuel Molina — volver al inicio">
+        <span class="grid h-8 w-8 place-items-center rounded-md border border-cc-cyan/40 bg-cc-cyan/10 text-cc-cyan"><i class="fa-solid fa-tower-broadcast" aria-hidden="true"></i></span>
+        <span>manuel<span class="text-cc-cyan">@</span>command-center<span class="text-cc-muted">:~$</span></span>
+      </a>
 
-    <div class="header-actions">
-      <!-- VISTAS EN VIVO EN TIEMPO REAL -->
-      <div class="live-views-badge" title="Visitas totales reales">
-        <span class="live-dot"></span>
-        <i class="fa-solid fa-eye"></i>
-        <span id="realViewsCount">—</span>
+      <nav id="navLinks" class="nav-links" aria-label="Navegación principal">
+        <a href="#flujo" class="nav-link">Flujo L1</a>
+        <a href="#lab" class="nav-link">LAB</a>
+        <a href="#experiencia" class="nav-link">Experiencia</a>
+        <a href="#formacion" class="nav-link">Formación</a>
+        <a href="#servicios" class="nav-link">Servicios</a>
+        <a href="#contacto" class="nav-link">Contacto</a>
+      </nav>
+
+      <div class="flex items-center gap-2">
+        <div class="live-views-badge items-center gap-2 rounded-full border border-cc-line bg-cc-panel px-3 py-1 font-mono text-xs text-cc-muted sm:flex" title="Visitas totales reales">
+          <span class="h-2 w-2 animate-pulse rounded-full bg-cc-ok"></span>
+          <i class="fa-solid fa-eye" aria-hidden="true"></i>
+          <span id="realViewsCount">—</span>
+        </div>
+        <a href="https://www.linkedin.com/in/manuelmolina01" class="grid h-9 w-9 place-items-center rounded-md border border-cc-line bg-cc-panel text-cc-text transition hover:border-cc-cyan hover:text-cc-cyan" target="_blank" rel="noopener noreferrer" aria-label="Ver perfil de LinkedIn" title="LinkedIn">
+          <i class="fa-brands fa-linkedin-in" aria-hidden="true"></i>
+        </a>
+        <button id="menuToggleBtn" class="grid h-9 w-9 place-items-center rounded-md border border-cc-line bg-cc-panel lg:hidden" aria-label="Abrir menú" aria-expanded="false" aria-controls="navLinks">
+          <i class="fa-solid fa-bars" aria-hidden="true"></i>
+        </button>
       </div>
-
-      <!-- BOTÓN LUXURY VIP -->
-      <a href="#contacto" class="btn btn-sm btn-luxury">
-        <i class="fa-solid fa-crown"></i> Servicio Luxury <span class="badge-vip">VIP</span>
-      </a>
-
-      <!-- LINKEDIN SIEMPRE VISIBLE EN EL HEADER -->
-      <a href="https://www.linkedin.com/in/manuelmolina01" class="header-icon-btn linkedin-icon-btn" target="_blank" rel="noopener noreferrer" aria-label="Ver perfil de LinkedIn" title="LinkedIn">
-        <i class="fa-brands fa-linkedin-in" aria-hidden="true"></i>
-      </a>
-
-      <!-- SWITCH MODO OSCURO / DÍA EN EL EXTREMO DERECHO -->
-      <button id="themeToggleBtn" class="theme-toggle-btn" aria-label="Cambiar tema">
-        <i class="fa-solid fa-sun" id="themeIcon" aria-hidden="true"></i>
-      </button>
-
-      <!-- MENÚ MOBILE -->
-      <button id="menuToggleBtn" class="menu-toggle-btn" aria-label="Abrir menú" aria-expanded="false" aria-controls="navLinks">
-        <i class="fa-solid fa-bars" aria-hidden="true"></i>
-      </button>
     </div>
   </header>
 
   <main>
-    <!-- HERO SECTION -->
-    <section id="inicio" class="hero-section">
-      <div class="hero-container">
-        <div class="hero-content">
-          <div class="badge-status">
-            <span class="pulse-dot"></span> Disponible para roles de IT Monitoring · Command Center · IT Operations
+    <!-- ============ HERO ============ -->
+    <section id="inicio" class="hero relative overflow-hidden pt-28 pb-20 sm:pt-32">
+      <div class="hero-grid" aria-hidden="true"></div>
+      <div class="relative mx-auto grid max-w-7xl items-center gap-12 px-4 sm:px-6 lg:grid-cols-[1.15fr_1fr]">
+        <div>
+          <div class="mb-6 inline-flex items-center gap-2 rounded-full border border-cc-ok/30 bg-cc-ok/10 px-3 py-1 font-mono text-xs text-cc-ok">
+            <span class="relative flex h-2 w-2"><span class="absolute inline-flex h-full w-full animate-ping rounded-full bg-cc-ok opacity-75"></span><span class="relative inline-flex h-2 w-2 rounded-full bg-cc-ok"></span></span>
+            STATUS: DISPONIBLE · 100% REMOTO
           </div>
-          <h1>
-            Manuel Molina <br>
-            <span class="sr-only">IT Monitoring Operator e IT Operations</span>
-            <span class="typed-text-container" aria-hidden="true">
-              <span id="typedText"></span><span class="cursor">&nbsp;</span>
-            </span>
+          <h1 class="text-4xl font-bold leading-tight tracking-tight text-white sm:text-5xl lg:text-6xl">
+            Manuel Molina
+            <span class="mt-2 block bg-gradient-to-r from-cc-cyan via-sky-400 to-cc-blue bg-clip-text text-2xl text-transparent sm:text-3xl lg:text-4xl">IT Monitoring &amp; Command Center Operator</span>
           </h1>
-          <p class="hero-description">
-            Profesional de IT con más de 7 años en soporte técnico, operaciones IT, monitoreo de infraestructura y Application Support. Hoy monitoreo servidores, conectividad y APIs con dashboards, detecto caídas y anomalías a tiempo y escalo cada incidente al sector responsable.
+          <p class="mt-6 max-w-xl text-lg text-cc-muted">
+            Monitoreo proactivo de servidores y APIs, gestión de eventos y escalamiento ágil de incidentes.
+          </p>
+          <p class="mt-3 max-w-xl font-mono text-sm text-cc-muted">
+            <span class="text-cc-cyan">&gt;</span> <span id="typedText"></span><span class="cursor" aria-hidden="true">▋</span>
           </p>
 
-          <div class="hero-stats">
-            <div class="stat-item">
-              <span class="stat-number" data-target="7">7</span><span class="stat-plus">+ años</span>
-              <span class="stat-label">Experiencia en IT</span>
-            </div>
-            <div class="stat-item">
-              <span class="stat-number" data-target="5">5</span><span class="stat-plus"> empresas</span>
-              <span class="stat-label">Salud, telco y servicios</span>
-            </div>
-            <div class="stat-item">
-              <span class="stat-number" data-target="2">2</span><span class="stat-plus"> roles</span>
-              <span class="stat-label">Activos en simultáneo</span>
-            </div>
+          <div class="mt-8 flex flex-wrap gap-3">
+            <a href="#lab" class="btn-primary"><i class="fa-solid fa-flask-vial" aria-hidden="true"></i> Probar LAB de Monitoreo</a>
+            <a href="#experiencia" class="btn-ghost"><i class="fa-solid fa-briefcase" aria-hidden="true"></i> Ver Experiencia</a>
+            <a href="#contacto" class="btn-ghost"><i class="fa-solid fa-paper-plane" aria-hidden="true"></i> Contacto</a>
+          </div>
+          <div class="mt-5 flex flex-wrap gap-4 font-mono text-xs text-cc-muted">
+            <a href="Manuel_Molina_CV.pdf" download="Manuel_Molina_CV.pdf" class="hover:text-cc-cyan"><i class="fa-solid fa-file-arrow-down" aria-hidden="true"></i> Descargar CV</a>
+            <a href="https://www.linkedin.com/in/manuelmolina01" target="_blank" rel="noopener noreferrer" class="hover:text-cc-cyan"><i class="fa-brands fa-linkedin" aria-hidden="true"></i> linkedin.com/in/manuelmolina01</a>
           </div>
 
-          <div class="btn-group">
-            <a href="#contacto" class="btn btn-accent">
-              <i class="fa-solid fa-paper-plane"></i> Contactar
-            </a>
-            <a href="Manuel_Molina_CV.pdf" class="btn btn-outline" download="Manuel_Molina_CV.pdf">
-              <i class="fa-solid fa-file-arrow-down" aria-hidden="true"></i> Descargar CV
-            </a>
-            <a href="#experiencia" class="btn btn-outline">
-              <i class="fa-solid fa-briefcase"></i> Ver Trayectoria
-            </a>
-            <a href="https://www.linkedin.com/in/manuelmolina01" class="btn btn-linkedin" target="_blank" rel="noopener noreferrer">
-              <i class="fa-brands fa-linkedin" aria-hidden="true"></i> LinkedIn
-            </a>
-          </div>
+          <dl class="mt-10 grid max-w-lg grid-cols-3 gap-3">
+            <div class="kpi"><dt>Experiencia IT</dt><dd><span class="stat-number" data-target="7">7</span>+ años</dd></div>
+            <div class="kpi"><dt>Empresas</dt><dd><span class="stat-number" data-target="5">5</span></dd></div>
+            <div class="kpi"><dt>Roles activos</dt><dd><span class="stat-number" data-target="2">2</span></dd></div>
+          </dl>
         </div>
 
-        <!-- AVATAR HOLOGRÁFICO ANIMADO -->
-        <div class="hero-avatar-wrapper">
-          <div class="avatar-tech-container">
-            <div class="holo-glow"></div>
-            <div class="tech-ring ring-1"></div>
-            <div class="tech-ring ring-2"></div>
-            <div class="tech-ring ring-3"></div>
-            <div class="avatar-icon-box">
-              <img src="avatar-pixel.png" alt="Avatar en pixel art de Manuel Molina" width="176" height="176" class="hero-avatar-img" onerror="this.style.display='none'; document.getElementById('fallbackIcon').style.display='block';">
-              <i class="fa-solid fa-user-gear tech-avatar-icon" id="fallbackIcon" style="display:none;"></i>
-            </div>
+        <!-- Terminal de perfil -->
+        <div class="panel overflow-hidden shadow-2xl shadow-cyan-500/5">
+          <div class="panel-bar">
+            <span class="flex gap-1.5"><i class="dot bg-cc-crit"></i><i class="dot bg-cc-warn"></i><i class="dot bg-cc-ok"></i></span>
+            <span>ops-console — whoami</span>
+            <span id="heroClock" class="text-cc-cyan">--:--:--</span>
           </div>
-          <div class="avatar-badge">
-            <i class="fa-solid fa-tower-broadcast" aria-hidden="true"></i> Command Center
+          <div class="grid gap-5 p-5 sm:grid-cols-[auto_1fr]">
+            <div class="relative mx-auto h-28 w-28 sm:mx-0">
+              <div class="absolute inset-0 rounded-xl border border-cc-cyan/40 bg-cc-cyan/5"></div>
+              <img src="avatar-pixel.png" alt="Avatar en pixel art de Manuel Molina" width="112" height="112" class="pixelated relative h-28 w-28 rounded-xl" onerror="this.style.display='none'">
+              <span class="absolute -bottom-2 left-1/2 -translate-x-1/2 whitespace-nowrap rounded border border-cc-ok/40 bg-cc-bg px-2 py-0.5 font-mono text-[10px] text-cc-ok">● ON SHIFT</span>
+            </div>
+            <pre class="overflow-x-auto font-mono text-xs leading-6 text-cc-muted"><span class="text-cc-cyan">$</span> whoami
+<span class="text-white">manuel.molina</span> · Buenos Aires, AR
+<span class="text-cc-cyan">$</span> cat rol.txt
+Command Center Operator <span class="text-cc-ok">[L1]</span>
+<span class="text-cc-cyan">$</span> systemctl status stack
+<span class="text-cc-ok">●</span> grafana  <span class="text-cc-ok">●</span> zabbix  <span class="text-cc-ok">●</span> jira
+<span class="text-cc-ok">●</span> redmine  <span class="text-cc-ok">●</span> sql  <span class="text-cc-ok">●</span> ad  <span class="text-cc-ok">●</span> itil</pre>
+          </div>
+          <div class="border-t border-cc-line px-5 py-4">
+            <div class="mb-2 flex justify-between font-mono text-[11px] text-cc-muted"><span>Disponibilidad monitoreada (demo)</span><span id="heroUptime" class="text-cc-ok">99.98%</span></div>
+            <svg id="heroSpark" class="h-12 w-full" viewBox="0 0 300 48" preserveAspectRatio="none" aria-hidden="true"><polyline fill="none" stroke="#22d3ee" stroke-width="2" points=""/></svg>
           </div>
         </div>
       </div>
     </section>
 
-    <!-- EXPERIENCIA LABORAL -->
+    <!-- ============ FLUJO DE TRABAJO L1 ============ -->
+    <section id="flujo" class="section">
+      <div class="section-head reveal">
+        <span class="eyebrow">// runbook operativo</span>
+        <h2>Mi flujo de trabajo (Operativo L1)</h2>
+        <p>Así trato cada evento, desde que aparece en el dashboard hasta que llega al equipo que lo resuelve.</p>
+      </div>
+      <ol class="mx-auto grid max-w-7xl gap-4 px-4 sm:px-6 md:grid-cols-2 lg:grid-cols-4">
+        <li class="flow-card reveal">
+          <span class="flow-step">01</span>
+          <i class="fa-solid fa-chart-line flow-icon text-cc-cyan" aria-hidden="true"></i>
+          <h3>Detección en Dashboard</h3>
+          <p>Vigilo Grafana y Zabbix: umbrales, latencia, códigos HTTP y disponibilidad de servidores, conectividad y APIs.</p>
+          <span class="flow-tag">Grafana · Zabbix</span>
+        </li>
+        <li class="flow-card reveal">
+          <span class="flow-step">02</span>
+          <i class="fa-solid fa-magnifying-glass-chart flow-icon text-cc-warn" aria-hidden="true"></i>
+          <h3>Triage y Validación</h3>
+          <p>Descarto falsos positivos, reviso logs y consultas SQL, y defino impacto y criticidad del evento.</p>
+          <span class="flow-tag">Logs · SQL · ITIL</span>
+        </li>
+        <li class="flow-card reveal">
+          <span class="flow-step">03</span>
+          <i class="fa-solid fa-ticket flow-icon text-cc-blue" aria-hidden="true"></i>
+          <h3>Apertura de Ticket</h3>
+          <p>Registro el incidente con prioridad, impacto, evidencia y línea de tiempo, para que nadie tenga que volver a preguntar.</p>
+          <span class="flow-tag">Jira · Redmine</span>
+        </li>
+        <li class="flow-card reveal">
+          <span class="flow-step">04</span>
+          <i class="fa-solid fa-people-arrows flow-icon text-cc-crit" aria-hidden="true"></i>
+          <h3>Escalamiento N2/N3</h3>
+          <p>Escalo al equipo responsable por chat y ticket, y hago seguimiento hasta el cierre dentro del SLA.</p>
+          <span class="flow-tag">Teams · Slack · SLA</span>
+        </li>
+      </ol>
+    </section>
+
+    <!-- ============ LAB: SIMULADOR DE COMMAND CENTER ============ -->
+    <section id="lab" class="section bg-cc-panel/40">
+      <div class="section-head reveal">
+        <span class="eyebrow">// laboratorio interactivo</span>
+        <h2>LAB de Monitoreo: Simulador de Command Center</h2>
+        <p>Viví un incidente de punta a punta: detectá la caída, diagnosticá, abrí el ticket y escalalo. O preguntale a Abi.</p>
+      </div>
+
+      <div id="labRoot" class="mx-auto max-w-7xl px-4 sm:px-6">
+        <!-- Barra de estado global -->
+        <div class="panel mb-4 flex flex-wrap items-center gap-x-6 gap-y-2 px-4 py-3 font-mono text-xs">
+          <span class="flex items-center gap-2"><span id="globalDot" class="h-2.5 w-2.5 rounded-full bg-cc-ok"></span><span id="globalStatus" class="text-cc-ok">ALL SYSTEMS OPERATIONAL</span></span>
+          <span class="text-cc-muted">Servicios OK: <b id="svcOkCount" class="text-white">4/4</b></span>
+          <span class="text-cc-muted">Incidentes abiertos: <b id="openIncidents" class="text-white">0</b></span>
+          <span class="text-cc-muted">MTTA: <b id="mttaValue" class="text-white">—</b></span>
+          <span class="ml-auto flex items-center gap-3">
+            <button id="soundToggle" type="button" class="rounded border border-cc-line px-2 py-1 text-cc-muted hover:text-cc-cyan" aria-pressed="true" title="Sonido de alerta"><i class="fa-solid fa-volume-high" aria-hidden="true"></i> <span>Sonido</span></button>
+            <span id="labClock" class="text-cc-cyan">--:--:--</span>
+          </span>
+        </div>
+
+        <div class="grid gap-4 lg:grid-cols-[1fr_320px]">
+          <div class="panel overflow-hidden">
+            <!-- Pestañas -->
+            <div class="tabs" role="tablist" aria-label="Widgets del laboratorio">
+              <button class="tab" role="tab" id="tab-dash" aria-controls="panel-dash" aria-selected="true"><i class="fa-solid fa-gauge-high" aria-hidden="true"></i> <span>1 · Dashboard</span></button>
+              <button class="tab" role="tab" id="tab-jira" aria-controls="panel-jira" aria-selected="false" tabindex="-1"><i class="fa-brands fa-jira" aria-hidden="true"></i> <span>2 · Tickets</span><span id="jiraBadge" class="tab-badge hidden">1</span></button>
+              <button class="tab" role="tab" id="tab-console" aria-controls="panel-console" aria-selected="false" tabindex="-1"><i class="fa-solid fa-terminal" aria-hidden="true"></i> <span>3 · Diagnóstico</span></button>
+              <button class="tab" role="tab" id="tab-abi" aria-controls="panel-abi" aria-selected="false" tabindex="-1"><i class="fa-solid fa-wand-magic-sparkles" aria-hidden="true"></i> <span>Abi IA</span></button>
+            </div>
+
+            <!-- WIDGET 1: DASHBOARD -->
+            <div class="tab-panel" role="tabpanel" id="panel-dash" aria-labelledby="tab-dash">
+              <div class="mb-4 flex flex-wrap items-center justify-between gap-3">
+                <div>
+                  <h3 class="widget-title"><i class="fa-solid fa-chart-area text-orange-400" aria-hidden="true"></i> Grafana · Producción / Estado de servicios</h3>
+                  <p class="widget-sub">Refresco cada 2s · Latencia de respuesta (ms)</p>
+                </div>
+                <button id="simulateBtn" class="btn-danger"><i class="fa-solid fa-bolt" aria-hidden="true"></i> Simular Evento de Caída</button>
+              </div>
+              <div id="svcGrid" class="grid gap-3 sm:grid-cols-2">
+                <article class="svc" data-svc="web" data-state="ok" data-name="Servidor Web 01" data-host="srv-web-01">
+                  <header><span><i class="fa-solid fa-server" aria-hidden="true"></i> Servidor Web 01</span><b class="svc-badge">OK</b></header>
+                  <div class="svc-row"><span>srv-web-01 · nginx</span><span class="svc-lat">— ms</span></div>
+                  <svg class="spark" viewBox="0 0 200 40" preserveAspectRatio="none" aria-hidden="true"><polyline points=""/></svg>
+                  <div class="svc-row"><span>Uptime 30d</span><span>99.99%</span></div>
+                </article>
+                <article class="svc" data-svc="api" data-state="ok" data-name="API Pagos" data-host="api-pagos">
+                  <header><span><i class="fa-solid fa-credit-card" aria-hidden="true"></i> API Pagos</span><b class="svc-badge">OK</b></header>
+                  <div class="svc-row"><span>api-pagos · /health 200</span><span class="svc-lat">— ms</span></div>
+                  <svg class="spark" viewBox="0 0 200 40" preserveAspectRatio="none" aria-hidden="true"><polyline points=""/></svg>
+                  <div class="svc-row"><span>Uptime 30d</span><span>99.97%</span></div>
+                </article>
+                <article class="svc" data-svc="sql" data-state="ok" data-name="Base de Datos SQL" data-host="sql-prod-01">
+                  <header><span><i class="fa-solid fa-database" aria-hidden="true"></i> Base de Datos SQL</span><b class="svc-badge">OK</b></header>
+                  <div class="svc-row"><span>sql-prod-01 · MSSQL :1433</span><span class="svc-lat">— ms</span></div>
+                  <svg class="spark" viewBox="0 0 200 40" preserveAspectRatio="none" aria-hidden="true"><polyline points=""/></svg>
+                  <div class="svc-row"><span>Uptime 30d</span><span>99.99%</span></div>
+                </article>
+                <article class="svc" data-svc="biocom" data-state="ok" data-name="Servidor App Biocom" data-host="srv-app-biocom">
+                  <header><span><i class="fa-solid fa-laptop-medical" aria-hidden="true"></i> Servidor App Biocom</span><b class="svc-badge">OK</b></header>
+                  <div class="svc-row"><span>srv-app-biocom · HTTP 200</span><span class="svc-lat">— ms</span></div>
+                  <svg class="spark" viewBox="0 0 200 40" preserveAspectRatio="none" aria-hidden="true"><polyline points=""/></svg>
+                  <div class="svc-row"><span>Uptime 30d</span><span>99.95%</span></div>
+                  <button type="button" class="svc-action hidden" id="openIncidentBtn"><i class="fa-solid fa-triangle-exclamation" aria-hidden="true"></i> Ver evento · Registrar y Escalar Incidente</button>
+                </article>
+              </div>
+              <p id="dashHint" class="mt-4 font-mono text-xs text-cc-muted"><span class="text-cc-cyan">tip:</span> presioná <b class="text-white">Simular Evento de Caída</b> y seguí el incidente por las pestañas.</p>
+            </div>
+
+            <!-- WIDGET 2: JIRA -->
+            <div class="tab-panel hidden" role="tabpanel" id="panel-jira" aria-labelledby="tab-jira">
+              <div id="jiraEmpty" class="empty-state">
+                <i class="fa-solid fa-circle-check text-3xl text-cc-ok" aria-hidden="true"></i>
+                <p class="mt-3 text-white">Sin incidentes activos</p>
+                <p class="mt-1 text-sm text-cc-muted">Generá un evento desde el Dashboard y hacé clic en el servicio en estado crítico.</p>
+                <button type="button" class="btn-ghost mt-4" data-goto="dash"><i class="fa-solid fa-gauge-high" aria-hidden="true"></i> Ir al Dashboard</button>
+              </div>
+
+              <form id="jiraForm" class="hidden" novalidate>
+                <div class="mb-4 flex flex-wrap items-center justify-between gap-2">
+                  <h3 class="widget-title"><i class="fa-brands fa-jira text-cc-blue" aria-hidden="true"></i> Crear incidente · <span id="ticketKey" class="font-mono text-cc-cyan">MON-1042</span></h3>
+                  <span id="ticketStatus" class="ticket-status" data-status="open">ABIERTO</span>
+                </div>
+                <div class="grid gap-3 sm:grid-cols-2">
+                  <label class="field sm:col-span-2"><span>Resumen</span><input id="jSummary" type="text" readonly></label>
+                  <label class="field"><span>Prioridad</span>
+                    <select id="jPriority"><option value="P1">P1 - Alta (Servicio Caído)</option><option value="P2">P2 - Media (Degradado)</option><option value="P3">P3 - Baja</option></select>
+                  </label>
+                  <label class="field"><span>Impacto</span>
+                    <select id="jImpact"><option>Producción / Usuarios Afectados</option><option>Producción / Sin impacto en usuarios</option><option>Entorno de pruebas</option></select>
+                  </label>
+                  <fieldset class="field sm:col-span-2">
+                    <legend>Equipo destino para escalar</legend>
+                    <div class="grid gap-2 sm:grid-cols-2">
+                      <label class="team-opt"><input type="radio" name="jTeam" value="infra" checked> <span><b>Equipo de Infraestructura N2</b><small>Red, servidores, conectividad a BD</small></span></label>
+                      <label class="team-opt"><input type="radio" name="jTeam" value="devs"> <span><b>Equipo Devs (N3)</b><small>Código de la aplicación, deploys</small></span></label>
+                    </div>
+                  </fieldset>
+                  <label class="field"><span>Canal de notificación</span>
+                    <select id="jChannel"><option value="teams">Microsoft Teams</option><option value="slack">Slack</option></select>
+                  </label>
+                  <label class="field"><span>Detectado por</span><input type="text" value="Manuel Molina · Command Center L1" readonly></label>
+                  <label class="field sm:col-span-2"><span>Descripción y evidencia</span><textarea id="jDesc" rows="6" readonly></textarea></label>
+                </div>
+                <p id="evidenceHint" class="mt-2 font-mono text-xs text-cc-warn"><i class="fa-solid fa-circle-info" aria-hidden="true"></i> Sin evidencia adjunta. <button type="button" class="underline hover:text-white" data-goto="console">Ir a la Consola de Diagnóstico</button> para justificar el escalamiento.</p>
+                <div class="mt-4 flex flex-wrap gap-3">
+                  <button type="submit" id="escalateBtn" class="btn-primary"><i class="fa-solid fa-arrow-up-right-dots" aria-hidden="true"></i> Escalar Ticket</button>
+                  <button type="button" id="resolveBtn" class="btn-ghost hidden"><i class="fa-solid fa-screwdriver-wrench" aria-hidden="true"></i> Simular resolución del equipo N2</button>
+                  <button type="button" id="resetBtn" class="btn-ghost hidden"><i class="fa-solid fa-rotate-left" aria-hidden="true"></i> Reiniciar escenario</button>
+                </div>
+
+                <!-- Mensaje simulado de Teams / Slack -->
+                <div id="chatMsg" class="chat-msg mt-5 hidden" aria-live="polite"></div>
+              </form>
+            </div>
+
+            <!-- WIDGET 3: CONSOLA -->
+            <div class="tab-panel hidden" role="tabpanel" id="panel-console" aria-labelledby="tab-console">
+              <div class="mb-4">
+                <h3 class="widget-title"><i class="fa-solid fa-terminal text-cc-ok" aria-hidden="true"></i> Consola de Diagnóstico Rápido · SQL &amp; Logs Viewer</h3>
+                <p class="widget-sub">Host: <span class="font-mono text-cc-cyan">srv-app-biocom</span> · conexión de solo lectura</p>
+              </div>
+              <div class="mb-3 flex flex-wrap gap-2">
+                <button type="button" class="cmd-btn" data-cmd="log"><i class="fa-solid fa-file-lines" aria-hidden="true"></i> Verificar Log de Caída</button>
+                <button type="button" class="cmd-btn" data-cmd="sql"><i class="fa-solid fa-database" aria-hidden="true"></i> Ejecutar Consulta de Diagnóstico SQL</button>
+                <button type="button" class="cmd-btn" data-cmd="port"><i class="fa-solid fa-network-wired" aria-hidden="true"></i> Test de puerto 1433</button>
+                <button type="button" class="cmd-btn" data-cmd="clear"><i class="fa-solid fa-eraser" aria-hidden="true"></i> clear</button>
+              </div>
+              <div class="terminal">
+                <div id="termOut" class="term-out" aria-live="polite"><span class="t-muted">Last login: Command Center L1 · read-only session</span>
+<span class="t-cyan">ops@srv-app-biocom:~$</span> <span class="t-muted">elegí un comando de diagnóstico</span></div>
+              </div>
+              <div class="mt-3 flex flex-wrap items-center gap-3">
+                <button type="button" id="attachEvidenceBtn" class="btn-primary hidden"><i class="fa-solid fa-paperclip" aria-hidden="true"></i> Adjuntar evidencia al ticket</button>
+                <span id="attachMsg" class="font-mono text-xs text-cc-ok"></span>
+              </div>
+            </div>
+
+            <!-- ABI -->
+            <div class="tab-panel hidden" role="tabpanel" id="panel-abi" aria-labelledby="tab-abi">
+              <div class="mb-3 flex items-center gap-3">
+                <span class="grid h-10 w-10 place-items-center rounded-full bg-gradient-to-br from-cc-cyan to-cc-blue text-cc-bg"><i class="fa-solid fa-robot" aria-hidden="true"></i></span>
+                <div>
+                  <h3 class="widget-title">Asistente IA Abi</h3>
+                  <p class="widget-sub">Conoce el perfil de Manuel y el estado del LAB en tiempo real.</p>
+                </div>
+              </div>
+              <div id="abiLog" class="abi-log" aria-live="polite"></div>
+              <div id="abiChips" class="mt-3 flex flex-wrap gap-2"></div>
+              <form id="abiForm" class="mt-3 flex gap-2">
+                <input id="abiInput" type="text" class="abi-input" placeholder="Ej: ¿qué experiencia tenés en monitoreo?" aria-label="Preguntale a Abi" maxlength="200" autocomplete="off">
+                <button class="btn-primary px-4" aria-label="Enviar pregunta"><i class="fa-solid fa-paper-plane" aria-hidden="true"></i></button>
+              </form>
+            </div>
+          </div>
+
+          <!-- Registro de eventos -->
+          <aside class="panel flex max-h-[640px] flex-col overflow-hidden" aria-label="Registro de eventos">
+            <div class="panel-bar"><span><i class="fa-solid fa-list" aria-hidden="true"></i> Event Log</span><span id="eventCount" class="text-cc-muted">0</span></div>
+            <ul id="eventLog" class="event-log" aria-live="polite"></ul>
+            <div class="border-t border-cc-line p-3">
+              <p class="mb-2 font-mono text-[11px] uppercase tracking-wider text-cc-muted">Línea de tiempo del incidente</p>
+              <ol id="incidentSteps" class="steps">
+                <li data-step="detect">Detección</li>
+                <li data-step="triage">Triage</li>
+                <li data-step="ticket">Ticket</li>
+                <li data-step="escalate">Escalado</li>
+                <li data-step="resolve">Resuelto</li>
+              </ol>
+            </div>
+          </aside>
+        </div>
+      </div>
+    </section>
+
+    <!-- ============ EXPERIENCIA ============ -->
     <section id="experiencia" class="section">
-      <div class="section-header reveal">
-        <span class="subtitle">Trayectoria Profesional</span>
-        <h2>Experiencia Laboral</h2>
+      <div class="section-head reveal">
+        <span class="eyebrow">// trayectoria</span>
+        <h2>Experiencia</h2>
         <p>De soporte L1 en telecomunicaciones a monitoreo de infraestructura y Application Support en el sector salud.</p>
       </div>
 
-      <div class="timeline">
-        <div class="timeline-item reveal">
-          <div class="timeline-dot"></div>
-          <div class="timeline-content">
-            <span class="timeline-date">Noviembre 2025 - Actualidad</span>
-            <h3>Operador de Monitoreo</h3>
-            <span class="timeline-company">Sanatorio Otamendi</span>
+      <div class="mx-auto grid max-w-7xl gap-8 px-4 sm:px-6 lg:grid-cols-[1fr_340px]">
+        <ol class="timeline">
+          <li class="tl-item reveal">
+            <div class="tl-head"><h3>Operador de Monitoreo</h3><span class="tl-date">Nov 2025 – Actualidad</span></div>
+            <p class="tl-company">Sanatorio Otamendi <span class="tl-live">ACTIVO</span></p>
             <ul>
               <li>Monitoreo de infraestructura y servicios mediante dashboards y gráficas, supervisando el estado de los servidores.</li>
               <li>Control de disponibilidad y detección temprana de caídas o anomalías en servidores, conectividad/Wi-Fi y APIs.</li>
               <li>Registro de cada incidente en ticket, comunicación por chat y escalamiento al sector responsable.</li>
               <li>Seguimiento de eventos e incidencias con foco en la continuidad y disponibilidad de los servicios.</li>
             </ul>
-          </div>
-        </div>
-        <div class="timeline-item reveal">
-          <div class="timeline-dot"></div>
-          <div class="timeline-content">
-            <span class="timeline-date">Noviembre 2025 - Actualidad</span>
-            <h3>IT Analyst</h3>
-            <span class="timeline-company">Medicus</span>
+          </li>
+          <li class="tl-item reveal">
+            <div class="tl-head"><h3>IT Analyst</h3><span class="tl-date">Nov 2025 – Actualidad</span></div>
+            <p class="tl-company">Medicus <span class="tl-live">ACTIVO</span></p>
             <ul>
               <li>Análisis y gestión de incidentes de aplicaciones a partir de reportes de usuarios.</li>
               <li>Trabajo junto al Squad Funcional en el análisis de problemas, la coordinación de acciones y la resolución.</li>
@@ -188,356 +380,249 @@
               <li>Altas, bajas y permisos de usuarios en Active Directory, y soporte remoto.</li>
               <li>Consultas SQL y MongoDB para el análisis y diagnóstico de incidentes.</li>
             </ul>
-          </div>
-        </div>
-        <div class="timeline-item reveal">
-          <div class="timeline-dot"></div>
-          <div class="timeline-content">
-            <span class="timeline-date">Febrero 2025 - Enero 2026</span>
-            <h3>Technical Support Analyst</h3>
-            <span class="timeline-company">Sondeos Global</span>
+          </li>
+          <li class="tl-item reveal">
+            <div class="tl-head"><h3>Technical Support Analyst</h3><span class="tl-date">Feb 2025 – Ene 2026</span></div>
+            <p class="tl-company">Sondeos Global</p>
             <ul>
               <li>Soporte técnico L1/L2 y gestión de tickets clasificados por impacto y criticidad.</li>
               <li>Troubleshooting y escalamiento de incidentes complejos a niveles superiores.</li>
               <li>Participación en la optimización de sistemas IVR y documentación de soluciones para incidentes recurrentes.</li>
             </ul>
-          </div>
-        </div>
-        <div class="timeline-item reveal">
-          <div class="timeline-dot"></div>
-          <div class="timeline-content">
-            <span class="timeline-date">Mayo 2022 - Febrero 2025</span>
-            <h3>IT / Administrative Support</h3>
-            <span class="timeline-company">Beretta Galarce & Asociados</span>
+          </li>
+          <li class="tl-item reveal">
+            <div class="tl-head"><h3>IT / Administrative Support</h3><span class="tl-date">May 2022 – Feb 2025</span></div>
+            <p class="tl-company">Beretta Galarce &amp; Asociados</p>
             <ul>
               <li>Soporte operativo a usuarios internos y pruebas funcionales sobre aplicaciones.</li>
               <li>Documentación de errores y seguimiento de las correcciones con los responsables.</li>
             </ul>
-          </div>
-        </div>
-        <div class="timeline-item reveal">
-          <div class="timeline-dot"></div>
-          <div class="timeline-content">
-            <span class="timeline-date">Marzo 2019 - Abril 2022</span>
-            <h3>Technical Support Operator</h3>
-            <span class="timeline-company">Claro Argentina</span>
+          </li>
+          <li class="tl-item reveal">
+            <div class="tl-head"><h3>Technical Support Operator</h3><span class="tl-date">Mar 2019 – Abr 2022</span></div>
+            <p class="tl-company">Claro Argentina</p>
             <ul>
               <li>Soporte técnico L1 telefónico y digital: diagnóstico de incidentes de hardware, software y conectividad.</li>
               <li>Gestión de tickets cumpliendo objetivos de SLA y escalamiento a equipos especializados.</li>
             </ul>
-          </div>
-        </div>
-      </div>
-      <div class="linkedin-cta reveal">
-        <p>¿Querés ver recomendaciones, certificaciones y el detalle de cada puesto?</p>
-        <a href="https://www.linkedin.com/in/manuelmolina01" class="btn btn-linkedin" target="_blank" rel="noopener noreferrer">
-          <i class="fa-brands fa-linkedin" aria-hidden="true"></i> Ver perfil completo en LinkedIn
-        </a>
-      </div>
-    </section>
+          </li>
+        </ol>
 
-    <!-- HABILIDADES TÉCNICAS -->
-    <section id="habilidades" class="section bg-alt">
-      <div class="section-header reveal">
-        <span class="subtitle">Stack Técnico</span>
-        <h2>Habilidades</h2>
-        <p>Las herramientas y procesos que uso todos los días en monitoreo, incidentes y soporte de aplicaciones.</p>
-      </div>
-
-      <div class="skills-grid">
-        <div class="skill-card reveal">
-          <i class="fa-solid fa-chart-line skill-icon" aria-hidden="true"></i>
-          <h3>Monitoreo de Infraestructura</h3>
-          <p>Monitoreo de dashboards, análisis de alertas y detección de eventos sobre servidores, conectividad y APIs.</p>
-          <ul class="tag-list" aria-label="Herramientas"><li>Grafana</li><li>Zabbix</li><li>Alert Analysis</li><li>Event Detection</li></ul>
-          <div class="status-board" aria-label="Simulación de panel de monitoreo">
-            <div class="console-header">
-              <span><i class="fa-solid fa-display" aria-hidden="true"></i> NOC Dashboard (demo)</span>
-              <span class="status-clock" id="statusClock">--:--:--</span>
-            </div>
-            <ul class="status-list" id="statusList">
-              <li data-service="Servidores"><span class="status-dot"></span>Servidores<span class="status-value">UP</span></li>
-              <li data-service="Wi-Fi"><span class="status-dot"></span>Red / Wi-Fi<span class="status-value">UP</span></li>
-              <li data-service="APIs"><span class="status-dot"></span>APIs<span class="status-value">UP</span></li>
-              <li data-service="Base de datos"><span class="status-dot"></span>Base de datos<span class="status-value">UP</span></li>
+        <!-- Stack técnico -->
+        <aside class="space-y-4">
+          <div class="panel p-5 reveal">
+            <h3 class="mb-4 font-mono text-xs uppercase tracking-wider text-cc-cyan">Stack técnico</h3>
+            <ul class="space-y-3 text-sm">
+              <li class="stack-row"><span><i class="fa-solid fa-chart-line" aria-hidden="true"></i> Monitoreo</span><span>Grafana · Zabbix</span></li>
+              <li class="stack-row"><span><i class="fa-solid fa-ticket" aria-hidden="true"></i> ITSM</span><span>Jira · Redmine · ITIL</span></li>
+              <li class="stack-row"><span><i class="fa-solid fa-database" aria-hidden="true"></i> Datos</span><span>SQL · MongoDB</span></li>
+              <li class="stack-row"><span><i class="fa-solid fa-user-shield" aria-hidden="true"></i> Identidades</span><span>Active Directory</span></li>
+              <li class="stack-row"><span><i class="fa-solid fa-laptop-medical" aria-hidden="true"></i> Apps</span><span>Thinksoft · Biocom · Binary</span></li>
+              <li class="stack-row"><span><i class="fa-solid fa-network-wired" aria-hidden="true"></i> Redes</span><span>TCP/IP · DNS · DHCP · VPN</span></li>
+              <li class="stack-row"><span><i class="fa-solid fa-comments" aria-hidden="true"></i> Comunicación</span><span>Teams · NetSupport</span></li>
             </ul>
-            <div class="status-log" id="statusLog" aria-live="polite">&gt; Todos los servicios operativos.</div>
           </div>
-        </div>
-
-        <div class="skill-card reveal">
-          <i class="fa-solid fa-ticket skill-icon" aria-hidden="true"></i>
-          <h3>Gestión de Incidentes & ITSM</h3>
-          <p>Ciclo de vida completo del ticket con procesos basados en ITIL: registro, clasificación por impacto y criticidad, escalamiento y seguimiento hasta el cierre dentro del SLA.</p>
-          <ul class="tag-list" aria-label="Herramientas"><li>Jira</li><li>Redmine</li><li>ITIL</li><li>Incident Management</li><li>SLA</li></ul>
-        </div>
-
-        <div class="skill-card reveal">
-          <i class="fa-solid fa-laptop-medical skill-icon" aria-hidden="true"></i>
-          <h3>Application Support</h3>
-          <p>Troubleshooting y análisis funcional de incidentes sobre sistemas productivos del sector salud, con consultas a bases de datos para el diagnóstico.</p>
-          <ul class="tag-list" aria-label="Herramientas"><li>Thinksoft</li><li>Biocom</li><li>Binary</li><li>SQL</li><li>MongoDB</li></ul>
-        </div>
-
-        <div class="skill-card reveal">
-          <i class="fa-solid fa-user-shield skill-icon" aria-hidden="true"></i>
-          <h3>Sistemas & Identidades</h3>
-          <p>Alta y baja de usuarios (User Provisioning) y gestión de accesos y permisos en entornos Windows.</p>
-          <ul class="tag-list" aria-label="Herramientas"><li>Windows</li><li>Active Directory</li><li>Access Management</li><li>User Provisioning</li></ul>
-        </div>
-
-        <div class="skill-card reveal">
-          <i class="fa-solid fa-network-wired skill-icon" aria-hidden="true"></i>
-          <h3>Redes & Soporte Remoto</h3>
-          <p>Diagnóstico de conectividad y soporte remoto a usuarios, con documentación técnica de cada solución.</p>
-          <ul class="tag-list" aria-label="Herramientas"><li>TCP/IP</li><li>DNS</li><li>DHCP</li><li>VPN</li><li>Microsoft Teams</li><li>NetSupport</li></ul>
-          <div class="ping-console">
-            <div class="console-header">
-              <span><i class="fa-solid fa-terminal" aria-hidden="true"></i> Console Latency Test</span>
-              <button id="runPingBtn" class="ping-btn"><i class="fa-solid fa-play" aria-hidden="true"></i> Ping</button>
-            </div>
-            <div id="pingOutput" class="console-body" aria-live="polite">&gt; Sistema listo. Presioná 'Ping' para medir respuesta.</div>
+          <div class="panel p-5 reveal">
+            <p class="text-sm text-cc-muted">¿Querés ver recomendaciones, certificaciones y el detalle de cada puesto?</p>
+            <a href="https://www.linkedin.com/in/manuelmolina01" class="btn-linkedin mt-3 w-full justify-center" target="_blank" rel="noopener noreferrer"><i class="fa-brands fa-linkedin" aria-hidden="true"></i> Ver perfil completo en LinkedIn</a>
+            <a href="Manuel_Molina_CV.pdf" download="Manuel_Molina_CV.pdf" class="btn-ghost mt-2 w-full justify-center"><i class="fa-solid fa-file-arrow-down" aria-hidden="true"></i> Descargar CV (PDF)</a>
           </div>
-        </div>
-
-        <div class="skill-card reveal">
-          <i class="fa-solid fa-robot skill-icon" aria-hidden="true"></i>
-          <h3>Automatización & IA</h3>
-          <p>En formación en Automatización con Inteligencia Artificial (UTN) y Data Science (EducaciónIT). Abi es un pequeño asistente hecho en JavaScript: probalo.</p>
-          
-          <div class="ai-chat-box">
-            <div class="ai-chat-header">
-              <i class="fa-solid fa-wand-magic-sparkles"></i> Asistente IA Abi
-            </div>
-            <div class="ai-chat-input-wrapper">
-              <input type="text" id="aiInput" placeholder="Ej: ¿qué experiencia tenés?" aria-label="Preguntale a Abi" maxlength="200" />
-              <button id="aiSendBtn" aria-label="Enviar pregunta"><i class="fa-solid fa-paper-plane"></i></button>
-            </div>
-            <div id="aiResponse" class="ai-response-area" aria-live="polite">&gt; ¡Hola! Preguntame por experiencia, habilidades, formación o contacto 🚀</div>
-            <div class="ai-suggestions">
-              <button type="button" class="ai-chip" data-q="experiencia">Experiencia</button>
-              <button type="button" class="ai-chip" data-q="formacion">Formación</button>
-              <button type="button" class="ai-chip" data-q="contacto">Contacto</button>
-              <a href="https://www.linkedin.com/in/manuelmolina01" class="ai-chip" target="_blank" rel="noopener noreferrer"><i class="fa-brands fa-linkedin" aria-hidden="true"></i> LinkedIn</a>
-            </div>
-          </div>
-        </div>
-
+        </aside>
       </div>
     </section>
 
-    <!-- FORMACIÓN E IDIOMAS -->
-    <section id="formacion" class="section">
-      <div class="section-header reveal">
-        <span class="subtitle">Formación Continua</span>
-        <h2>Educación & Idiomas</h2>
+    <!-- ============ FORMACIÓN ============ -->
+    <section id="formacion" class="section bg-cc-panel/40">
+      <div class="section-head reveal">
+        <span class="eyebrow">// formación continua</span>
+        <h2>Educación &amp; Idiomas</h2>
       </div>
-
-      <div class="edu-grid">
+      <div class="mx-auto grid max-w-7xl gap-4 px-4 sm:px-6 sm:grid-cols-2 lg:grid-cols-4">
         <div class="edu-card reveal">
-          <div class="edu-icon"><i class="fa-solid fa-graduation-cap" aria-hidden="true"></i></div>
-          <div>
-            <span class="timeline-date">2017 - 2022</span>
-            <h3>Técnico Superior en Informática</h3>
-            <span class="timeline-company">IUTAI</span>
-          </div>
+          <i class="fa-solid fa-graduation-cap" aria-hidden="true"></i>
+          <span class="tl-date">2017 – 2022</span>
+          <h3>Técnico Superior en Informática</h3>
+          <p>IUTAI</p>
         </div>
-
         <div class="edu-card reveal">
-          <div class="edu-icon"><i class="fa-solid fa-wand-magic-sparkles" aria-hidden="true"></i></div>
-          <div>
-            <span class="timeline-date">2025 - Actualidad</span> <span class="in-progress">En curso</span>
-            <h3>Automatización con Inteligencia Artificial</h3>
-            <span class="timeline-company">Universidad Tecnológica Nacional (UTN)</span>
-          </div>
+          <i class="fa-solid fa-wand-magic-sparkles" aria-hidden="true"></i>
+          <span class="tl-date">2025 – Actualidad <span class="in-progress">EN CURSO</span></span>
+          <h3>Automatización con Inteligencia Artificial</h3>
+          <p>Universidad Tecnológica Nacional (UTN)</p>
         </div>
-
         <div class="edu-card reveal">
-          <div class="edu-icon"><i class="fa-solid fa-database" aria-hidden="true"></i></div>
-          <div>
-            <span class="timeline-date">2025 - Actualidad</span> <span class="in-progress">En curso</span>
-            <h3>Data Science</h3>
-            <span class="timeline-company">EducaciónIT</span>
-          </div>
+          <i class="fa-solid fa-database" aria-hidden="true"></i>
+          <span class="tl-date">2025 – Actualidad <span class="in-progress">EN CURSO</span></span>
+          <h3>Data Science</h3>
+          <p>EducaciónIT</p>
         </div>
-
         <div class="edu-card reveal">
-          <div class="edu-icon"><i class="fa-solid fa-language" aria-hidden="true"></i></div>
-          <div>
-            <span class="timeline-date">Idiomas</span>
-            <h3>Español nativo · Inglés B1</h3>
-            <span class="timeline-company">Inglés orientado a documentación técnica</span>
-          </div>
+          <i class="fa-solid fa-language" aria-hidden="true"></i>
+          <span class="tl-date">Idiomas</span>
+          <h3>Español nativo · Inglés B1</h3>
+          <p>Inglés orientado a documentación técnica</p>
         </div>
       </div>
     </section>
 
-    <!-- SERVICIOS OFRECIDOS -->
-    <section id="servicios" class="section bg-alt">
-      <div class="section-header reveal">
-        <span class="subtitle">Soluciones Profesionales</span>
+    <!-- ============ SERVICIOS ============ -->
+    <section id="servicios" class="section">
+      <div class="section-head reveal">
+        <span class="eyebrow">// soluciones profesionales</span>
         <h2>Servicios IT Independientes</h2>
       </div>
-
-      <div class="services-grid">
+      <div class="mx-auto grid max-w-7xl gap-4 px-4 sm:px-6 md:grid-cols-2 lg:grid-cols-3">
         <div class="service-card highlight reveal">
-          <div class="service-icon"><i class="fa-solid fa-chart-line" aria-hidden="true"></i></div>
-          <h3>Monitoreo & Operaciones IT</h3>
+          <i class="fa-solid fa-chart-line" aria-hidden="true"></i>
+          <h3>Monitoreo &amp; Operaciones IT</h3>
           <p>Armado y seguimiento de dashboards de disponibilidad (Grafana / Zabbix), definición de alertas y circuito de escalamiento de incidentes.</p>
           <a href="#contacto" class="service-cta" data-service="Monitoreo & Operaciones IT">Cotizar <i class="fa-solid fa-arrow-right" aria-hidden="true"></i></a>
         </div>
-
         <div class="service-card reveal">
-          <div class="service-icon"><i class="fa-solid fa-sliders"></i></div>
-          <h3>Soporte & Mesa de Ayuda L1/L2</h3>
+          <i class="fa-solid fa-sliders" aria-hidden="true"></i>
+          <h3>Soporte &amp; Mesa de Ayuda L1/L2</h3>
           <p>Asistencia técnica remota para empresas, resolución de incidencias en puestos de trabajo, redes y software base.</p>
           <a href="#contacto" class="service-cta" data-service="Soporte & Mesa de Ayuda L1/L2">Cotizar <i class="fa-solid fa-arrow-right" aria-hidden="true"></i></a>
         </div>
-
         <div class="service-card reveal">
-          <div class="service-icon"><i class="fa-solid fa-user-lock"></i></div>
-          <h3>Gestión de Accesos & Identidades</h3>
+          <i class="fa-solid fa-user-lock" aria-hidden="true"></i>
+          <h3>Gestión de Accesos &amp; Identidades</h3>
           <p>Implementación de políticas ABM, administración en Active Directory y control de permisos en sistemas productivos.</p>
           <a href="#contacto" class="service-cta" data-service="Gestión de Accesos & Identidades">Cotizar <i class="fa-solid fa-arrow-right" aria-hidden="true"></i></a>
         </div>
-
         <div class="service-card reveal">
-          <div class="service-icon"><i class="fa-solid fa-bug"></i></div>
-          <h3>Testing Funcional & QA</h3>
+          <i class="fa-solid fa-bug" aria-hidden="true"></i>
+          <h3>Testing Funcional &amp; QA</h3>
           <p>Revisión manual de aplicaciones internas, detección temprana de errores y documentación técnica de bugs.</p>
           <a href="#contacto" class="service-cta" data-service="Testing Funcional & QA">Cotizar <i class="fa-solid fa-arrow-right" aria-hidden="true"></i></a>
         </div>
-
         <div class="service-card reveal">
-          <div class="service-icon hardware-clean-icon">
-            <i class="fa-solid fa-wrench"></i>
-          </div>
-          <h3>Soporte de Campo & Hardware</h3>
+          <i class="fa-solid fa-wrench" aria-hidden="true"></i>
+          <h3>Soporte de Campo &amp; Hardware</h3>
           <p>Revisión física de hardware de PC, mantenimiento preventivo y correctivo, instalación de aplicativos base y desinfección profunda de malware.</p>
           <a href="#contacto" class="service-cta" data-service="Soporte de Campo & Hardware">Cotizar <i class="fa-solid fa-arrow-right" aria-hidden="true"></i></a>
         </div>
-
         <div class="service-card reveal">
-          <div class="service-icon"><i class="fa-solid fa-network-wired"></i></div>
-          <h3>Redes, Cableado & Infraestructura</h3>
+          <i class="fa-solid fa-network-wired" aria-hidden="true"></i>
+          <h3>Redes, Cableado &amp; Infraestructura</h3>
           <p>Armado e instalación de cableado estructurado de red, configuración de routers y switches, y estructuración integral de puestos de trabajo.</p>
           <a href="#contacto" class="service-cta" data-service="Redes, Cableado & Infraestructura">Cotizar <i class="fa-solid fa-arrow-right" aria-hidden="true"></i></a>
         </div>
       </div>
     </section>
 
-    <!-- FORMULARIO DE CONTACTO Y COTIZACIÓN -->
-    <section id="contacto" class="section">
-      <div class="section-header reveal">
-        <span class="subtitle">Iniciemos Conversación</span>
-        <h2>Cotizador & Contacto Directo</h2>
+    <!-- ============ COTIZADOR & CONTACTO DIRECTO ============ -->
+    <section id="contacto" class="section bg-cc-panel/40">
+      <div class="section-head reveal">
+        <span class="eyebrow">// iniciemos conversación</span>
+        <h2>Cotizador &amp; Contacto Directo</h2>
         <p>Seleccioná el servicio que te interesa cotizar o enviá una propuesta laboral. También podés escribirme por <a href="https://www.linkedin.com/in/manuelmolina01" target="_blank" rel="noopener noreferrer" class="inline-link"><i class="fa-brands fa-linkedin" aria-hidden="true"></i> LinkedIn</a>.</p>
       </div>
 
-      <div class="linkedin-cta reveal">
-        <p>¿Preferís hablar por LinkedIn? Enviame un mensaje directo o conectemos.</p>
-        <a href="https://www.linkedin.com/in/manuelmolina01" class="btn btn-linkedin" target="_blank" rel="noopener noreferrer">
-          <i class="fa-brands fa-linkedin" aria-hidden="true"></i> Conectar en LinkedIn
-        </a>
-      </div>
+      <div class="mx-auto grid max-w-7xl gap-6 px-4 sm:px-6 lg:grid-cols-[320px_1fr]">
+        <aside class="space-y-4">
+          <div class="panel p-5 reveal">
+            <p class="text-sm text-cc-muted">¿Preferís hablar por LinkedIn? Enviame un mensaje directo o conectemos.</p>
+            <a href="https://www.linkedin.com/in/manuelmolina01" class="btn-linkedin mt-3 w-full justify-center" target="_blank" rel="noopener noreferrer"><i class="fa-brands fa-linkedin" aria-hidden="true"></i> Conectar en LinkedIn</a>
+          </div>
+          <div class="panel p-5 font-mono text-xs leading-6 text-cc-muted reveal">
+            <p><span class="text-cc-cyan">ubicación</span>: Buenos Aires, Argentina</p>
+            <p><span class="text-cc-cyan">modalidad</span>: 100% remoto</p>
+            <p><span class="text-cc-cyan">rol buscado</span>: Command Center / IT Monitoring</p>
+            <p><span class="text-cc-cyan">cv</span>: <a href="Manuel_Molina_CV.pdf" download="Manuel_Molina_CV.pdf" class="text-white underline hover:text-cc-cyan">Manuel_Molina_CV.pdf</a></p>
+          </div>
+        </aside>
 
-      <div class="contact-wrapper">
-        <form id="portfolioForm" class="contact-form" action="https://formspree.io/f/maeypvry" method="POST" novalidate>
+        <form id="portfolioForm" class="contact-form panel p-5 sm:p-6 reveal" action="https://formspree.io/f/maeypvry" method="POST" novalidate>
           <input type="hidden" name="_subject" value="Nuevo contacto desde el portafolio">
           <input type="text" name="_gotcha" class="honeypot" tabindex="-1" autocomplete="off" aria-hidden="true">
-          
-          <div class="form-row">
+
+          <div class="grid gap-4 sm:grid-cols-2">
             <div class="form-group">
               <label for="fullname">Nombre y Apellido <span class="required">*</span></label>
               <div class="input-icon-wrapper">
-                <i class="fa-solid fa-user input-icon"></i>
+                <i class="fa-solid fa-user input-icon" aria-hidden="true"></i>
                 <input type="text" id="fullname" name="fullname" autocomplete="name" placeholder="Ej: Martín Gómez" maxlength="80" required>
               </div>
               <span class="error-msg">Ingresá tu nombre completo.</span>
             </div>
-
             <div class="form-group">
               <label for="company">Nombre de Empresa <span class="optional-tag">(Opcional)</span></label>
               <div class="input-icon-wrapper">
-                <i class="fa-solid fa-building input-icon"></i>
+                <i class="fa-solid fa-building input-icon" aria-hidden="true"></i>
                 <input type="text" id="company" name="company" autocomplete="organization" placeholder="Ej: Tech Solutions S.A." maxlength="100">
               </div>
             </div>
-          </div>
-
-          <div class="form-row">
             <div class="form-group">
               <label for="email">Correo Electrónico <span class="required">*</span></label>
               <div class="input-icon-wrapper">
-                <i class="fa-solid fa-envelope input-icon"></i>
+                <i class="fa-solid fa-envelope input-icon" aria-hidden="true"></i>
                 <input type="email" id="email" name="email" autocomplete="email" placeholder="ejemplo@empresa.com" maxlength="100" required>
               </div>
               <span class="error-msg">Correo electrónico no válido.</span>
             </div>
-
             <div class="form-group">
               <label for="service_type">Motivo / Servicio a Cotizar <span class="required">*</span></label>
               <div class="input-icon-wrapper">
-                <i class="fa-solid fa-list-check input-icon"></i>
-                <select id="service_type" name="service_type" class="custom-select" required>
+                <i class="fa-solid fa-list-check input-icon" aria-hidden="true"></i>
+                <select id="service_type" name="service_type" required>
                   <option value="Propuesta laboral" selected>Propuesta laboral</option>
-                  <option value="Monitoreo & Operaciones IT">Monitoreo & Operaciones IT</option>
-                  <option value="Soporte & Mesa de Ayuda L1/L2">Soporte & Mesa de Ayuda L1/L2</option>
-                  <option value="Gestión de Accesos & Identidades">Gestión de Accesos & Identidades</option>
-                  <option value="Testing Funcional & QA">Testing Funcional & QA</option>
-                  <option value="Soporte de Campo & Hardware">Soporte de Campo & Hardware</option>
-                  <option value="Redes, Cableado & Infraestructura">Redes, Cableado & Infraestructura</option>
+                  <option value="Monitoreo & Operaciones IT">Monitoreo &amp; Operaciones IT</option>
+                  <option value="Soporte & Mesa de Ayuda L1/L2">Soporte &amp; Mesa de Ayuda L1/L2</option>
+                  <option value="Gestión de Accesos & Identidades">Gestión de Accesos &amp; Identidades</option>
+                  <option value="Testing Funcional & QA">Testing Funcional &amp; QA</option>
+                  <option value="Soporte de Campo & Hardware">Soporte de Campo &amp; Hardware</option>
+                  <option value="Redes, Cableado & Infraestructura">Redes, Cableado &amp; Infraestructura</option>
                   <option value="Otros">Otros</option>
                 </select>
               </div>
             </div>
           </div>
 
-          <!-- SLIDER DE USUARIOS -->
-          <div class="form-group slider-group">
-            <div class="slider-header">
+          <div class="form-group mt-4">
+            <div class="mb-2 flex flex-wrap items-center justify-between gap-2">
               <label for="user_count_range">Estimación de Usuarios / Puestos IT:</label>
-              <span id="userCountDisplay" class="user-badge-count">10 usuarios</span>
+              <span id="userCountDisplay" class="rounded border border-cc-cyan/40 bg-cc-cyan/10 px-2 py-0.5 font-mono text-xs text-cc-cyan">10 usuarios</span>
             </div>
             <input type="range" id="user_count_range" name="user_count" min="1" max="500" value="10" class="user-slider">
-            <div class="slider-labels">
-              <span>1</span>
-              <span>100</span>
-              <span>250</span>
-              <span>500+</span>
-            </div>
+            <div class="mt-1 flex justify-between font-mono text-[11px] text-cc-muted"><span>1</span><span>100</span><span>250</span><span>500+</span></div>
           </div>
 
-          <div class="form-group">
+          <div class="form-group mt-4">
             <label for="message">Mensaje / Detalles Adicionales <span class="required">*</span></label>
             <textarea id="message" name="message" rows="4" placeholder="Describí los requerimientos de tu proyecto o propuesta..." maxlength="1000" required></textarea>
             <span class="error-msg">Por favor ingresá un mensaje.</span>
           </div>
 
-          <button type="submit" class="btn btn-accent btn-full" id="submitBtn">
+          <button type="submit" class="btn-primary mt-5 w-full justify-center" id="submitBtn">
             <span class="btn-text">Enviar Mensaje</span>
-            <i class="fa-solid fa-paper-plane"></i>
+            <i class="fa-solid fa-paper-plane" aria-hidden="true"></i>
           </button>
-
           <div id="formAlert" class="form-alert" role="status" aria-live="polite"></div>
         </form>
       </div>
     </section>
   </main>
 
-  <footer>
-    <div class="footer-content">
-      <p>&copy; <span id="currentYear">2026</span> <strong>Manuel Molina</strong> | Buenos Aires, Argentina</p>
-      <div class="footer-links">
-        <a href="https://www.linkedin.com/in/manuelmolina01" target="_blank" rel="noopener noreferrer" aria-label="LinkedIn"><i class="fa-brands fa-linkedin" aria-hidden="true"></i></a>
-        <a href="https://github.com/ThePantera" target="_blank" rel="noopener noreferrer" aria-label="GitHub"><i class="fa-brands fa-github" aria-hidden="true"></i></a>
-        <a href="Manuel_Molina_CV.pdf" download="Manuel_Molina_CV.pdf" aria-label="Descargar CV"><i class="fa-solid fa-file-arrow-down" aria-hidden="true"></i></a>
-        <a href="#contacto" aria-label="Contacto"><i class="fa-solid fa-envelope" aria-hidden="true"></i></a>
+  <footer class="border-t border-cc-line py-8">
+    <div class="mx-auto flex max-w-7xl flex-col items-center justify-between gap-4 px-4 font-mono text-xs text-cc-muted sm:flex-row sm:px-6">
+      <p>&copy; <span id="currentYear">2026</span> <strong class="text-white">Manuel Molina</strong> · Buenos Aires, Argentina · <span class="text-cc-ok">● all systems operational</span></p>
+      <div class="flex gap-4 text-base">
+        <a href="https://www.linkedin.com/in/manuelmolina01" target="_blank" rel="noopener noreferrer" aria-label="LinkedIn" class="hover:text-cc-cyan"><i class="fa-brands fa-linkedin" aria-hidden="true"></i></a>
+        <a href="https://github.com/ThePantera" target="_blank" rel="noopener noreferrer" aria-label="GitHub" class="hover:text-cc-cyan"><i class="fa-brands fa-github" aria-hidden="true"></i></a>
+        <a href="Manuel_Molina_CV.pdf" download="Manuel_Molina_CV.pdf" aria-label="Descargar CV" class="hover:text-cc-cyan"><i class="fa-solid fa-file-arrow-down" aria-hidden="true"></i></a>
+        <a href="#contacto" aria-label="Contacto" class="hover:text-cc-cyan"><i class="fa-solid fa-envelope" aria-hidden="true"></i></a>
       </div>
     </div>
-    <a href="#inicio" class="back-to-top" id="backToTop" aria-label="Volver arriba"><i class="fa-solid fa-arrow-up" aria-hidden="true"></i></a>
   </footer>
 
-  <script src="script.js?v=20261006d" defer></script>
+  <!-- Accesos flotantes -->
+  <button id="abiFab" class="abi-fab" aria-label="Abrir el asistente Abi"><i class="fa-solid fa-robot" aria-hidden="true"></i><span>Abi</span></button>
+  <a href="#inicio" class="back-to-top" id="backToTop" aria-label="Volver arriba"><i class="fa-solid fa-arrow-up" aria-hidden="true"></i></a>
+
+  <!-- Destello de alerta ("beep" visual) -->
+  <div id="alertFlash" class="alert-flash" aria-hidden="true"></div>
+
+  <script src="script.js?v=20261007a" defer></script>
 </body>
 </html>
