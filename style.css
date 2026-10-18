@@ -404,3 +404,46 @@ html[lang="es"] .lang-toggle [data-lang="es"], html[lang="en"] .lang-toggle [dat
 .cv-dialog { width: min(420px, calc(100vw - 32px)); padding: 0; border: 1px solid var(--line); border-radius: 12px; background: var(--panel); color: var(--text); }
 .cv-dialog::backdrop { background: rgba(3, 6, 10, .75); backdrop-filter: blur(3px); }
 .cv-dialog .field input { margin-top: 2px; }
+
+/* ---------- En pocas palabras ---------- */
+.tldr-wrap { padding: 0 16px 8px; }
+@media (min-width: 640px) { .tldr-wrap { padding: 0 24px 8px; } }
+.tldr { display: grid; gap: 20px; padding: 20px; border-color: rgba(34, 211, 238, .35); background: linear-gradient(135deg, rgba(34, 211, 238, .06), var(--panel) 60%); }
+.tldr-text { color: var(--text); font-size: 16px; line-height: 1.65; margin-top: 8px; max-width: 46rem; }
+.tldr-text strong { color: #fff; font-weight: 600; }
+.tldr-facts { display: grid; gap: 12px; }
+.tldr-facts dt { font-family: var(--mono); font-size: 10px; text-transform: uppercase; letter-spacing: .08em; color: var(--muted); }
+.tldr-facts dd { color: #fff; font-size: 14px; margin-top: 2px; }
+.tldr-actions { display: flex; flex-wrap: wrap; gap: 10px; align-items: flex-start; }
+@media (min-width: 768px) { .tldr-facts { grid-template-columns: repeat(3, minmax(0, 1fr)); } }
+@media (min-width: 1024px) {
+  .tldr { grid-template-columns: 1fr auto; padding: 24px 28px; }
+  .tldr-main { grid-column: 1; }
+  .tldr-actions { grid-column: 2; grid-row: 1; flex-direction: column; justify-content: center; }
+  .tldr-facts { grid-column: 1 / -1; border-top: 1px solid var(--line); padding-top: 16px; }
+}
+
+/* ---------- Paquetes de servicio ---------- */
+.plan-card { position: relative; display: flex; flex-direction: column; background: var(--panel); border: 1px solid var(--line); border-radius: 12px; padding: 24px 22px; transition: border-color .2s, transform .2s; }
+.plan-card:hover { border-color: rgba(34, 211, 238, .45); transform: translateY(-3px); }
+.plan-card.featured { border-color: var(--cyan); background: linear-gradient(180deg, rgba(34, 211, 238, .09), var(--panel) 55%); box-shadow: 0 0 0 1px rgba(34, 211, 238, .25), 0 18px 40px -20px rgba(34, 211, 238, .35); }
+@media (min-width: 1024px) { .plan-card.featured { transform: translateY(-8px); } .plan-card.featured:hover { transform: translateY(-11px); } }
+.plan-badge { position: absolute; top: -12px; left: 50%; transform: translateX(-50%); white-space: nowrap; background: var(--cyan); color: #04121a; font-family: var(--mono); font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: .06em; padding: 4px 12px; border-radius: 999px; }
+.plan-head > i { font-size: 22px; color: var(--cyan); display: block; margin-bottom: 12px; }
+.plan-head h3 { color: #fff; font-weight: 700; font-size: 19px; }
+.plan-head p { color: var(--muted); font-size: 14px; margin-top: 4px; }
+.plan-price { font-family: var(--mono); font-size: 15px; color: #fff; margin: 18px 0 16px; padding: 10px 12px; border: 1px dashed var(--line); border-radius: 8px; background: rgba(7, 11, 18, .5); }
+.plan-list { display: grid; gap: 10px; margin-bottom: 18px; }
+.plan-list li { display: flex; gap: 10px; align-items: flex-start; color: var(--text); font-size: 14px; line-height: 1.5; }
+.plan-list li i { color: var(--ok); font-size: 12px; margin-top: 5px; flex: none; }
+.plan-ideal { margin-top: auto; color: var(--muted); font-size: 13px; border-top: 1px solid var(--line); padding-top: 14px; }
+.plan-ideal > span:first-child { color: var(--cyan); font-family: var(--mono); font-size: 12px; }
+.plan-cta { margin-top: 16px; justify-content: center; width: 100%; }
+.plan-cta.service-cta { font-family: inherit; font-size: 14px; padding: 10px 16px; margin-top: 16px; }
+.plan-cta.btn-primary, .plan-cta.btn-primary:hover { color: #04121a; }
+.plan-cta.btn-ghost { color: var(--text); }
+.plan-cta.btn-ghost:hover { color: var(--cyan); }
+.plans-grid { padding-top: 12px; }
+.plans-note { max-width: 80rem; margin: 28px auto 0; padding: 0 16px; color: var(--muted); font-size: 14px; display: flex; flex-wrap: wrap; gap: 6px 10px; align-items: center; justify-content: center; text-align: center; }
+.plans-note > i { color: var(--cyan); }
+.plans-note .service-cta { padding-top: 0; margin-top: 0; }
