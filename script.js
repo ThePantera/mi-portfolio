@@ -1158,7 +1158,7 @@ ${evidence}
   const abiChips = $('#abiChips');
   const normalize = (str) => str.toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g, '');
 
-  function downloadCV() { openCvDialog(); }
+  function downloadCV() { saveCvFile(); countCvDownload(); }
 
   const chip = {
     lab: () => L('¿Qué hago en el LAB?', 'What do I do in the LAB?'),
@@ -1228,8 +1228,8 @@ ${evidence}
         gotoTab('jira'); return { text: L(`Te llevé al ticket MON-${lab.ticketNum}.`, `I took you to ticket MON-${lab.ticketNum}.`) };
       } },
     { keys: ['flujo', 'proceso', 'escal', 'triage', 'n2', 'n3', 'itil', 'incidente', 'workflow', 'process', 'incident', 'l2', 'l3'],
-      answer: () => ({ text: L('Su flujo L1 tiene 4 pasos:\n1) Detección en dashboards (Grafana/Zabbix)\n2) Triage con ipconfig, ping, logs y SQL\n3) Ticket en Jira/Redmine con prioridad, impacto y evidencia\n4) Escalamiento a N2/N3 por chat y seguimiento hasta el cierre dentro del SLA.',
-        'His L1 workflow has 4 steps:\n1) Detection on dashboards (Grafana/Zabbix)\n2) Triage with ipconfig, ping, logs and SQL\n3) Jira/Redmine ticket with priority, impact and evidence\n4) Escalation to L2/L3 via chat and follow-up until closure within SLA.'), chips: [chip.sim(), chip.exp()] }) },
+      answer: () => ({ text: L('Su flujo de trabajo tiene 4 pasos:\n1) Detección en dashboards (Grafana/Zabbix)\n2) Triage con ipconfig, ping, logs y SQL\n3) Ticket en Jira/Redmine con prioridad, impacto y evidencia\n4) Escalamiento a N2/N3 por chat y seguimiento hasta el cierre dentro del SLA.',
+        'His workflow has 4 steps:\n1) Detection on dashboards (Grafana/Zabbix)\n2) Triage with ipconfig, ping, logs and SQL\n3) Jira/Redmine ticket with priority, impact and evidence\n4) Escalation to L2/L3 via chat and follow-up until closure within SLA.'), chips: [chip.sim(), chip.exp()] }) },
     { keys: ['caso', 'casos', 'ejemplo', 'case', 'cases', 'example'],
       answer: () => { setTimeout(() => scrollToEl($('#casos')), 900); return { text: L('Algunos casos reales: el servidor de Holters de Cardiología, la memoria y caché de las APIs en Otamendi, ~10 casos cada 20 minutos en Medicus (blanqueo de claves, ABM en AD, corrección de DNI/nombre/apellido de pacientes) y validación de APIs con Postman y árboles IVR en Sondeos Global. Te llevo a la sección 👇',
         'Some real cases: the Cardiology Holter server, API memory and cache at Otamendi, ~10 cases every 20 minutes at Medicus (password resets, AD provisioning, fixing patient ID/name records) and API checks with Postman plus IVR trees at Sondeos Global. Taking you there 👇') }; } },
@@ -1251,12 +1251,12 @@ ${evidence}
     { keys: ['stack', 'habilidad', 'skill', 'sabe', 'herramienta', 'redmine', 'active directory', 'grafana', 'zabbix', 'monitoreo', 'sql', 'mongo', 'tecnologia', 'tools', 'monitoring', 'tech'],
       answer: () => ({ text: L('Monitoreo con Grafana y Zabbix, incidentes ITIL con Jira y Redmine, SQL Server y MongoDB, Postman, Windows Server, Active Directory y PowerShell, Application Support (Thinksoft, Biocom, Binary), IVR, redes (TCP/IP, DNS, DHCP, VPN, ipconfig, ping, tracert) y Teams/Slack.',
         'Monitoring with Grafana and Zabbix, ITIL incidents with Jira and Redmine, SQL Server and MongoDB, Postman, Windows Server, Active Directory and PowerShell, Application Support (Thinksoft, Biocom, Binary), IVR, networking (TCP/IP, DNS, DHCP, VPN, ipconfig, ping, tracert) and Teams/Slack.'), chips: [chip.sim()] }) },
-    { keys: ['servicio', 'ofrece', 'independiente', 'cableado', 'hardware', 'qa', 'testing', 'services', 'offer'],
-      answer: () => ({ text: L('Ofrece: monitoreo y operaciones IT, mesa de ayuda L1/L2, gestión de accesos, testing funcional/QA, soporte de hardware y redes. Podés cotizar desde el formulario 📋',
-        'He offers: monitoring and IT operations, L1/L2 help desk, access management, functional testing/QA, hardware and network support. You can request a quote from the form 📋'), chips: [L('Cotizar', 'Get a quote')] }) },
-    { keys: ['cv', 'curriculum', 'descargar', 'pdf', 'resume', 'download'], answer: () => { setTimeout(downloadCV, 700); return { text: L('¡Claro! Dejame tu correo en la ventana y se descarga el CV 📄', 'Sure! Leave your email in the window and the CV will download 📄') }; } },
+    { keys: ['servicio', 'ofrece', 'independiente', 'freelance', 'services', 'offer'],
+      answer: () => ({ text: L('Además de buscar un puesto estable, toma proyectos freelance de monitoreo y operaciones IT, mesa de ayuda L1/L2 y gestión de accesos en Active Directory. Podés consultarle desde el formulario 📋',
+        'Besides looking for a stable role, he takes freelance projects in monitoring and IT operations, L1/L2 help desk and Active Directory access management. You can ask him through the form 📋'), chips: [chip.contact()] }) },
+    { keys: ['cv', 'curriculum', 'descargar', 'pdf', 'resume', 'download'], answer: () => { setTimeout(downloadCV, 500); return { text: L('¡Claro! Ya se está descargando el CV de Manuel en PDF 📄', 'Sure! Manuel\'s CV is downloading as a PDF 📄') }; } },
     { keys: ['precio', 'costo', 'cotiz', 'presupuesto', 'cuanto', 'tarifa', 'valor', 'price', 'quote', 'cost', 'rate'],
-      answer: () => { setTimeout(() => scrollToEl($('#contacto')), 700); return { text: L('El presupuesto depende del servicio y la cantidad de usuarios. Te llevo al cotizador: elegí el servicio, mové el slider de usuarios y Manuel te responde a la brevedad 💬', 'The price depends on the service and number of users. Taking you to the quote form: pick the service, move the users slider and Manuel will reply shortly 💬') }; } },
+      answer: () => { setTimeout(() => scrollToEl($('#contacto')), 700); return { text: L('Depende del proyecto. Te llevo al formulario: contale qué necesitás y Manuel te responde a la brevedad 💬', 'It depends on the project. Taking you to the form: tell him what you need and Manuel will reply shortly 💬') }; } },
     { keys: ['linkedin', 'perfil', 'profile'], answer: () => ({ text: L('Acá tenés el LinkedIn de Manuel 👉', 'Here is Manuel\'s LinkedIn 👉'), link: { href: LINKEDIN_URL, text: 'linkedin.com/in/manuelmolina01' } }) },
     { keys: ['contact', 'mail', 'correo', 'hablar', 'escrib', 'whatsapp', 'telefono', 'email', 'talk', 'reach'],
       answer: () => { setTimeout(() => scrollToEl($('#contacto')), 900); return { text: L('Podés escribirle desde el formulario de contacto o por LinkedIn. ¡Te llevo al formulario! 📲', 'You can write to him from the contact form or on LinkedIn. Taking you to the form! 📲'), link: { href: LINKEDIN_URL, text: 'linkedin.com/in/manuelmolina01' } }; } },
@@ -1355,19 +1355,8 @@ ${evidence}
   }
 
   // ==========================================================
-  // 8. COTIZADOR & CONTACTO DIRECTO
+  // 8. CONTACTO
   // ==========================================================
-  const userSlider = $('#user_count_range');
-  const userCountDisplay = $('#userCountDisplay');
-
-  function updateUserCount() {
-    const val = parseInt(userSlider.value, 10);
-    userCountDisplay.innerText = val >= 500
-      ? L('500+ usuarios (Enterprise)', '500+ users (Enterprise)')
-      : `${val} ${L(val > 1 ? 'usuarios' : 'usuario', val > 1 ? 'users' : 'user')}`;
-  }
-  if (userSlider && userCountDisplay) userSlider.addEventListener('input', updateUserCount);
-
   // Preselección de servicio desde las tarjetas
   const serviceSelect = $('#service_type');
   $$('.service-cta[data-service]').forEach(link => {
@@ -1430,7 +1419,6 @@ ${evidence}
           formAlert.innerText = L(`¡Muchas gracias, ${fullname.value.trim()}! Tu mensaje fue enviado con éxito. Te responderé a la brevedad.`,
             `Thank you, ${fullname.value.trim()}! Your message was sent successfully. I will get back to you shortly.`);
           form.reset();
-          if (userSlider && userCountDisplay) updateUserCount();
         } else {
           const data = await response.json().catch(() => null);
           throw new Error(data && data.errors
@@ -1447,12 +1435,8 @@ ${evidence}
     });
   }
 
-  // 8b. DESCARGA DEL CV: se pide un correo antes (filtro contra bots y spam)
-  const cvDialog = $('#cvDialog');
-  const cvForm = $('#cvForm');
-  const cvEmail = $('#cvEmail');
-  const cvConsent = $('#cvConsent');
-  const cvError = $('#cvError');
+  // 8b. DESCARGA DEL CV: directa, sin pedir datos. Se cuenta de forma anónima.
+  function countCvDownload() { countLab('cv-downloads'); }
 
   function saveCvFile() {
     const link = document.createElement('a');
@@ -1463,54 +1447,16 @@ ${evidence}
     link.remove();
   }
 
-  function openCvDialog() {
-    if (store.get('cvEmailOk', sessionStorage) === '1') { saveCvFile(); return; }
-    if (!cvDialog || typeof cvDialog.showModal !== 'function') { scrollToEl($('#contacto')); return; }
-    cvError.classList.add('hidden');
-    cvDialog.showModal();
-    setTimeout(() => cvEmail.focus(), 50);
-  }
-
+  // Los enlaces .cv-link descargan solos (atributo download); acá solo se cuenta la descarga
   document.addEventListener('click', (e) => {
-    const link = e.target.closest('.cv-link');
-    if (!link) return;
-    e.preventDefault();
-    openCvDialog();
+    if (e.target.closest('.cv-link')) countCvDownload();
   });
-  if ($('#cvClose')) $('#cvClose').addEventListener('click', () => cvDialog.close());
-
-  if (cvForm) {
-    cvForm.addEventListener('submit', async (e) => {
-      e.preventDefault();
-      const showErr = (msg) => { cvError.textContent = msg; cvError.classList.remove('hidden'); };
-      if (!emailRegex.test(cvEmail.value.trim())) return showErr(L('Ingresá un correo válido.', 'Please enter a valid email.'));
-      if (!cvConsent.checked) return showErr(L('Tenés que aceptar la política de privacidad.', 'You need to accept the privacy policy.'));
-      // Si el campo trampa tiene contenido, es un bot: no se descarga nada
-      if (cvForm.querySelector('[name="_gotcha"]').value) { cvDialog.close(); return; }
-      const btn = $('#cvSubmit');
-      btn.disabled = true;
-      const data = new FormData();
-      data.append('email', cvEmail.value.trim());
-      data.append('motivo', 'Descarga de CV');
-      data.append('idioma', lang);
-      data.append('_subject', 'Descarga de CV desde el portafolio');
-      try {
-        await fetch(form ? form.action : 'https://formspree.io/f/maeypvry', { method: 'POST', body: data, headers: { 'Accept': 'application/json' } });
-      } catch (err) { /* aunque falle el aviso, el visitante ya dejó un correo válido */ }
-      btn.disabled = false;
-      store.set('cvEmailOk', '1', sessionStorage);
-      cvDialog.close();
-      cvForm.reset();
-      saveCvFile();
-    });
-  }
 
   // Enlaces a las políticas: abren el bloque desplegable del pie
   document.addEventListener('click', (e) => {
     const link = e.target.closest('.open-policies');
     if (!link) return;
     e.preventDefault();
-    if (cvDialog && cvDialog.open) cvDialog.close();
     const det = $('#politicas');
     det.open = true;
     scrollToEl(det);
@@ -1558,7 +1504,6 @@ ${evidence}
       if (s.card.dataset.state !== 'ok') setServiceState(s, s.card.dataset.state);
       renderTicket();
     }
-    if (userSlider && userCountDisplay) updateUserCount();
     if (submitText() && !$('#submitBtn').disabled) submitText().innerText = L('Enviar Mensaje', 'Send Message');
     if (abiChips) renderChips();
     // Si todavía no hubo conversación, el saludo de Abi cambia de idioma
