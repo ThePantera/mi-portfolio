@@ -17,9 +17,24 @@
   <meta property="og:image" content="https://thepantera.github.io/mi-portfolio/og-image.png">
   <meta property="og:image:width" content="1200">
   <meta property="og:image:height" content="627">
-  <meta property="og:image:alt" content="Manuel Molina, IT Monitoring Operator: avatar en pixel art y datos de experiencia">
+  <meta property="og:image:alt" content="Manuel Molina, IT Monitoring &amp; Command Center Operator: avatar en pixel art, consola y datos de experiencia">
   <meta name="twitter:card" content="summary_large_image">
   <link rel="canonical" href="https://thepantera.github.io/mi-portfolio/">
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "Person",
+    "name": "Manuel Molina",
+    "jobTitle": "IT Monitoring & Command Center Operator",
+    "url": "https://thepantera.github.io/mi-portfolio/",
+    "image": "https://thepantera.github.io/mi-portfolio/avatar-pixel.png",
+    "address": { "@type": "PostalAddress", "addressLocality": "Buenos Aires", "addressCountry": "AR" },
+    "alumniOf": { "@type": "EducationalOrganization", "name": "IUTAI" },
+    "knowsLanguage": ["es", "en"],
+    "knowsAbout": ["IT Monitoring", "Command Center", "Grafana", "Zabbix", "Incident Management", "ITIL", "Jira", "Redmine", "SQL Server", "MongoDB", "Active Directory", "Application Support"],
+    "sameAs": ["https://www.linkedin.com/in/manuelmolina01", "https://github.com/ThePantera"]
+  }
+  </script>
   <link rel="icon" type="image/png" href="favicon.png">
   <link rel="apple-touch-icon" href="favicon.png">
 
@@ -30,8 +45,8 @@
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 
   <!-- Tailwind CSS compilado (ver tailwind.config.js) + estilos propios -->
-  <link rel="stylesheet" href="tailwind.css?v=20261007c">
-  <link rel="stylesheet" href="style.css?v=20261007c">
+  <link rel="stylesheet" href="tailwind.css?v=20261028">
+  <link rel="stylesheet" href="style.css?v=20261028">
 </head>
 <body class="bg-cc-bg text-cc-text font-sans antialiased">
   <a href="#inicio" class="skip-link" data-en="Skip to content">Saltar al contenido</a>
@@ -45,10 +60,10 @@
       </a>
 
       <nav id="navLinks" class="nav-links" aria-label="Navegación principal">
+        <a href="#experiencia" class="nav-link" data-en="Experience">Experiencia</a>
         <a href="#flujo" class="nav-link" data-en="Workflow">Flujo</a>
         <a href="#casos" class="nav-link" data-en="Cases">Casos</a>
         <a href="#lab" class="nav-link">LAB</a>
-        <a href="#experiencia" class="nav-link" data-en="Experience">Experiencia</a>
         <a href="#formacion" class="nav-link" data-en="Education">Formación</a>
         <a href="#servicios" class="nav-link" data-en="Services">Servicios</a>
         <a href="#contacto" class="nav-link" data-en="Contact">Contacto</a>
@@ -95,12 +110,12 @@
           </p>
 
           <div class="mt-8 flex flex-wrap gap-3">
-            <a href="#lab" class="btn-primary"><i class="fa-solid fa-flask-vial" aria-hidden="true"></i> <span data-en="Try the Monitoring LAB">Probar LAB de Monitoreo</span></a>
-            <a href="#experiencia" class="btn-ghost"><i class="fa-solid fa-briefcase" aria-hidden="true"></i> <span data-en="See Experience">Ver Experiencia</span></a>
+            <a href="Manuel_Molina_CV.pdf" class="btn-primary cv-link" download="Manuel_Molina_CV.pdf"><i class="fa-solid fa-file-arrow-down" aria-hidden="true"></i> <span data-en="Download CV">Descargar CV</span></a>
+            <a href="#lab" class="btn-ghost"><i class="fa-solid fa-flask-vial" aria-hidden="true"></i> <span data-en="Try the Monitoring LAB">Probar LAB de Monitoreo</span></a>
             <a href="#contacto" class="btn-ghost"><i class="fa-solid fa-paper-plane" aria-hidden="true"></i> <span data-en="Contact">Contacto</span></a>
           </div>
           <div class="mt-5 flex flex-wrap gap-4 font-mono text-xs text-cc-muted">
-            <a href="Manuel_Molina_CV.pdf" class="cv-link hover:text-cc-cyan"><i class="fa-solid fa-file-arrow-down" aria-hidden="true"></i> <span data-en="Download CV">Descargar CV</span></a>
+            <a href="#experiencia" class="hover:text-cc-cyan"><i class="fa-solid fa-briefcase" aria-hidden="true"></i> <span data-en="See experience">Ver experiencia</span></a>
             <a href="https://www.linkedin.com/in/manuelmolina01" target="_blank" rel="noopener noreferrer" class="hover:text-cc-cyan"><i class="fa-brands fa-linkedin" aria-hidden="true"></i> linkedin.com/in/manuelmolina01</a>
           </div>
 
@@ -127,7 +142,7 @@
             <pre class="overflow-x-auto font-mono text-xs leading-6 text-cc-muted"><span class="text-cc-cyan">$</span> whoami
 <span class="text-white">manuel.molina</span> · Buenos Aires, AR
 <span class="text-cc-cyan">$</span> cat rol.txt
-Command Center Operator <span class="text-cc-ok">[L1]</span>
+IT Monitoring &amp; Command Center Operator
 <span class="text-cc-cyan">$</span> systemctl status stack
 <span class="text-cc-ok">●</span> grafana  <span class="text-cc-ok">●</span> zabbix  <span class="text-cc-ok">●</span> jira
 <span class="text-cc-ok">●</span> redmine  <span class="text-cc-ok">●</span> sql  <span class="text-cc-ok">●</span> ad  <span class="text-cc-ok">●</span> itil</pre>
@@ -140,7 +155,109 @@ Command Center Operator <span class="text-cc-ok">[L1]</span>
       </div>
     </section>
 
-    <!-- ============ FLUJO DE TRABAJO L1 ============ -->
+    <!-- ============ EXPERIENCIA ============ -->
+    <section id="experiencia" class="section bg-cc-panel/40">
+      <div class="section-head reveal">
+        <span class="eyebrow" data-en="// career">// trayectoria</span>
+        <h2 data-en="Experience">Experiencia</h2>
+        <p data-en="From L1 support in telecommunications to infrastructure monitoring and Application Support in healthcare.">De soporte L1 en telecomunicaciones a monitoreo de infraestructura y Application Support en el sector salud.</p>
+      </div>
+
+      <div class="mx-auto grid max-w-7xl gap-8 px-4 sm:px-6 lg:grid-cols-[1fr_340px]">
+        <ol class="timeline">
+          <li class="tl-item reveal">
+            <div class="tl-head"><h3 data-en="Monitoring Operator">Operador de Monitoreo</h3><span class="tl-date" data-en="Nov 2025 – Present">Nov 2025 – Actualidad</span></div>
+            <p class="tl-company">Sanatorio Otamendi <span class="tl-live" data-en="CURRENT">ACTIVO</span></p>
+            <ul>
+              <li data-en="Infrastructure and service monitoring through dashboards and graphs, supervising server status.">Monitoreo de infraestructura y servicios mediante dashboards y gráficas, supervisando el estado de los servidores.</li>
+              <li data-en="Tracking API status and memory and cache usage, running cache cleanups when needed so the hospital system does not get saturated.">Seguimiento del estado de las APIs y del porcentaje de memoria y caché, con limpieza cuando hace falta para que no se sature el sistema hospitalario.</li>
+              <li data-en="Checking signals and transactions from medical equipment, such as Holters connected to the Cardiology server.">Verificación de señales y transacciones de equipos médicos, como los Holters conectados al servidor de Cardiología.</li>
+              <li data-en="Availability control and early detection of outages or anomalies in servers, connectivity/Wi-Fi and APIs, with ipconfig and ping checks.">Control de disponibilidad y detección temprana de caídas o anomalías en servidores, conectividad/Wi-Fi y APIs, con verificaciones de ipconfig y ping.</li>
+              <li data-en="Logging every incident in a ticket, communicating via chat and escalating to the responsible team.">Registro de cada incidente en ticket, comunicación por chat y escalamiento al sector responsable.</li>
+            </ul>
+          </li>
+          <li class="tl-item reveal">
+            <div class="tl-head"><h3>IT Analyst</h3><span class="tl-date" data-en="Nov 2025 – Present">Nov 2025 – Actualidad</span></div>
+            <p class="tl-company">Medicus <span class="tl-live" data-en="CURRENT">ACTIVO</span></p>
+            <ul>
+              <li data-en="High-volume handling: around 10 cases every 20 minutes.">Atención de alto volumen: alrededor de 10 casos cada 20 minutos.</li>
+              <li data-en="Password resets and user provisioning (create, modify, remove) and permissions in Active Directory, plus remote support.">Blanqueo de claves, ABM y permisos de usuarios en Active Directory, y soporte remoto.</li>
+              <li data-en="Fixing patient records loaded with errors (ID number, first name, last name), validated with SQL and MongoDB queries.">Corrección de datos de pacientes mal cargados (DNI, nombre, apellido), validando con consultas SQL y MongoDB.</li>
+              <li data-en="Application Support and troubleshooting on production systems: Thinksoft, Biocom and Binary, together with the Functional Squad.">Application Support y troubleshooting sobre sistemas productivos (Thinksoft, Biocom y Binary), junto al Squad Funcional.</li>
+              <li data-en="Documenting everything that happens during each shift, for audits and future reference.">Documentación de todo lo que sucede en cada jornada, para auditoría y futuras prácticas.</li>
+            </ul>
+          </li>
+          <li class="tl-item reveal">
+            <div class="tl-head"><h3>Technical Support Analyst</h3><span class="tl-date" data-en="Feb 2025 – Jan 2026">Feb 2025 – Ene 2026</span></div>
+            <p class="tl-company">Sondeos Global</p>
+            <ul>
+              <li data-en="L1/L2 technical support and ticket management classified by impact and severity.">Soporte técnico L1/L2 y gestión de tickets clasificados por impacto y criticidad.</li>
+              <li data-en="Running and verifying queries against external services (for example RENAPER) with Postman.">Consultas y verificación de servicios externos (por ejemplo, RENAPER) con Postman.</li>
+              <li data-en="Reviewing call logs per route and building IVR trees for callers to consulting firms and collection agencies.">Revisión de logs de llamadas por ruta y armado de árboles IVR para llamadores hacia consultoras y estudios de cobranza.</li>
+              <li data-en="Troubleshooting and escalating complex incidents, documenting solutions for recurring issues.">Troubleshooting y escalamiento de incidentes complejos, con documentación de soluciones para incidentes recurrentes.</li>
+            </ul>
+          </li>
+          <li class="tl-item reveal">
+            <div class="tl-head"><h3>IT / Administrative Support</h3><span class="tl-date" data-en="May 2022 – Feb 2025">May 2022 – Feb 2025</span></div>
+            <p class="tl-company">Beretta Galarce &amp; Asociados</p>
+            <ul>
+              <li data-en="Operational support for internal users and functional testing of applications.">Soporte operativo a usuarios internos y pruebas funcionales sobre aplicaciones.</li>
+              <li data-en="Documenting errors and following up on fixes with the owners.">Documentación de errores y seguimiento de las correcciones con los responsables.</li>
+            </ul>
+          </li>
+          <li class="tl-item reveal">
+            <div class="tl-head"><h3>Technical Support Operator</h3><span class="tl-date" data-en="Mar 2019 – Apr 2022">Mar 2019 – Abr 2022</span></div>
+            <p class="tl-company">Claro Argentina</p>
+            <ul>
+              <li data-en="L1 phone and digital technical support: diagnosing hardware, software and connectivity incidents.">Soporte técnico L1 telefónico y digital: diagnóstico de incidentes de hardware, software y conectividad.</li>
+              <li data-en="Ticket management meeting SLA targets and escalating to specialized teams.">Gestión de tickets cumpliendo objetivos de SLA y escalamiento a equipos especializados.</li>
+            </ul>
+          </li>
+        </ol>
+
+        <aside class="space-y-4">
+          <div class="panel stack-panel overflow-hidden reveal">
+            <div class="panel-bar"><span class="text-cc-cyan" data-en="Tech stack">Stack técnico</span><span>modules: <b id="stackCount" class="text-cc-ok">0</b></span></div>
+            <div class="stack-progress" aria-hidden="true"><span></span></div>
+            <div class="space-y-4 p-5">
+              <div>
+                <p class="stack-cat"><i class="fa-solid fa-chart-line" aria-hidden="true"></i> <span data-en="Monitoring">Monitoreo</span></p>
+                <ul class="stack-chips"><li class="stack-chip" style="--i:0"><i class="fa-solid fa-chart-area" aria-hidden="true"></i>Grafana</li><li class="stack-chip" style="--i:1"><i class="fa-solid fa-tower-broadcast" aria-hidden="true"></i>Zabbix</li><li class="stack-chip" style="--i:2"><i class="fa-solid fa-bell" aria-hidden="true"></i><span data-en="Alerts / Thresholds">Alertas / Umbrales</span></li><li class="stack-chip" style="--i:3"><i class="fa-solid fa-gauge-high" aria-hidden="true"></i>Dashboards</li></ul>
+              </div>
+              <div>
+                <p class="stack-cat"><i class="fa-solid fa-ticket" aria-hidden="true"></i> <span data-en="ITSM &amp; incidents">ITSM e incidentes</span></p>
+                <ul class="stack-chips"><li class="stack-chip" style="--i:4"><i class="fa-brands fa-jira" aria-hidden="true"></i>Jira</li><li class="stack-chip" style="--i:5"><i class="fa-solid fa-list-check" aria-hidden="true"></i>Redmine</li><li class="stack-chip" style="--i:6"><i class="fa-solid fa-book" aria-hidden="true"></i>ITIL</li><li class="stack-chip" style="--i:7"><i class="fa-solid fa-stopwatch" aria-hidden="true"></i>SLA · MTTA</li><li class="stack-chip" style="--i:8"><i class="fa-solid fa-file-signature" aria-hidden="true"></i><span data-en="Documentation &amp; audit">Documentación y auditoría</span></li></ul>
+              </div>
+              <div>
+                <p class="stack-cat"><i class="fa-solid fa-database" aria-hidden="true"></i> <span data-en="Data &amp; APIs">Datos y APIs</span></p>
+                <ul class="stack-chips"><li class="stack-chip" style="--i:9"><i class="fa-solid fa-database" aria-hidden="true"></i>SQL Server</li><li class="stack-chip" style="--i:10"><i class="fa-solid fa-leaf" aria-hidden="true"></i>MongoDB</li><li class="stack-chip" style="--i:11"><i class="fa-solid fa-paper-plane" aria-hidden="true"></i>Postman</li><li class="stack-chip" style="--i:12"><i class="fa-solid fa-code" aria-hidden="true"></i>REST · JSON</li></ul>
+              </div>
+              <div>
+                <p class="stack-cat"><i class="fa-solid fa-user-shield" aria-hidden="true"></i> <span data-en="Systems &amp; identity">Sistemas e identidades</span></p>
+                <ul class="stack-chips"><li class="stack-chip" style="--i:13"><i class="fa-brands fa-windows" aria-hidden="true"></i>Windows · Windows Server</li><li class="stack-chip" style="--i:14"><i class="fa-solid fa-users-gear" aria-hidden="true"></i>Active Directory</li><li class="stack-chip" style="--i:15"><i class="fa-solid fa-terminal" aria-hidden="true"></i>PowerShell · CMD</li><li class="stack-chip" style="--i:16"><i class="fa-solid fa-laptop-medical" aria-hidden="true"></i>Thinksoft · Biocom · Binary</li></ul>
+              </div>
+              <div>
+                <p class="stack-cat"><i class="fa-solid fa-network-wired" aria-hidden="true"></i> <span data-en="Networking &amp; telephony">Redes y telefonía</span></p>
+                <ul class="stack-chips"><li class="stack-chip" style="--i:17"><i class="fa-solid fa-network-wired" aria-hidden="true"></i>TCP/IP · DNS · DHCP</li><li class="stack-chip" style="--i:18"><i class="fa-solid fa-shield-halved" aria-hidden="true"></i>VPN</li><li class="stack-chip" style="--i:19"><i class="fa-solid fa-satellite-dish" aria-hidden="true"></i>ipconfig · ping · tracert</li><li class="stack-chip" style="--i:20"><i class="fa-solid fa-phone-volume" aria-hidden="true"></i>IVR</li></ul>
+              </div>
+              <div>
+                <p class="stack-cat"><i class="fa-solid fa-comments" aria-hidden="true"></i> <span data-en="Collaboration">Colaboración</span></p>
+                <ul class="stack-chips"><li class="stack-chip" style="--i:21"><i class="fa-brands fa-microsoft" aria-hidden="true"></i>Microsoft Teams · 365</li><li class="stack-chip" style="--i:22"><i class="fa-brands fa-slack" aria-hidden="true"></i>Slack</li><li class="stack-chip" style="--i:23"><i class="fa-solid fa-display" aria-hidden="true"></i>NetSupport</li></ul>
+              </div>
+            </div>
+          </div>
+          <div class="panel p-5 reveal">
+            <p class="text-sm text-cc-muted" data-en="Want to see recommendations, certifications and full details for each role?">¿Querés ver recomendaciones, certificaciones y el detalle de cada puesto?</p>
+            <div class="mt-3 grid grid-cols-2 gap-2">
+              <a href="https://www.linkedin.com/in/manuelmolina01" class="btn-linkedin justify-center" target="_blank" rel="noopener noreferrer"><i class="fa-brands fa-linkedin" aria-hidden="true"></i> LinkedIn</a>
+              <a href="Manuel_Molina_CV.pdf" class="btn-ghost cv-link justify-center text-center" download="Manuel_Molina_CV.pdf"><i class="fa-solid fa-file-arrow-down" aria-hidden="true"></i> <span data-en="Download CV (PDF)">Descargar CV (PDF)</span></a>
+            </div>
+          </div>
+        </aside>
+      </div>
+    </section>
+
+    <!-- ============ FLUJO DE TRABAJO ============ -->
     <section id="flujo" class="section">
       <div class="section-head reveal">
         <span class="eyebrow" data-en="// operations runbook">// runbook operativo</span>
@@ -264,7 +381,7 @@ Command Center Operator <span class="text-cc-ok">[L1]</span>
               <button class="tab" role="tab" id="tab-dash" aria-controls="panel-dash" aria-selected="true"><i class="fa-solid fa-gauge-high" aria-hidden="true"></i> <span>1 · Dashboard</span></button>
               <button class="tab" role="tab" id="tab-jira" aria-controls="panel-jira" aria-selected="false" tabindex="-1"><i class="fa-brands fa-jira" aria-hidden="true"></i> <span>2 · Tickets</span><span id="jiraBadge" class="tab-badge hidden">1</span></button>
               <button class="tab" role="tab" id="tab-console" aria-controls="panel-console" aria-selected="false" tabindex="-1"><i class="fa-solid fa-terminal" aria-hidden="true"></i> <span data-en="3 · Diagnostics">3 · Diagnóstico</span></button>
-              <button class="tab" role="tab" id="tab-abi" aria-controls="panel-abi" aria-selected="false" tabindex="-1"><i class="fa-solid fa-wand-magic-sparkles" aria-hidden="true"></i> <span data-en="Abi AI">Abi IA</span></button>
+              <button class="tab" role="tab" id="tab-abi" aria-controls="panel-abi" aria-selected="false" tabindex="-1"><i class="fa-solid fa-wand-magic-sparkles" aria-hidden="true"></i> <span>Abi</span></button>
             </div>
 
             <!-- WIDGET 1: DASHBOARD -->
@@ -424,8 +541,8 @@ Command Center Operator <span class="text-cc-ok">[L1]</span>
               <div class="mb-3 flex items-center gap-3">
                 <span class="grid h-10 w-10 flex-none place-items-center rounded-full bg-gradient-to-br from-cc-cyan to-cc-blue text-cc-bg"><i class="fa-solid fa-robot" aria-hidden="true"></i></span>
                 <div>
-                  <h3 class="widget-title" data-en="Abi AI Assistant">Asistente IA Abi</h3>
-                  <p class="widget-sub" data-en="Knows Manuel's profile and the LAB state in real time.">Conoce el perfil de Manuel y el estado del LAB en tiempo real.</p>
+                  <h3 class="widget-title" data-en="Abi, the assistant">Asistente Abi</h3>
+                  <p class="widget-sub" data-en="Knows Manuel's profile and follows the LAB in real time. Answers by keywords, in JavaScript.">Conoce el perfil de Manuel y sigue el LAB en tiempo real. Responde por palabras clave, en JavaScript.</p>
                 </div>
               </div>
               <div id="abiLog" class="abi-log" aria-live="polite"></div>
@@ -456,110 +573,8 @@ Command Center Operator <span class="text-cc-ok">[L1]</span>
       </div>
     </section>
 
-    <!-- ============ EXPERIENCIA ============ -->
-    <section id="experiencia" class="section bg-cc-panel/40">
-      <div class="section-head reveal">
-        <span class="eyebrow" data-en="// career">// trayectoria</span>
-        <h2 data-en="Experience">Experiencia</h2>
-        <p data-en="From L1 support in telecommunications to infrastructure monitoring and Application Support in healthcare.">De soporte L1 en telecomunicaciones a monitoreo de infraestructura y Application Support en el sector salud.</p>
-      </div>
-
-      <div class="mx-auto grid max-w-7xl gap-8 px-4 sm:px-6 lg:grid-cols-[1fr_340px]">
-        <ol class="timeline">
-          <li class="tl-item reveal">
-            <div class="tl-head"><h3 data-en="Monitoring Operator">Operador de Monitoreo</h3><span class="tl-date" data-en="Nov 2025 – Present">Nov 2025 – Actualidad</span></div>
-            <p class="tl-company">Sanatorio Otamendi <span class="tl-live" data-en="CURRENT">ACTIVO</span></p>
-            <ul>
-              <li data-en="Infrastructure and service monitoring through dashboards and graphs, supervising server status.">Monitoreo de infraestructura y servicios mediante dashboards y gráficas, supervisando el estado de los servidores.</li>
-              <li data-en="Tracking API status and memory and cache usage, running cache cleanups when needed so the hospital system does not get saturated.">Seguimiento del estado de las APIs y del porcentaje de memoria y caché, con limpieza cuando hace falta para que no se sature el sistema hospitalario.</li>
-              <li data-en="Checking signals and transactions from medical equipment, such as Holters connected to the Cardiology server.">Verificación de señales y transacciones de equipos médicos, como los Holters conectados al servidor de Cardiología.</li>
-              <li data-en="Availability control and early detection of outages or anomalies in servers, connectivity/Wi-Fi and APIs, with ipconfig and ping checks.">Control de disponibilidad y detección temprana de caídas o anomalías en servidores, conectividad/Wi-Fi y APIs, con verificaciones de ipconfig y ping.</li>
-              <li data-en="Logging every incident in a ticket, communicating via chat and escalating to the responsible team.">Registro de cada incidente en ticket, comunicación por chat y escalamiento al sector responsable.</li>
-            </ul>
-          </li>
-          <li class="tl-item reveal">
-            <div class="tl-head"><h3>IT Analyst</h3><span class="tl-date" data-en="Nov 2025 – Present">Nov 2025 – Actualidad</span></div>
-            <p class="tl-company">Medicus <span class="tl-live" data-en="CURRENT">ACTIVO</span></p>
-            <ul>
-              <li data-en="High-volume handling: around 10 cases every 20 minutes.">Atención de alto volumen: alrededor de 10 casos cada 20 minutos.</li>
-              <li data-en="Password resets and user provisioning (create, modify, remove) and permissions in Active Directory, plus remote support.">Blanqueo de claves, ABM y permisos de usuarios en Active Directory, y soporte remoto.</li>
-              <li data-en="Fixing patient records loaded with errors (ID number, first name, last name), validated with SQL and MongoDB queries.">Corrección de datos de pacientes mal cargados (DNI, nombre, apellido), validando con consultas SQL y MongoDB.</li>
-              <li data-en="Application Support and troubleshooting on production systems: Thinksoft, Biocom and Binary, together with the Functional Squad.">Application Support y troubleshooting sobre sistemas productivos (Thinksoft, Biocom y Binary), junto al Squad Funcional.</li>
-              <li data-en="Documenting everything that happens during each shift, for audits and future reference.">Documentación de todo lo que sucede en cada jornada, para auditoría y futuras prácticas.</li>
-            </ul>
-          </li>
-          <li class="tl-item reveal">
-            <div class="tl-head"><h3>Technical Support Analyst</h3><span class="tl-date" data-en="Feb 2025 – Jan 2026">Feb 2025 – Ene 2026</span></div>
-            <p class="tl-company">Sondeos Global</p>
-            <ul>
-              <li data-en="L1/L2 technical support and ticket management classified by impact and severity.">Soporte técnico L1/L2 y gestión de tickets clasificados por impacto y criticidad.</li>
-              <li data-en="Running and verifying queries against external services (for example RENAPER) with Postman.">Consultas y verificación de servicios externos (por ejemplo, RENAPER) con Postman.</li>
-              <li data-en="Reviewing call logs per route and building IVR trees for callers to consulting firms and collection agencies.">Revisión de logs de llamadas por ruta y armado de árboles IVR para llamadores hacia consultoras y estudios de cobranza.</li>
-              <li data-en="Troubleshooting and escalating complex incidents, documenting solutions for recurring issues.">Troubleshooting y escalamiento de incidentes complejos, con documentación de soluciones para incidentes recurrentes.</li>
-            </ul>
-          </li>
-          <li class="tl-item reveal">
-            <div class="tl-head"><h3>IT / Administrative Support</h3><span class="tl-date" data-en="May 2022 – Feb 2025">May 2022 – Feb 2025</span></div>
-            <p class="tl-company">Beretta Galarce &amp; Asociados</p>
-            <ul>
-              <li data-en="Operational support for internal users and functional testing of applications.">Soporte operativo a usuarios internos y pruebas funcionales sobre aplicaciones.</li>
-              <li data-en="Documenting errors and following up on fixes with the owners.">Documentación de errores y seguimiento de las correcciones con los responsables.</li>
-            </ul>
-          </li>
-          <li class="tl-item reveal">
-            <div class="tl-head"><h3>Technical Support Operator</h3><span class="tl-date" data-en="Mar 2019 – Apr 2022">Mar 2019 – Abr 2022</span></div>
-            <p class="tl-company">Claro Argentina</p>
-            <ul>
-              <li data-en="L1 phone and digital technical support: diagnosing hardware, software and connectivity incidents.">Soporte técnico L1 telefónico y digital: diagnóstico de incidentes de hardware, software y conectividad.</li>
-              <li data-en="Ticket management meeting SLA targets and escalating to specialized teams.">Gestión de tickets cumpliendo objetivos de SLA y escalamiento a equipos especializados.</li>
-            </ul>
-          </li>
-        </ol>
-
-        <aside class="space-y-4">
-          <div class="panel stack-panel overflow-hidden reveal">
-            <div class="panel-bar"><span class="text-cc-cyan" data-en="Tech stack">Stack técnico</span><span>modules: <b id="stackCount" class="text-cc-ok">0</b></span></div>
-            <div class="stack-progress" aria-hidden="true"><span></span></div>
-            <div class="space-y-4 p-5">
-              <div>
-                <p class="stack-cat"><i class="fa-solid fa-chart-line" aria-hidden="true"></i> <span data-en="Monitoring">Monitoreo</span></p>
-                <ul class="stack-chips"><li class="stack-chip" style="--i:0"><i class="fa-solid fa-chart-area" aria-hidden="true"></i>Grafana</li><li class="stack-chip" style="--i:1"><i class="fa-solid fa-tower-broadcast" aria-hidden="true"></i>Zabbix</li><li class="stack-chip" style="--i:2"><i class="fa-solid fa-bell" aria-hidden="true"></i><span data-en="Alerts / Thresholds">Alertas / Umbrales</span></li><li class="stack-chip" style="--i:3"><i class="fa-solid fa-gauge-high" aria-hidden="true"></i>Dashboards</li></ul>
-              </div>
-              <div>
-                <p class="stack-cat"><i class="fa-solid fa-ticket" aria-hidden="true"></i> <span data-en="ITSM &amp; incidents">ITSM e incidentes</span></p>
-                <ul class="stack-chips"><li class="stack-chip" style="--i:4"><i class="fa-brands fa-jira" aria-hidden="true"></i>Jira</li><li class="stack-chip" style="--i:5"><i class="fa-solid fa-list-check" aria-hidden="true"></i>Redmine</li><li class="stack-chip" style="--i:6"><i class="fa-solid fa-book" aria-hidden="true"></i>ITIL</li><li class="stack-chip" style="--i:7"><i class="fa-solid fa-stopwatch" aria-hidden="true"></i>SLA · MTTA</li><li class="stack-chip" style="--i:8"><i class="fa-solid fa-file-signature" aria-hidden="true"></i><span data-en="Documentation &amp; audit">Documentación y auditoría</span></li></ul>
-              </div>
-              <div>
-                <p class="stack-cat"><i class="fa-solid fa-database" aria-hidden="true"></i> <span data-en="Data &amp; APIs">Datos y APIs</span></p>
-                <ul class="stack-chips"><li class="stack-chip" style="--i:9"><i class="fa-solid fa-database" aria-hidden="true"></i>SQL Server</li><li class="stack-chip" style="--i:10"><i class="fa-solid fa-leaf" aria-hidden="true"></i>MongoDB</li><li class="stack-chip" style="--i:11"><i class="fa-solid fa-paper-plane" aria-hidden="true"></i>Postman</li><li class="stack-chip" style="--i:12"><i class="fa-solid fa-code" aria-hidden="true"></i>REST · JSON</li></ul>
-              </div>
-              <div>
-                <p class="stack-cat"><i class="fa-solid fa-user-shield" aria-hidden="true"></i> <span data-en="Systems &amp; identity">Sistemas e identidades</span></p>
-                <ul class="stack-chips"><li class="stack-chip" style="--i:13"><i class="fa-brands fa-windows" aria-hidden="true"></i>Windows · Windows Server</li><li class="stack-chip" style="--i:14"><i class="fa-solid fa-users-gear" aria-hidden="true"></i>Active Directory</li><li class="stack-chip" style="--i:15"><i class="fa-solid fa-terminal" aria-hidden="true"></i>PowerShell · CMD</li><li class="stack-chip" style="--i:16"><i class="fa-solid fa-laptop-medical" aria-hidden="true"></i>Thinksoft · Biocom · Binary</li></ul>
-              </div>
-              <div>
-                <p class="stack-cat"><i class="fa-solid fa-network-wired" aria-hidden="true"></i> <span data-en="Networking &amp; telephony">Redes y telefonía</span></p>
-                <ul class="stack-chips"><li class="stack-chip" style="--i:17"><i class="fa-solid fa-network-wired" aria-hidden="true"></i>TCP/IP · DNS · DHCP</li><li class="stack-chip" style="--i:18"><i class="fa-solid fa-shield-halved" aria-hidden="true"></i>VPN</li><li class="stack-chip" style="--i:19"><i class="fa-solid fa-satellite-dish" aria-hidden="true"></i>ipconfig · ping · tracert</li><li class="stack-chip" style="--i:20"><i class="fa-solid fa-phone-volume" aria-hidden="true"></i>IVR</li></ul>
-              </div>
-              <div>
-                <p class="stack-cat"><i class="fa-solid fa-comments" aria-hidden="true"></i> <span data-en="Collaboration">Colaboración</span></p>
-                <ul class="stack-chips"><li class="stack-chip" style="--i:21"><i class="fa-brands fa-microsoft" aria-hidden="true"></i>Microsoft Teams · 365</li><li class="stack-chip" style="--i:22"><i class="fa-brands fa-slack" aria-hidden="true"></i>Slack</li><li class="stack-chip" style="--i:23"><i class="fa-solid fa-display" aria-hidden="true"></i>NetSupport</li></ul>
-              </div>
-            </div>
-          </div>
-          <div class="panel p-5 reveal">
-            <p class="text-sm text-cc-muted" data-en="Want to see recommendations, certifications and full details for each role?">¿Querés ver recomendaciones, certificaciones y el detalle de cada puesto?</p>
-            <div class="mt-3 grid grid-cols-2 gap-2">
-              <a href="https://www.linkedin.com/in/manuelmolina01" class="btn-linkedin justify-center" target="_blank" rel="noopener noreferrer"><i class="fa-brands fa-linkedin" aria-hidden="true"></i> LinkedIn</a>
-              <a href="Manuel_Molina_CV.pdf" class="btn-ghost cv-link justify-center text-center"><i class="fa-solid fa-file-arrow-down" aria-hidden="true"></i> <span data-en="Download CV (PDF)">Descargar CV (PDF)</span></a>
-            </div>
-          </div>
-        </aside>
-      </div>
-    </section>
-
     <!-- ============ FORMACIÓN ============ -->
-    <section id="formacion" class="section">
+    <section id="formacion" class="section bg-cc-panel/40">
       <div class="section-head reveal">
         <span class="eyebrow" data-en="// continuous learning">// formación continua</span>
         <h2 data-en="Education &amp; Languages">Educación &amp; Idiomas</h2>
@@ -599,57 +614,40 @@ Command Center Operator <span class="text-cc-ok">[L1]</span>
     </section>
 
     <!-- ============ SERVICIOS ============ -->
-    <section id="servicios" class="section bg-cc-panel/40">
+    <section id="servicios" class="section">
       <div class="section-head reveal">
-        <span class="eyebrow" data-en="// professional solutions">// soluciones profesionales</span>
-        <h2 data-en="Independent IT Services">Servicios IT Independientes</h2>
+        <span class="eyebrow" data-en="// side projects">// proyectos puntuales</span>
+        <h2 data-en="Freelance services">Servicios freelance</h2>
+        <p data-en="Besides my main job search, I take on specific projects related to my experience.">Además de buscar un puesto estable, tomo proyectos puntuales relacionados con mi experiencia.</p>
       </div>
-      <div class="mx-auto grid max-w-7xl gap-4 px-4 sm:px-6 md:grid-cols-2 lg:grid-cols-3">
+      <div class="mx-auto grid max-w-7xl gap-4 px-4 sm:px-6 md:grid-cols-3">
         <div class="service-card highlight reveal">
           <i class="fa-solid fa-chart-line" aria-hidden="true"></i>
           <h3 data-en="Monitoring &amp; IT Operations">Monitoreo &amp; Operaciones IT</h3>
           <p data-en="Building and tracking availability dashboards (Grafana / Zabbix), defining alerts and the incident escalation path.">Armado y seguimiento de dashboards de disponibilidad (Grafana / Zabbix), definición de alertas y circuito de escalamiento de incidentes.</p>
-          <a href="#contacto" class="service-cta" data-service="Monitoreo & Operaciones IT"><span data-en="Get a quote">Cotizar</span> <i class="fa-solid fa-arrow-right" aria-hidden="true"></i></a>
+          <a href="#contacto" class="service-cta" data-service="Monitoreo & Operaciones IT"><span data-en="Ask about it">Consultar</span> <i class="fa-solid fa-arrow-right" aria-hidden="true"></i></a>
         </div>
         <div class="service-card reveal">
           <i class="fa-solid fa-sliders" aria-hidden="true"></i>
           <h3 data-en="L1/L2 Support &amp; Help Desk">Soporte &amp; Mesa de Ayuda L1/L2</h3>
           <p data-en="Remote technical assistance for companies, solving issues on workstations, networks and base software.">Asistencia técnica remota para empresas, resolución de incidencias en puestos de trabajo, redes y software base.</p>
-          <a href="#contacto" class="service-cta" data-service="Soporte & Mesa de Ayuda L1/L2"><span data-en="Get a quote">Cotizar</span> <i class="fa-solid fa-arrow-right" aria-hidden="true"></i></a>
+          <a href="#contacto" class="service-cta" data-service="Soporte & Mesa de Ayuda L1/L2"><span data-en="Ask about it">Consultar</span> <i class="fa-solid fa-arrow-right" aria-hidden="true"></i></a>
         </div>
         <div class="service-card reveal">
           <i class="fa-solid fa-user-lock" aria-hidden="true"></i>
           <h3 data-en="Access &amp; Identity Management">Gestión de Accesos &amp; Identidades</h3>
           <p data-en="User provisioning policies, Active Directory administration and permission control on production systems.">Implementación de políticas ABM, administración en Active Directory y control de permisos en sistemas productivos.</p>
-          <a href="#contacto" class="service-cta" data-service="Gestión de Accesos & Identidades"><span data-en="Get a quote">Cotizar</span> <i class="fa-solid fa-arrow-right" aria-hidden="true"></i></a>
-        </div>
-        <div class="service-card reveal">
-          <i class="fa-solid fa-bug" aria-hidden="true"></i>
-          <h3 data-en="Functional Testing &amp; QA">Testing Funcional &amp; QA</h3>
-          <p data-en="Manual review of internal applications, early bug detection and technical bug documentation.">Revisión manual de aplicaciones internas, detección temprana de errores y documentación técnica de bugs.</p>
-          <a href="#contacto" class="service-cta" data-service="Testing Funcional & QA"><span data-en="Get a quote">Cotizar</span> <i class="fa-solid fa-arrow-right" aria-hidden="true"></i></a>
-        </div>
-        <div class="service-card reveal">
-          <i class="fa-solid fa-wrench" aria-hidden="true"></i>
-          <h3 data-en="Field Support &amp; Hardware">Soporte de Campo &amp; Hardware</h3>
-          <p data-en="Physical PC hardware checks, preventive and corrective maintenance, base software installation and deep malware removal.">Revisión física de hardware de PC, mantenimiento preventivo y correctivo, instalación de aplicativos base y desinfección profunda de malware.</p>
-          <a href="#contacto" class="service-cta" data-service="Soporte de Campo & Hardware"><span data-en="Get a quote">Cotizar</span> <i class="fa-solid fa-arrow-right" aria-hidden="true"></i></a>
-        </div>
-        <div class="service-card reveal">
-          <i class="fa-solid fa-network-wired" aria-hidden="true"></i>
-          <h3 data-en="Networking, Cabling &amp; Infrastructure">Redes, Cableado &amp; Infraestructura</h3>
-          <p data-en="Structured network cabling, router and switch configuration, and complete workstation setup.">Armado e instalación de cableado estructurado de red, configuración de routers y switches, y estructuración integral de puestos de trabajo.</p>
-          <a href="#contacto" class="service-cta" data-service="Redes, Cableado & Infraestructura"><span data-en="Get a quote">Cotizar</span> <i class="fa-solid fa-arrow-right" aria-hidden="true"></i></a>
+          <a href="#contacto" class="service-cta" data-service="Gestión de Accesos & Identidades"><span data-en="Ask about it">Consultar</span> <i class="fa-solid fa-arrow-right" aria-hidden="true"></i></a>
         </div>
       </div>
     </section>
 
-    <!-- ============ COTIZADOR & CONTACTO DIRECTO ============ -->
-    <section id="contacto" class="section">
+    <!-- ============ CONTACTO ============ -->
+    <section id="contacto" class="section bg-cc-panel/40">
       <div class="section-head reveal">
         <span class="eyebrow" data-en="// let's talk">// iniciemos conversación</span>
-        <h2 data-en="Quote &amp; Direct Contact">Cotizador &amp; Contacto Directo</h2>
-        <p data-en="Pick the service you want a quote for or send a job offer. You can also reach me on &lt;a href='https://www.linkedin.com/in/manuelmolina01' target='_blank' rel='noopener noreferrer' class='inline-link'&gt;LinkedIn&lt;/a&gt;.">Seleccioná el servicio que te interesa cotizar o enviá una propuesta laboral. También podés escribirme por <a href="https://www.linkedin.com/in/manuelmolina01" target="_blank" rel="noopener noreferrer" class="inline-link">LinkedIn</a>.</p>
+        <h2 data-en="Contact">Contacto</h2>
+        <p data-en="Do you have a job offer or a freelance project? Write to me and I will get back to you shortly. You can also reach me on &lt;a href='https://www.linkedin.com/in/manuelmolina01' target='_blank' rel='noopener noreferrer' class='inline-link'&gt;LinkedIn&lt;/a&gt;.">¿Tenés una propuesta laboral o un proyecto freelance? Escribime y te respondo a la brevedad. También podés hablarme por <a href="https://www.linkedin.com/in/manuelmolina01" target="_blank" rel="noopener noreferrer" class="inline-link">LinkedIn</a>.</p>
       </div>
 
       <div class="mx-auto grid max-w-7xl gap-6 px-4 sm:px-6 lg:grid-cols-[320px_1fr]">
@@ -663,7 +661,7 @@ Command Center Operator <span class="text-cc-ok">[L1]</span>
             <p><span class="text-cc-cyan" data-en="work mode">modalidad</span>: <span data-en="100% remote">100% remoto</span></p>
             <p><span class="text-cc-cyan" data-en="target role">rol buscado</span>: Command Center / IT Monitoring</p>
             <p><span class="text-cc-cyan" data-en="also open to">también</span>: Freelance · <span data-en="IT Audit">Auditoría</span></p>
-            <p><span class="text-cc-cyan">cv</span>: <a href="Manuel_Molina_CV.pdf" class="cv-link text-white underline hover:text-cc-cyan">Manuel_Molina_CV.pdf</a></p>
+            <p><span class="text-cc-cyan">cv</span>: <a href="Manuel_Molina_CV.pdf" class="cv-link text-white underline hover:text-cc-cyan" download="Manuel_Molina_CV.pdf">Manuel_Molina_CV.pdf</a></p>
           </div>
         </aside>
 
@@ -697,7 +695,7 @@ Command Center Operator <span class="text-cc-ok">[L1]</span>
               <span class="error-msg" data-en="Invalid email address.">Correo electrónico no válido.</span>
             </div>
             <div class="form-group">
-              <label for="service_type"><span data-en="Reason / Service to quote">Motivo / Servicio a Cotizar</span> <span class="required">*</span></label>
+              <label for="service_type"><span data-en="Reason">Motivo</span> <span class="required">*</span></label>
               <div class="input-icon-wrapper">
                 <i class="fa-solid fa-list-check input-icon" aria-hidden="true"></i>
                 <select id="service_type" name="service_type" required>
@@ -705,9 +703,6 @@ Command Center Operator <span class="text-cc-ok">[L1]</span>
                   <option value="Monitoreo & Operaciones IT" data-en="Monitoring &amp; IT Operations">Monitoreo &amp; Operaciones IT</option>
                   <option value="Soporte & Mesa de Ayuda L1/L2" data-en="L1/L2 Support &amp; Help Desk">Soporte &amp; Mesa de Ayuda L1/L2</option>
                   <option value="Gestión de Accesos & Identidades" data-en="Access &amp; Identity Management">Gestión de Accesos &amp; Identidades</option>
-                  <option value="Testing Funcional & QA" data-en="Functional Testing &amp; QA">Testing Funcional &amp; QA</option>
-                  <option value="Soporte de Campo & Hardware" data-en="Field Support &amp; Hardware">Soporte de Campo &amp; Hardware</option>
-                  <option value="Redes, Cableado & Infraestructura" data-en="Networking, Cabling &amp; Infrastructure">Redes, Cableado &amp; Infraestructura</option>
                   <option value="Freelance / Auditoría" data-en="Freelance / Audit">Freelance / Auditoría</option>
                   <option value="Otros" data-en="Other">Otros</option>
                 </select>
@@ -716,17 +711,8 @@ Command Center Operator <span class="text-cc-ok">[L1]</span>
           </div>
 
           <div class="form-group mt-4">
-            <div class="mb-2 flex flex-wrap items-center justify-between gap-2">
-              <label for="user_count_range" data-en="Estimated users / IT workstations:">Estimación de Usuarios / Puestos IT:</label>
-              <span id="userCountDisplay" class="rounded border border-cc-cyan/40 bg-cc-cyan/10 px-2 py-0.5 font-mono text-xs text-cc-cyan">10 usuarios</span>
-            </div>
-            <input type="range" id="user_count_range" name="user_count" min="1" max="500" value="10" class="user-slider">
-            <div class="mt-1 flex justify-between font-mono text-[11px] text-cc-muted"><span>1</span><span>100</span><span>250</span><span>500+</span></div>
-          </div>
-
-          <div class="form-group mt-4">
             <label for="message"><span data-en="Message / Additional details">Mensaje / Detalles Adicionales</span> <span class="required">*</span></label>
-            <textarea id="message" name="message" rows="4" placeholder="Describí los requerimientos de tu proyecto o propuesta..." data-en-placeholder="Describe your project requirements or offer..." maxlength="1000" required></textarea>
+            <textarea id="message" name="message" rows="4" placeholder="Contame sobre el puesto o el proyecto..." data-en-placeholder="Tell me about the role or the project..." maxlength="1000" required></textarea>
             <span class="error-msg" data-en="Please enter a message.">Por favor ingresá un mensaje.</span>
           </div>
 
@@ -747,35 +733,35 @@ Command Center Operator <span class="text-cc-ok">[L1]</span>
         <summary><i class="fa-solid fa-shield-halved" aria-hidden="true"></i> <span data-en="Privacy, security &amp; legal notice">Políticas de privacidad, seguridad y aviso legal</span></summary>
         <div class="policies-body">
           <div>
-            <h4 data-en="Data controller">Responsable</h4>
+            <h3 data-en="Data controller">Responsable</h3>
             <p data-en="This portfolio is a personal website of Manuel Molina (Buenos Aires, Argentina). For any question about these policies you can write through the contact form or on LinkedIn.">Este portafolio es un sitio personal de Manuel Molina (Buenos Aires, Argentina). Para cualquier consulta sobre estas políticas podés escribir desde el formulario de contacto o por LinkedIn.</p>
           </div>
           <div>
-            <h4 data-en="Data collected and why">Datos que se recopilan y para qué</h4>
-            <p data-en="Only the data you enter voluntarily is collected: name, email, company and message in the contact form, and your email to download the CV. It is used only to reply to you and to know who requested the CV. It is not sold, shared with third parties or used for advertising. Forms are processed by Formspree, an external provider.">Solo se recopilan los datos que ingresás voluntariamente: nombre, correo, empresa y mensaje en el formulario de contacto, y tu correo para descargar el CV. Se usan únicamente para responderte y saber quién solicitó el CV. No se venden, no se ceden a terceros y no se usan para publicidad. Los formularios se procesan a través de Formspree, un proveedor externo.</p>
+            <h3 data-en="Data collected and why">Datos que se recopilan y para qué</h3>
+            <p data-en="Only the data you enter voluntarily in the contact form is collected: name, email, company and message. It is used only to reply to you. It is not sold, shared with third parties or used for advertising. The form is processed by Formspree, an external provider. Downloading the CV does not ask for any data.">Solo se recopilan los datos que ingresás voluntariamente en el formulario de contacto: nombre, correo, empresa y mensaje. Se usan únicamente para responderte. No se venden, no se ceden a terceros y no se usan para publicidad. El formulario se procesa a través de Formspree, un proveedor externo. Descargar el CV no requiere ningún dato.</p>
           </div>
           <div>
-            <h4 data-en="Your rights">Tus derechos</h4>
+            <h3 data-en="Your rights">Tus derechos</h3>
             <p data-en="Under Argentina's Personal Data Protection Law 25.326, you can request access to, correction or deletion of your data at any time through the contact form. The Agency for Access to Public Information is the authority that oversees that law.">De acuerdo con la Ley 25.326 de Protección de Datos Personales de Argentina, podés pedir el acceso, la rectificación o la eliminación de tus datos en cualquier momento desde el formulario de contacto. La Agencia de Acceso a la Información Pública es el órgano de control de esa ley.</p>
           </div>
           <div>
-            <h4 data-en="Local storage and metrics">Almacenamiento local y métricas</h4>
-            <p data-en="The site only stores your language preference and a session flag in your browser so the same visit is not counted twice. Visit and LAB usage counters are anonymous (counterapi.dev). No advertising cookies are used and your identity is not tracked.">El sitio guarda en tu navegador solo tu preferencia de idioma y una marca de sesión para no contar dos veces la misma visita. Los contadores de visitas y de uso del LAB son anónimos (counterapi.dev). No se usan cookies publicitarias ni se rastrea tu identidad.</p>
+            <h3 data-en="Local storage and metrics">Almacenamiento local y métricas</h3>
+            <p data-en="The site only stores your language preference and a session flag in your browser so the same visit is not counted twice. The counters of visits, CV downloads and LAB usage are anonymous (counterapi.dev). No advertising cookies are used and your identity is not tracked.">El sitio guarda en tu navegador solo tu preferencia de idioma y una marca de sesión para no contar dos veces la misma visita. Los contadores de visitas, de descargas del CV y de uso del LAB son anónimos (counterapi.dev). No se usan cookies publicitarias ni se rastrea tu identidad.</p>
           </div>
           <div>
-            <h4 data-en="Security">Seguridad</h4>
-            <p data-en="It is a static site served over HTTPS (GitHub Pages). It never asks for passwords or sensitive data, and it uses email validation and a honeypot field against bots and spam. Please do not send confidential information through the forms.">Es un sitio estático servido por HTTPS (GitHub Pages). No pide contraseñas ni datos sensibles, y usa validación de correo y un campo trampa contra bots y spam. Por favor no envíes información confidencial a través de los formularios.</p>
+            <h3 data-en="Security">Seguridad</h3>
+            <p data-en="It is a static site served over HTTPS (GitHub Pages). It never asks for passwords or sensitive data, and the form uses email validation and a honeypot field against bots and spam. Please do not send confidential information through the form.">Es un sitio estático servido por HTTPS (GitHub Pages). No pide contraseñas ni datos sensibles, y el formulario usa validación de correo y un campo trampa contra bots y spam. Por favor no envíes información confidencial a través del formulario.</p>
           </div>
           <div>
-            <h4 data-en="The LAB is a simulation">El LAB es una simulación</h4>
+            <h3 data-en="The LAB is a simulation">El LAB es una simulación</h3>
             <p data-en="The Monitoring LAB is an educational simulation. Servers, IPs, tickets, logs, metrics and messages are fictitious and it does not connect to any real system. The cases describe tasks in general terms, with no patient data, credentials or confidential information from any employer.">El LAB de Monitoreo es una simulación educativa. Los servidores, IPs, tickets, logs, métricas y mensajes son ficticios y no se conecta a ningún sistema real. Los casos describen tareas de forma general, sin datos de pacientes, credenciales ni información confidencial de ningún empleador.</p>
           </div>
           <div>
-            <h4 data-en="Trademarks and companies mentioned">Marcas y empresas mencionadas</h4>
+            <h3 data-en="Trademarks and companies mentioned">Marcas y empresas mencionadas</h3>
             <p data-en="Grafana, Zabbix, Jira, Redmine, Microsoft, Windows, Teams, Slack, Postman, MongoDB and other names are trademarks of their respective owners and are mentioned only as tools used. The companies named describe Manuel's work experience; this site is personal, does not represent them and implies no endorsement or affiliation.">Grafana, Zabbix, Jira, Redmine, Microsoft, Windows, Teams, Slack, Postman, MongoDB y demás nombres son marcas de sus respectivos titulares y se mencionan solo como herramientas utilizadas. Las empresas nombradas describen la experiencia laboral de Manuel; este sitio es personal, no las representa y no implica respaldo ni afiliación.</p>
           </div>
           <div>
-            <h4 data-en="Intellectual property and liability">Propiedad intelectual y responsabilidad</h4>
+            <h3 data-en="Intellectual property and liability">Propiedad intelectual y responsabilidad</h3>
             <p data-en="The site's design, texts and code belong to Manuel Molina; copying them for commercial use without permission is not allowed. The information is provided as is, for informational purposes, and no responsibility is assumed for the content of linked external sites.">El diseño, los textos y el código del sitio pertenecen a Manuel Molina; no se permite copiarlos para uso comercial sin autorización. La información se ofrece tal cual, con fines informativos, y no se asume responsabilidad por el contenido de sitios externos enlazados.</p>
           </div>
           <p class="policies-date" data-en="Last updated: October 2026.">Última actualización: octubre de 2026.</p>
@@ -787,7 +773,7 @@ Command Center Operator <span class="text-cc-ok">[L1]</span>
       <div class="flex gap-4 text-base">
         <a href="https://www.linkedin.com/in/manuelmolina01" target="_blank" rel="noopener noreferrer" aria-label="LinkedIn" class="hover:text-cc-cyan"><i class="fa-brands fa-linkedin" aria-hidden="true"></i></a>
         <a href="https://github.com/ThePantera" target="_blank" rel="noopener noreferrer" aria-label="GitHub" class="hover:text-cc-cyan"><i class="fa-brands fa-github" aria-hidden="true"></i></a>
-        <a href="Manuel_Molina_CV.pdf" aria-label="CV" class="cv-link hover:text-cc-cyan"><i class="fa-solid fa-file-arrow-down" aria-hidden="true"></i></a>
+        <a href="Manuel_Molina_CV.pdf" aria-label="Descargar CV" class="cv-link hover:text-cc-cyan" download="Manuel_Molina_CV.pdf"><i class="fa-solid fa-file-arrow-down" aria-hidden="true"></i></a>
         <a href="#contacto" aria-label="Contacto" class="hover:text-cc-cyan"><i class="fa-solid fa-envelope" aria-hidden="true"></i></a>
       </div>
     </div>
@@ -797,22 +783,6 @@ Command Center Operator <span class="text-cc-ok">[L1]</span>
   <a href="#inicio" class="back-to-top" id="backToTop" aria-label="Volver arriba"><i class="fa-solid fa-arrow-up" aria-hidden="true"></i></a>
   <div id="alertFlash" class="alert-flash" aria-hidden="true"></div>
 
-  <dialog id="cvDialog" class="cv-dialog" aria-labelledby="cvDialogTitle">
-    <form id="cvForm" method="dialog" novalidate>
-      <div class="panel-bar"><span id="cvDialogTitle" class="text-cc-cyan"><i class="fa-solid fa-file-arrow-down" aria-hidden="true"></i> <span data-en="Download CV">Descargar CV</span></span><button type="button" id="cvClose" class="text-cc-muted hover:text-white" aria-label="Cerrar"><i class="fa-solid fa-xmark" aria-hidden="true"></i></button></div>
-      <div class="p-5">
-        <p class="text-sm text-cc-muted" data-en="Enter your email to download Manuel's CV. It is only used to know who requested it.">Ingresá tu correo para descargar el CV de Manuel. Solo se usa para saber quién lo solicitó.</p>
-        <input type="text" name="_gotcha" class="honeypot" tabindex="-1" autocomplete="off" aria-hidden="true">
-        <label class="field mt-4" for="cvEmail"><span data-en="Email">Correo electrónico</span>
-          <input type="email" id="cvEmail" name="email" autocomplete="email" placeholder="ejemplo@empresa.com" data-en-placeholder="name@company.com" maxlength="100" required>
-        </label>
-        <label class="mt-3 flex items-start gap-2 text-xs text-cc-muted"><input type="checkbox" id="cvConsent" class="mt-0.5 accent-cyan-400" required> <span data-en="I accept the &lt;a href='#politicas' class='inline-link open-policies'&gt;privacy policy&lt;/a&gt;.">Acepto la <a href="#politicas" class="inline-link open-policies">política de privacidad</a>.</span></label>
-        <p id="cvError" class="mt-2 hidden text-xs text-cc-crit"></p>
-        <button type="submit" id="cvSubmit" class="btn-primary mt-4 w-full justify-center"><i class="fa-solid fa-download" aria-hidden="true"></i> <span data-en="Download CV (PDF)">Descargar CV (PDF)</span></button>
-      </div>
-    </form>
-  </dialog>
-
-  <script src="script.js?v=20261007c" defer></script>
+  <script src="script.js?v=20261028" defer></script>
 </body>
 </html>
