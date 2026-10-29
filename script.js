@@ -49,24 +49,29 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   }
 
+  // Contadores anónimos (counterapi.dev). Toda la configuración está en COUNTER_API.
+  // La API v1 fue dada de baja en agosto de 2026: hasta migrar a v2 (requiere cuenta)
+  // las llamadas fallan y los contadores se ocultan solos, sin mostrar datos falsos.
+  const COUNTER_API = `https://api.counterapi.dev/v1/${COUNTER_NS}`;
+  // Devuelve el número del contador; falla si la respuesta es un error o no trae un número.
+  const fetchCount = (path) => fetch(`${COUNTER_API}/${path}`)
+    .then(res => (res.ok ? res.json() : Promise.reject(new Error(`HTTP ${res.status}`))))
+    .then(data => (data && Number.isFinite(data.count) ? data.count : Promise.reject(new Error('respuesta sin contador'))));
+
   // 1. CONTADOR DE VISITAS REALES
   // Solo suma una visita por sesión para no inflar el número al recargar.
+  // El badge queda invisible hasta tener un número real; si el servicio falla, se quita.
   const realViewsCount = $('#realViewsCount');
   if (realViewsCount) {
+    const badge = realViewsCount.closest('.live-views-badge');
     const alreadyCounted = store.get('viewCounted', sessionStorage) === '1';
-    fetch(`https://api.counterapi.dev/v1/${COUNTER_NS}/pageviews${alreadyCounted ? '' : '/up'}`)
-      .then(res => res.json())
-      .then(data => {
-        if (data && data.count) {
-          realViewsCount.innerText = data.count.toLocaleString('es-AR');
-          store.set('viewCounted', '1', sessionStorage);
-        }
+    fetchCount(`pageviews${alreadyCounted ? '' : '/up'}`)
+      .then(count => {
+        realViewsCount.innerText = count.toLocaleString('es-AR');
+        if (badge) badge.classList.add('ready');
+        store.set('viewCounted', '1', sessionStorage);
       })
-      .catch(() => {
-        // Si el servicio no responde, se oculta el badge en lugar de mostrar un número falso.
-        const badge = realViewsCount.closest('.live-views-badge');
-        if (badge) badge.remove();
-      });
+      .catch(() => { if (badge) badge.remove(); });
   }
 
   // 2. MENÚ MOBILE
@@ -200,11 +205,10 @@ document.addEventListener('DOMContentLoaded', () => {
   function countLab(key, onCount) {
     const flag = `counted-${key}`;
     const already = store.get(flag, sessionStorage) === '1';
-    fetch(`https://api.counterapi.dev/v1/${COUNTER_NS}/${key}${already ? '' : '/up'}`)
-      .then(res => res.json())
-      .then(data => {
+    fetchCount(`${key}${already ? '' : '/up'}`)
+      .then(count => {
         store.set(flag, '1', sessionStorage);
-        if (data && data.count && onCount) onCount(data.count);
+        if (onCount) onCount(count);
       })
       .catch(() => { /* la medición nunca debe romper el LAB */ });
   }
@@ -213,10 +217,7 @@ document.addEventListener('DOMContentLoaded', () => {
     $('#labStatsWrap').classList.remove('hidden');
   };
   // Lectura inicial sin sumar
-  fetch(`https://api.counterapi.dev/v1/${COUNTER_NS}/lab-simulations`)
-    .then(res => res.json())
-    .then(data => { if (data && data.count) showLabStats(data.count); })
-    .catch(() => {});
+  fetchCount('lab-simulations').then(showLabStats).catch(() => {});
 
   // ==========================================================
   // 6. LAB: SIMULADOR DE COMMAND CENTER
@@ -1346,6 +1347,13 @@ ${evidence}
   }
 
   const abiFab = $('#abiFab');
+  // El botón flotante se oculta mientras se ve la sección de contacto, para no tapar el formulario
+  const contactSection = $('#contacto');
+  if (abiFab && contactSection && 'IntersectionObserver' in window) {
+    new IntersectionObserver((entries) => {
+      entries.forEach(entry => abiFab.classList.toggle('fab-hidden', entry.isIntersecting));
+    }, { threshold: 0.1 }).observe(contactSection);
+  }
   if (abiFab) {
     abiFab.addEventListener('click', () => {
       gotoTab('abi');
