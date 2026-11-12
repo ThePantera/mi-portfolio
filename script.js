@@ -7,6 +7,8 @@ document.addEventListener('DOMContentLoaded', () => {
   const scrollToEl = (el) => el && el.scrollIntoView({ behavior: prefersReducedMotion ? 'auto' : 'smooth' });
   const LINKEDIN_URL = 'https://www.linkedin.com/in/manuelmolina01';
   const COUNTER_NS = 'manuel-molina-portfolio-2026';
+  // El email se arma en el navegador para que no figure en el HTML estático (menos spam de scrapers).
+  const EMAIL = ['manuel.molina.ops', 'gmail.com'].join('@');
 
   const store = {
     get: (k, s = localStorage) => { try { return s.getItem(k); } catch (e) { return null; } },
@@ -49,6 +51,12 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   }
 
+  const contactEmail = $('#contactEmail');
+  if (contactEmail) {
+    contactEmail.href = 'mailto:' + EMAIL;
+    contactEmail.textContent = EMAIL;
+  }
+
   // 1. CONTADOR DE VISITAS REALES
   // Solo suma una visita por sesión para no inflar el número al recargar.
   const realViewsCount = $('#realViewsCount');
@@ -64,7 +72,7 @@ document.addEventListener('DOMContentLoaded', () => {
       })
       .catch(() => {
         // Si el servicio no responde, se oculta el badge en lugar de mostrar un número falso.
-        const badge = realViewsCount.closest('.live-views-badge');
+        const badge = realViewsCount.closest('.views-footer');
         if (badge) badge.remove();
       });
   }
@@ -1246,8 +1254,8 @@ ${evidence}
       answer: () => ({ text: L('Más de 7 años en IT. Hoy es Operador de Monitoreo en Sanatorio Otamendi e IT Analyst en Medicus. Antes: Sondeos Global, Beretta Galarce & Asociados y Claro Argentina.',
         '7+ years in IT. Currently Monitoring Operator at Sanatorio Otamendi and IT Analyst at Medicus. Before: Sondeos Global, Beretta Galarce & Asociados and Claro Argentina.'), chips: [chip.cases(), chip.stack()] }) },
     { keys: ['formacion', 'estudi', 'educacion', 'titulo', 'carrera', 'curso', 'utn', 'iutai', 'data science', 'ingles', 'idioma', 'education', 'degree', 'english', 'language'],
-      answer: () => ({ text: L('Técnico Superior en Informática (IUTAI). En curso: Automatización con IA (UTN), Data Science y Redes (EducaciónIT; Redes comenzó este cuatrimestre). Idiomas: español nativo e inglés B1 orientado a documentación técnica 🎓',
-        'Higher Technical Degree in Computer Science (IUTAI). In progress: Automation with AI (UTN), Data Science and Networking (EducaciónIT; Networking started this term). Languages: native Spanish and B1 English focused on technical documentation 🎓') }) },
+      answer: () => ({ text: L('Técnico Superior en Informática (IUTAI). En curso: Automatización con IA (UTN), Data Science y Redes (EducaciónIT). Idiomas: español nativo e inglés B1 orientado a documentación técnica 🎓',
+        'Higher Technical Degree in Computer Science (IUTAI). In progress: Automation with AI (UTN), Data Science and Networking (EducaciónIT). Languages: native Spanish and B1 English focused on technical documentation 🎓') }) },
     { keys: ['stack', 'habilidad', 'skill', 'sabe', 'herramienta', 'redmine', 'active directory', 'grafana', 'zabbix', 'monitoreo', 'sql', 'mongo', 'tecnologia', 'tools', 'monitoring', 'tech'],
       answer: () => ({ text: L('Monitoreo con Grafana y Zabbix, incidentes ITIL con Jira y Redmine, SQL Server y MongoDB, Postman, Windows Server, Active Directory y PowerShell, Application Support (Thinksoft, Biocom, Binary), IVR, redes (TCP/IP, DNS, DHCP, VPN, ipconfig, ping, tracert) y Teams/Slack.',
         'Monitoring with Grafana and Zabbix, ITIL incidents with Jira and Redmine, SQL Server and MongoDB, Postman, Windows Server, Active Directory and PowerShell, Application Support (Thinksoft, Biocom, Binary), IVR, networking (TCP/IP, DNS, DHCP, VPN, ipconfig, ping, tracert) and Teams/Slack.'), chips: [chip.sim()] }) },
@@ -1259,7 +1267,7 @@ ${evidence}
       answer: () => { setTimeout(() => scrollToEl($('#contacto')), 700); return { text: L('Depende del proyecto. Te llevo al formulario: contale qué necesitás y Manuel te responde a la brevedad 💬', 'It depends on the project. Taking you to the form: tell him what you need and Manuel will reply shortly 💬') }; } },
     { keys: ['linkedin', 'perfil', 'profile'], answer: () => ({ text: L('Acá tenés el LinkedIn de Manuel 👉', 'Here is Manuel\'s LinkedIn 👉'), link: { href: LINKEDIN_URL, text: 'linkedin.com/in/manuelmolina01' } }) },
     { keys: ['contact', 'mail', 'correo', 'hablar', 'escrib', 'whatsapp', 'telefono', 'email', 'talk', 'reach'],
-      answer: () => { setTimeout(() => scrollToEl($('#contacto')), 900); return { text: L('Podés escribirle desde el formulario de contacto o por LinkedIn. ¡Te llevo al formulario! 📲', 'You can write to him from the contact form or on LinkedIn. Taking you to the form! 📲'), link: { href: LINKEDIN_URL, text: 'linkedin.com/in/manuelmolina01' } }; } },
+      answer: () => { setTimeout(() => scrollToEl($('#contacto')), 900); return { text: L('Podés escribirle por email, desde el formulario de contacto o por LinkedIn. ¡Te llevo al formulario! 📲', 'You can email him, use the contact form or reach him on LinkedIn. Taking you to the form! 📲'), link: { href: 'mailto:' + EMAIL, text: EMAIL } }; } },
     { keys: ['disponib', 'busca', 'empleo', 'freelance', 'auditoria', 'audit', 'propuesta', 'contrat', 'remoto', 'hibrido', 'puesto', 'rol', 'available', 'hire', 'hiring', 'remote', 'role', 'position'],
       answer: () => ({ text: L('Sí: Manuel busca un rol de Operador de Monitoreo de Servidores y Servicios / Command Center Operator, 100% remoto. También toma proyectos freelance y de auditoría. Elegí "Propuesta laboral" o "Freelance / Auditoría" en el formulario 🚀', 'Yes: Manuel is looking for a Server & Service Monitoring Operator / Command Center Operator role, 100% remote. He also takes freelance and audit projects. Choose "Job offer" or "Freelance / Audit" in the form 🚀'), chips: [chip.contact(), chip.cv()] }) },
     { keys: ['hola', 'buenas', 'hey', 'buen dia', 'que tal', 'hello', 'hi', 'good morning'], answer: () => ({ text: L('¡Hola! Soy Abi 🤖. Puedo contarte sobre Manuel o guiarte en el LAB de Monitoreo.', 'Hi! I am Abi 🤖. I can tell you about Manuel or guide you through the Monitoring LAB.'), chips: [chip.lab(), chip.exp(), chip.cases()] }) },
@@ -1289,8 +1297,10 @@ ${evidence}
       const a = document.createElement('a');
       a.href = link.href;
       a.textContent = ` ${link.text}`;
-      a.target = '_blank';
-      a.rel = 'noopener noreferrer';
+      if (!link.href.startsWith('mailto:')) {
+        a.target = '_blank';
+        a.rel = 'noopener noreferrer';
+      }
       div.appendChild(a);
     }
     abiLog.appendChild(div);

@@ -22,8 +22,6 @@
 
 /* Los componentes propios definen display; .hidden siempre debe ganar */
 .hidden { display: none !important; }
-.live-views-badge { display: none; }
-@media (min-width: 640px) { .live-views-badge { display: flex; } }
 
 html { scroll-behavior: smooth; scroll-padding-top: 80px; }
 body { background: var(--bg); min-height: 100vh; }

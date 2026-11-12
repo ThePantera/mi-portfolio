@@ -45,8 +45,8 @@
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 
   <!-- Tailwind CSS compilado (ver tailwind.config.js) + estilos propios -->
-  <link rel="stylesheet" href="tailwind.css?v=20261028">
-  <link rel="stylesheet" href="style.css?v=20261028">
+  <link rel="stylesheet" href="tailwind.css?v=20261112">
+  <link rel="stylesheet" href="style.css?v=20261112">
 </head>
 <body class="bg-cc-bg text-cc-text font-sans antialiased">
   <a href="#inicio" class="skip-link" data-en="Skip to content">Saltar al contenido</a>
@@ -70,11 +70,6 @@
       </nav>
 
       <div class="flex flex-none items-center gap-2">
-        <div class="live-views-badge items-center gap-2 rounded-full border border-cc-line bg-cc-panel px-3 py-1 font-mono text-xs text-cc-muted" title="Visitas totales reales">
-          <span class="h-2 w-2 animate-pulse rounded-full bg-cc-ok"></span>
-          <i class="fa-solid fa-eye" aria-hidden="true"></i>
-          <span id="realViewsCount">—</span>
-        </div>
         <button id="langToggle" type="button" class="lang-toggle" aria-label="Switch to English" title="Español / English">
           <span data-lang="es">ES</span><span data-lang="en">EN</span>
         </button>
@@ -148,7 +143,7 @@ IT Monitoring &amp; Command Center Operator
 <span class="text-cc-ok">●</span> redmine  <span class="text-cc-ok">●</span> sql  <span class="text-cc-ok">●</span> ad  <span class="text-cc-ok">●</span> itil</pre>
           </div>
           <div class="border-t border-cc-line px-5 py-4">
-            <div class="mb-2 flex justify-between font-mono text-[11px] text-cc-muted"><span data-en="Monitored availability (demo)">Disponibilidad monitoreada (demo)</span><span class="text-cc-ok">99.98%</span></div>
+            <div class="mb-2 flex justify-between font-mono text-[11px] text-cc-muted"><span data-en="Simulated live signal (not real data)">Señal simulada en vivo (no son datos reales)</span><span class="text-cc-cyan">DEMO</span></div>
             <svg id="heroSpark" class="h-12 w-full" viewBox="0 0 300 48" preserveAspectRatio="none" aria-hidden="true"><polyline fill="none" stroke="#22d3ee" stroke-width="2" points=""/></svg>
           </div>
         </div>
@@ -600,7 +595,7 @@ IT Monitoring &amp; Command Center Operator
         </div>
         <div class="edu-card reveal">
           <i class="fa-solid fa-network-wired" aria-hidden="true"></i>
-          <span class="tl-date"><span data-en="2026 – Present (started this term)">2026 – Actualidad (comenzó este cuatrimestre)</span> <span class="in-progress" data-en="IN PROGRESS">EN CURSO</span></span>
+          <span class="tl-date"><span data-en="2026 – Present">2026 – Actualidad</span> <span class="in-progress" data-en="IN PROGRESS">EN CURSO</span></span>
           <h3 data-en="Networking">Redes</h3>
           <p>EducaciónIT</p>
         </div>
@@ -661,7 +656,8 @@ IT Monitoring &amp; Command Center Operator
             <p><span class="text-cc-cyan" data-en="work mode">modalidad</span>: <span data-en="100% remote">100% remoto</span></p>
             <p><span class="text-cc-cyan" data-en="target role">rol buscado</span>: Command Center / IT Monitoring</p>
             <p><span class="text-cc-cyan" data-en="also open to">también</span>: Freelance · <span data-en="IT Audit">Auditoría</span></p>
-            <p><span class="text-cc-cyan">cv</span>: <a href="Manuel_Molina_CV.pdf" class="cv-link text-white underline hover:text-cc-cyan" download="Manuel_Molina_CV.pdf">Manuel_Molina_CV.pdf</a></p>
+            <p><span class="text-cc-cyan">email</span>: <a id="contactEmail" href="#contacto" class="text-white underline hover:text-cc-cyan"><noscript>usá el formulario / use the form</noscript></a></p>
+            <p><span class="text-cc-cyan">cv</span>:<a href="Manuel_Molina_CV.pdf" class="cv-link text-white underline hover:text-cc-cyan" download="Manuel_Molina_CV.pdf">Manuel_Molina_CV.pdf</a></p>
           </div>
         </aside>
 
@@ -769,7 +765,7 @@ IT Monitoring &amp; Command Center Operator
       </details>
     </div>
     <div class="mx-auto flex max-w-7xl flex-col items-center justify-between gap-4 px-4 font-mono text-xs text-cc-muted sm:flex-row sm:px-6">
-      <p>&copy; <span id="currentYear">2026</span> <strong class="text-white">Manuel Molina</strong> · Buenos Aires, Argentina · <span class="text-cc-ok">● all systems operational</span></p>
+      <p>&copy; <span id="currentYear">2026</span> <strong class="text-white">Manuel Molina</strong> · Buenos Aires, Argentina · <span class="text-cc-ok">● all systems operational</span> · <span class="views-footer" title="Visitas totales"><i class="fa-solid fa-eye" aria-hidden="true"></i> <span id="realViewsCount">—</span> <span data-en="visits">visitas</span></span></p>
       <div class="flex gap-4 text-base">
         <a href="https://www.linkedin.com/in/manuelmolina01" target="_blank" rel="noopener noreferrer" aria-label="LinkedIn" class="hover:text-cc-cyan"><i class="fa-brands fa-linkedin" aria-hidden="true"></i></a>
         <a href="https://github.com/ThePantera" target="_blank" rel="noopener noreferrer" aria-label="GitHub" class="hover:text-cc-cyan"><i class="fa-brands fa-github" aria-hidden="true"></i></a>
@@ -783,6 +779,6 @@ IT Monitoring &amp; Command Center Operator
   <a href="#inicio" class="back-to-top" id="backToTop" aria-label="Volver arriba"><i class="fa-solid fa-arrow-up" aria-hidden="true"></i></a>
   <div id="alertFlash" class="alert-flash" aria-hidden="true"></div>
 
-  <script src="script.js?v=20261028" defer></script>
+  <script src="script.js?v=20261112" defer></script>
 </body>
 </html>
