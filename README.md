@@ -6,6 +6,7 @@ Sitio personal de **Manuel Molina**, IT Monitoring & Command Center Operator en 
 
 ## Qué tiene
 
+- **Proyectos propios:** portal de noticias, e-commerce de perfumería y Truco online, con demo y código.
 - **Experiencia** en Sanatorio Otamendi, Medicus, Sondeos Global, Beretta Galarce & Asociados y Claro Argentina.
 - **Flujo de trabajo** y **casos reales** de monitoreo y Application Support (datos anonimizados).
 - **LAB de Monitoreo:** un simulador de Command Center para vivir un incidente de punta a punta (detección, diagnóstico, ticket y escalamiento). Es una simulación: no se conecta a ningún sistema real.
@@ -19,6 +20,7 @@ Sitio personal de **Manuel Molina**, IT Monitoring & Command Center Operator en 
 | `index.html` | Estructura y textos (cada texto lleva su traducción en `data-en`) |
 | `script.js` | Idioma, LAB, Abi, formulario y contadores |
 | `style.css` | Estilos propios |
+| `icons.css` | Íconos propios (subset de Font Awesome Free 6.4.0 como máscaras CSS). Para sumar uno: bajar su SVG de `fontawesome-free@6.4.0/svgs/` y agregar una regla igual a las existentes |
 | `tailwind.css` | Tailwind compilado a partir de `tailwind.input.css` y `tailwind.config.js` |
 | `Manuel_Molina_CV.pdf` | CV que se descarga desde el sitio |
 | `og-image.png` | Imagen de vista previa para LinkedIn y otras redes |

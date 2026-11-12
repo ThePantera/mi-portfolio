@@ -303,6 +303,13 @@ button:disabled { opacity: .45; cursor: not-allowed; box-shadow: none !important
 .service-cta { margin-top: auto; padding-top: 14px; font-family: var(--mono); font-size: 13px; color: var(--cyan); display: inline-flex; gap: 6px; align-items: center; }
 .service-cta:hover { color: #fff; }
 
+/* Proyectos propios: etiquetas de stack y enlaces al pie de la tarjeta */
+.proj-tags { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 14px; list-style: none; padding: 0; }
+.proj-tags .flow-tag { margin-top: 0; }
+.proj-links { display: flex; flex-wrap: wrap; gap: 6px 20px; margin-top: auto; }
+.proj-links .service-cta { margin-top: 0; }
+.proj-tags + .proj-links { padding-top: 16px; }
+
 /* ---------- Formulario de contacto ---------- */
 .contact-form label { display: block; font-size: 13px; color: var(--text); font-weight: 500; margin-bottom: 6px; }
 .required { color: var(--crit); }
