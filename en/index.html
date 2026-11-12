@@ -1,6 +1,9 @@
 <!DOCTYPE html>
 <html lang="en"><head>
   <meta charset="UTF-8">
+  <!-- CSP: sin scripts inline ni de terceros. Si se suma un servicio externo (fuente, API, imagen), agregarlo acá.
+       Los estilos inline se permiten porque el sitio usa atributos style (p. ej. --i en los chips). -->
+  <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self'; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src https://fonts.gstatic.com; img-src 'self' data:; connect-src 'self' https://api.counterapi.dev https://formspree.io; form-action https://formspree.io; base-uri 'self'; object-src 'none'">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Manuel Molina | IT Monitoring &amp; Command Center Operator</title>
   <meta name="description" content="Manuel Molina — IT Monitoring &amp; Command Center Operator (100% remote). Proactive monitoring of servers and APIs with Grafana and Zabbix, event management, Jira/Redmine ticketing and N2/N3 escalation with ITIL.">
@@ -25,41 +28,63 @@
   <script type="application/ld+json">
   {
     "@context": "https://schema.org",
-    "@type": "Person",
-    "name": "Manuel Molina",
-    "jobTitle": "IT Monitoring & Command Center Operator",
-    "url": "https://thepantera.github.io/mi-portfolio/en/",
-    "image": "https://thepantera.github.io/mi-portfolio/avatar-pixel.png",
-    "address": {
-      "@type": "PostalAddress",
-      "addressLocality": "Buenos Aires",
-      "addressCountry": "AR"
-    },
-    "alumniOf": {
-      "@type": "EducationalOrganization",
-      "name": "IUTAI"
-    },
-    "knowsLanguage": [
-      "es",
-      "en"
-    ],
-    "knowsAbout": [
-      "IT Monitoring",
-      "Command Center",
-      "Grafana",
-      "Zabbix",
-      "Incident Management",
-      "ITIL",
-      "Jira",
-      "Redmine",
-      "SQL Server",
-      "MongoDB",
-      "Active Directory",
-      "Application Support"
-    ],
-    "sameAs": [
-      "https://www.linkedin.com/in/manuelmolina01",
-      "https://github.com/ThePantera"
+    "@graph": [
+      {
+        "@type": "Person",
+        "@id": "https://thepantera.github.io/mi-portfolio/#persona",
+        "name": "Manuel Molina",
+        "jobTitle": "IT Monitoring & Command Center Operator",
+        "description": "IT Monitoring & Command Center Operator in Buenos Aires, Argentina. Proactive monitoring of servers and APIs, incident management and escalation.",
+        "mainEntityOfPage": {
+          "@id": "https://thepantera.github.io/mi-portfolio/#sitio"
+        },
+        "url": "https://thepantera.github.io/mi-portfolio/en/",
+        "image": "https://thepantera.github.io/mi-portfolio/avatar-pixel.png",
+        "address": {
+          "@type": "PostalAddress",
+          "addressLocality": "Buenos Aires",
+          "addressCountry": "AR"
+        },
+        "alumniOf": {
+          "@type": "EducationalOrganization",
+          "name": "IUTAI"
+        },
+        "knowsLanguage": [
+          "es",
+          "en"
+        ],
+        "knowsAbout": [
+          "IT Monitoring",
+          "Command Center",
+          "Grafana",
+          "Zabbix",
+          "Incident Management",
+          "ITIL",
+          "Jira",
+          "Redmine",
+          "SQL Server",
+          "MongoDB",
+          "Active Directory",
+          "Application Support"
+        ],
+        "sameAs": [
+          "https://www.linkedin.com/in/manuelmolina01",
+          "https://github.com/ThePantera"
+        ]
+      },
+      {
+        "@type": "WebSite",
+        "@id": "https://thepantera.github.io/mi-portfolio/#sitio",
+        "url": "https://thepantera.github.io/mi-portfolio/en/",
+        "name": "Manuel Molina — Portfolio",
+        "inLanguage": [
+          "es-AR",
+          "en"
+        ],
+        "author": {
+          "@id": "https://thepantera.github.io/mi-portfolio/#persona"
+        }
+      }
     ]
   }
   </script>
@@ -72,9 +97,9 @@
   <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;500;600;700&amp;family=JetBrains+Mono:wght@400;500;700&amp;display=swap" rel="stylesheet">
 
   <!-- Tailwind CSS compilado (ver tailwind.config.js) + estilos propios -->
-  <link rel="stylesheet" href="../icons.css?v=20261118">
-  <link rel="stylesheet" href="../tailwind.css?v=20261118">
-  <link rel="stylesheet" href="../style.css?v=20261118">
+  <link rel="stylesheet" href="../icons.css?v=20261119">
+  <link rel="stylesheet" href="../tailwind.css?v=20261119">
+  <link rel="stylesheet" href="../style.css?v=20261119">
 </head>
 <body class="bg-cc-bg text-cc-text font-sans antialiased">
   <a href="#inicio" class="skip-link" data-en="Skip to content">Skip to content</a>
@@ -158,7 +183,7 @@
           <div class="grid gap-5 p-5 sm:grid-cols-[auto_1fr]">
             <div class="relative mx-auto h-28 w-28 sm:mx-0">
               <div class="absolute inset-0 rounded-xl border border-cc-cyan/40 bg-cc-cyan/5"></div>
-              <img src="../avatar-pixel.png" alt="Manuel Molina — pixel art" width="112" height="112" class="pixelated relative h-28 w-28 rounded-xl" onerror="this.style.display='none'">
+              <img src="../avatar-pixel.png" alt="Manuel Molina — pixel art" width="112" height="112" class="pixelated relative h-28 w-28 rounded-xl">
               <span class="absolute -bottom-2 left-1/2 -translate-x-1/2 whitespace-nowrap rounded border border-cc-ok/40 bg-cc-bg px-2 py-0.5 font-mono text-[10px] text-cc-ok">● ON SHIFT</span>
             </div>
             <pre class="overflow-x-auto font-mono text-xs leading-6 text-cc-muted"><span class="text-cc-cyan">$</span> whoami
@@ -830,7 +855,7 @@ IT Monitoring &amp; Command Center Operator
   <a href="#inicio" class="back-to-top" id="backToTop" aria-label="Back to top"><i class="fa-solid fa-arrow-up" aria-hidden="true"></i></a>
   <div id="alertFlash" class="alert-flash" aria-hidden="true"></div>
 
-  <script src="../script.js?v=20261118" defer=""></script>
+  <script src="../script.js?v=20261119" defer=""></script>
 
 
 </body></html>

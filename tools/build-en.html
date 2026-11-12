@@ -1,5 +1,6 @@
 <!doctype html>
 <meta charset="utf-8">
+<meta name="robots" content="noindex, nofollow">
 <title>Generador de /en/index.html</title>
 <!--
   Genera la versión estática en inglés (en/index.html) a partir de ../index.html.
@@ -17,6 +18,7 @@ const EN_META = {
   description: 'Manuel Molina — IT Monitoring & Command Center Operator (100% remote). Proactive monitoring of servers and APIs with Grafana and Zabbix, event management, Jira/Redmine ticketing and N2/N3 escalation with ITIL.',
   ogDescription: 'Proactive monitoring of servers and APIs, event management and fast incident escalation. Try the interactive Command Center LAB.',
   ogSiteName: 'Manuel Molina — Portfolio',
+  personDescription: 'IT Monitoring & Command Center Operator in Buenos Aires, Argentina. Proactive monitoring of servers and APIs, incident management and escalation.',
   ogImageAlt: 'Manuel Molina, IT Monitoring & Command Center Operator: pixel art avatar, console and experience data'
 };
 
@@ -62,7 +64,11 @@ doc.querySelector('link[rel="canonical"]').setAttribute('href', SITE + 'en/');
 // 3. JSON-LD: la URL de la persona apunta a la página en inglés
 const ld = doc.querySelector('script[type="application/ld+json"]');
 const data = JSON.parse(ld.textContent);
-data.url = SITE + 'en/';
+(data['@graph'] || [data]).forEach(n => {
+  if (n.url) n.url = SITE + 'en/';
+  if (n['@type'] === 'Person') n.description = EN_META.personDescription;
+  if (n['@type'] === 'WebSite') n.name = EN_META.ogSiteName;
+});
 ld.textContent = '\n  ' + JSON.stringify(data, null, 2).replace(/\n/g, '\n  ') + '\n  ';
 
 // 4. Rutas relativas: la página vive un nivel más abajo

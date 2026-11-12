@@ -54,6 +54,14 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   }
 
+  // Si el avatar no carga, se oculta (antes era un onerror inline, que la CSP no permite).
+  const avatarImg = $('img.pixelated');
+  if (avatarImg) {
+    const hideAvatar = () => { avatarImg.style.display = 'none'; };
+    avatarImg.addEventListener('error', hideAvatar);
+    if (avatarImg.complete && avatarImg.naturalWidth === 0) hideAvatar();
+  }
+
   const contactEmail = $('#contactEmail');
   if (contactEmail) {
     contactEmail.href = 'mailto:' + EMAIL;
