@@ -407,7 +407,7 @@ html[lang="es"] .lang-toggle [data-lang="es"], html[lang="en"] .lang-toggle [dat
 .policies-date { font-family: var(--mono); font-size: 11px !important; grid-column: 1 / -1; }
 
 /* Objetivos táctiles: enlaces sueltos y botones chicos de al menos ~36-40 px */
-.tap { display: inline-flex; align-items: center; min-height: 36px; }
+.tap { display: inline-flex; align-items: center; gap: 6px; min-height: 36px; }
 footer .text-base { gap: 2px; }
 footer .text-base a { display: inline-grid; place-items: center; min-width: 40px; min-height: 40px; }
 #soundToggle { min-height: 36px; }

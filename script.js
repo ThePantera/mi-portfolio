@@ -20,7 +20,11 @@ document.addEventListener('DOMContentLoaded', () => {
   // Los textos fijos llevan su traducción en data-en; los textos que arma
   // el JavaScript usan L('español', 'english').
   // ==========================================================
-  let lang = store.get('lang') || ((navigator.language || 'es').toLowerCase().startsWith('es') ? 'es' : 'en');
+  // Hay dos páginas estáticas: / (español) y /en/ (inglés, generada con tools/build-en.html).
+  // El idioma lo define la página, no el navegador ni el almacenamiento local.
+  const IS_EN_PAGE = (document.documentElement.lang || 'es').toLowerCase().startsWith('en');
+  const ROOT = IS_EN_PAGE ? '../' : '';
+  let lang = IS_EN_PAGE ? 'en' : 'es';
   const L = (es, en) => (lang === 'en' ? en : es);
   const langListeners = [];
 
@@ -44,10 +48,9 @@ document.addEventListener('DOMContentLoaded', () => {
 
   const langToggle = $('#langToggle');
   if (langToggle) {
+    // Cambiar de idioma = ir a la otra página (conserva la sección: #ancla).
     langToggle.addEventListener('click', () => {
-      const next = lang === 'es' ? 'en' : 'es';
-      store.set('lang', next);
-      applyLang(next);
+      location.href = (IS_EN_PAGE ? '../' : 'en/') + location.hash;
     });
   }
 
@@ -1452,7 +1455,7 @@ ${evidence}
 
   function saveCvFile() {
     const link = document.createElement('a');
-    link.href = 'Manuel_Molina_CV.pdf';
+    link.href = ROOT + 'Manuel_Molina_CV.pdf';
     link.download = 'Manuel_Molina_CV.pdf';
     document.body.appendChild(link);
     link.click();

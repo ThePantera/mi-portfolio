@@ -20,6 +20,8 @@ Sitio personal de **Manuel Molina**, IT Monitoring & Command Center Operator en 
 | `index.html` | Estructura y textos (cada texto lleva su traducción en `data-en`) |
 | `script.js` | Idioma, LAB, Abi, formulario y contadores |
 | `style.css` | Estilos propios |
+| `en/index.html` | Versión en inglés (estática, para buscadores). **Se genera**: no editar a mano |
+| `tools/build-en.html` y `tools/build-en.ps1` | Generador de `en/index.html` a partir de `index.html` |
 | `icons.css` | Íconos propios (subset de Font Awesome Free 6.4.0 como máscaras CSS). Para sumar uno: bajar su SVG de `fontawesome-free@6.4.0/svgs/` y agregar una regla igual a las existentes |
 | `tailwind.css` | Tailwind compilado a partir de `tailwind.input.css` y `tailwind.config.js` |
 | `Manuel_Molina_CV.pdf` | CV que se descarga desde el sitio |
@@ -35,6 +37,14 @@ Sitio personal de **Manuel Molina**, IT Monitoring & Command Center Operator en 
   ```
 
 - **Evitar caché vieja:** al cambiar CSS o JS, actualizar el `?v=` de los enlaces en `index.html`.
+- **Regenerar la versión en inglés:** la página `/en/` se genera a partir de `index.html` (usa las traducciones `data-en`). **Hay que regenerarla después de cualquier cambio en `index.html`** (textos, enlaces o el `?v=`). Desde la carpeta del proyecto:
+
+  ```powershell
+  powershell -ExecutionPolicy Bypass -File tools\build-en.ps1
+  ```
+
+  Necesita Edge o Chrome instalado. Si agregás un `aria-label` o `title` nuevo en español, sumá su traducción a `ATTR_EN` en `tools/build-en.html`. Después, subir `index.html` y `en/index.html` juntos.
+- **Idioma:** el botón ES/EN lleva de una página a la otra. Cada página fija su idioma (`<html lang>`); el navegador del visitante ya no lo cambia solo.
 
 ## Publicación
 

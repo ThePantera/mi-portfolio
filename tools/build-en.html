@@ -1,0 +1,83 @@
+<!doctype html>
+<meta charset="utf-8">
+<title>Generador de /en/index.html</title>
+<!--
+  Genera la versión estática en inglés (en/index.html) a partir de ../index.html.
+  Qué hace:
+    - Reemplaza el contenido de cada elemento con data-en por su traducción (y los placeholders).
+    - Pone <html lang="en">, metadatos propios (title, description, Open Graph, canonical) y hreflang.
+    - Antepone ../ a las rutas relativas (css, js, imágenes, CV) porque la página vive en /en/.
+    - Ajusta el JSON-LD (url).
+  Cómo usarlo: ver README ("Regenerar la versión en inglés"). No se publica nada desde acá.
+-->
+<textarea id="o" style="width:100%;height:90vh"></textarea>
+<script>
+const SITE = 'https://thepantera.github.io/mi-portfolio/';
+const EN_META = {
+  description: 'Manuel Molina — IT Monitoring & Command Center Operator (100% remote). Proactive monitoring of servers and APIs with Grafana and Zabbix, event management, Jira/Redmine ticketing and N2/N3 escalation with ITIL.',
+  ogDescription: 'Proactive monitoring of servers and APIs, event management and fast incident escalation. Try the interactive Command Center LAB.',
+  ogSiteName: 'Manuel Molina — Portfolio',
+  ogImageAlt: 'Manuel Molina, IT Monitoring & Command Center Operator: pixel art avatar, console and experience data'
+};
+
+const xhr = new XMLHttpRequest();
+xhr.open('GET', '../index.html', false);
+xhr.send();
+const doc = new DOMParser().parseFromString(xhr.responseText, 'text/html');
+
+// 1. Contenido: igual que hace applyLang('en') en el navegador, pero ya en el HTML.
+doc.querySelectorAll('[data-en]').forEach(el => { el.innerHTML = el.getAttribute('data-en'); });
+doc.querySelectorAll('[data-en-placeholder]').forEach(el => { el.setAttribute('placeholder', el.getAttribute('data-en-placeholder')); });
+const toggle = doc.getElementById('langToggle');
+if (toggle) toggle.setAttribute('aria-label', 'Cambiar a español');
+
+// Atributos que lee un lector de pantalla (no llevan data-en). Si se agrega uno nuevo en español, sumarlo acá.
+const ATTR_EN = {
+  'Navegación principal': 'Main navigation',
+  'Abrir menú': 'Open menu',
+  'Volver arriba': 'Back to top',
+  'Descargar CV': 'Download CV',
+  'Contacto': 'Contact',
+  'Enviar': 'Send',
+  'Visitas totales': 'Total visits'
+};
+doc.querySelectorAll('[aria-label], [title]').forEach(el => {
+  ['aria-label', 'title'].forEach(a => { const v = el.getAttribute(a); if (v && ATTR_EN[v]) el.setAttribute(a, ATTR_EN[v]); });
+});
+const btnText = doc.querySelector('#submitBtn .btn-text');
+if (btnText) btnText.textContent = 'Send Message';
+
+// 2. Idioma y metadatos
+doc.documentElement.setAttribute('lang', 'en');
+const setMeta = (sel, value) => { const m = doc.querySelector(sel); if (!m) throw new Error('Falta ' + sel); m.setAttribute('content', value); };
+setMeta('meta[name="description"]', EN_META.description);
+setMeta('meta[property="og:description"]', EN_META.ogDescription);
+setMeta('meta[property="og:locale"]', 'en_US');
+setMeta('meta[property="og:locale:alternate"]', 'es_AR');
+setMeta('meta[property="og:url"]', SITE + 'en/');
+setMeta('meta[property="og:site_name"]', EN_META.ogSiteName);
+setMeta('meta[property="og:image:alt"]', EN_META.ogImageAlt);
+doc.querySelector('link[rel="canonical"]').setAttribute('href', SITE + 'en/');
+
+// 3. JSON-LD: la URL de la persona apunta a la página en inglés
+const ld = doc.querySelector('script[type="application/ld+json"]');
+const data = JSON.parse(ld.textContent);
+data.url = SITE + 'en/';
+ld.textContent = '\n  ' + JSON.stringify(data, null, 2).replace(/\n/g, '\n  ') + '\n  ';
+
+// 4. Rutas relativas: la página vive un nivel más abajo
+const isRelative = v => v && !/^(#|\/|[a-z][a-z0-9+.-]*:)/i.test(v);
+doc.querySelectorAll('[href], [src]').forEach(el => {
+  ['href', 'src'].forEach(a => { const v = el.getAttribute(a); if (isRelative(v)) el.setAttribute(a, '../' + v); });
+});
+
+// 5. Verificaciones: si algo no cuadra, el generador falla en vez de producir una página rota
+const problems = [];
+if (doc.querySelectorAll('[data-en]').length < 100) problems.push('Pocos elementos con data-en');
+doc.querySelectorAll('[href], [src]').forEach(el => {
+  ['href', 'src'].forEach(a => { const v = el.getAttribute(a); if (isRelative(v) && !v.startsWith('../')) problems.push('Ruta relativa sin ajustar: ' + v); });
+});
+document.getElementById('o').textContent = problems.length
+  ? 'ERROR: ' + problems.join(' | ')
+  : '<!DOCTYPE html>\n' + doc.documentElement.outerHTML + '\n';
+</script>

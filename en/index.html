@@ -1,0 +1,856 @@
+<!DOCTYPE html>
+<html lang="en"><head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Manuel Molina | IT Monitoring &amp; Command Center Operator</title>
+  <meta name="description" content="Manuel Molina — IT Monitoring &amp; Command Center Operator (100% remote). Proactive monitoring of servers and APIs with Grafana and Zabbix, event management, Jira/Redmine ticketing and N2/N3 escalation with ITIL.">
+  <meta name="author" content="Manuel Molina">
+  <meta name="theme-color" content="#070b12">
+  <meta property="og:type" content="website">
+  <meta property="og:title" content="Manuel Molina | IT Monitoring &amp; Command Center Operator">
+  <meta property="og:description" content="Proactive monitoring of servers and APIs, event management and fast incident escalation. Try the interactive Command Center LAB.">
+  <meta property="og:locale" content="en_US">
+  <meta property="og:locale:alternate" content="es_AR">
+  <meta property="og:url" content="https://thepantera.github.io/mi-portfolio/en/">
+  <meta property="og:site_name" content="Manuel Molina — Portfolio">
+  <meta property="og:image" content="https://thepantera.github.io/mi-portfolio/og-image.png">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="627">
+  <meta property="og:image:alt" content="Manuel Molina, IT Monitoring &amp; Command Center Operator: pixel art avatar, console and experience data">
+  <meta name="twitter:card" content="summary_large_image">
+  <link rel="canonical" href="https://thepantera.github.io/mi-portfolio/en/">
+  <link rel="alternate" hreflang="es" href="https://thepantera.github.io/mi-portfolio/">
+  <link rel="alternate" hreflang="en" href="https://thepantera.github.io/mi-portfolio/en/">
+  <link rel="alternate" hreflang="x-default" href="https://thepantera.github.io/mi-portfolio/">
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "Person",
+    "name": "Manuel Molina",
+    "jobTitle": "IT Monitoring & Command Center Operator",
+    "url": "https://thepantera.github.io/mi-portfolio/en/",
+    "image": "https://thepantera.github.io/mi-portfolio/avatar-pixel.png",
+    "address": {
+      "@type": "PostalAddress",
+      "addressLocality": "Buenos Aires",
+      "addressCountry": "AR"
+    },
+    "alumniOf": {
+      "@type": "EducationalOrganization",
+      "name": "IUTAI"
+    },
+    "knowsLanguage": [
+      "es",
+      "en"
+    ],
+    "knowsAbout": [
+      "IT Monitoring",
+      "Command Center",
+      "Grafana",
+      "Zabbix",
+      "Incident Management",
+      "ITIL",
+      "Jira",
+      "Redmine",
+      "SQL Server",
+      "MongoDB",
+      "Active Directory",
+      "Application Support"
+    ],
+    "sameAs": [
+      "https://www.linkedin.com/in/manuelmolina01",
+      "https://github.com/ThePantera"
+    ]
+  }
+  </script>
+  <link rel="icon" type="image/png" href="../favicon.png">
+  <link rel="apple-touch-icon" href="../favicon.png">
+
+  <!-- Fuentes (Google Fonts). Los íconos son propios: ver icons.css -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="">
+  <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;500;600;700&amp;family=JetBrains+Mono:wght@400;500;700&amp;display=swap" rel="stylesheet">
+
+  <!-- Tailwind CSS compilado (ver tailwind.config.js) + estilos propios -->
+  <link rel="stylesheet" href="../icons.css?v=20261117">
+  <link rel="stylesheet" href="../tailwind.css?v=20261117">
+  <link rel="stylesheet" href="../style.css?v=20261117">
+</head>
+<body class="bg-cc-bg text-cc-text font-sans antialiased">
+  <a href="#inicio" class="skip-link" data-en="Skip to content">Skip to content</a>
+
+  <!-- ============ NAVEGACIÓN ============ -->
+  <header id="header" class="fixed inset-x-0 top-0 z-50 border-b border-transparent transition-colors">
+    <div class="mx-auto flex h-16 max-w-7xl items-center justify-between gap-4 px-4 sm:px-6">
+      <a href="#inicio" class="flex min-w-0 items-center gap-2 font-mono text-sm font-bold text-cc-text" aria-label="Manuel Molina">
+        <span class="grid h-8 w-8 flex-none place-items-center rounded-md border border-cc-cyan/40 bg-cc-cyan/10 text-cc-cyan"><i class="fa-solid fa-tower-broadcast" aria-hidden="true"></i></span>
+        <span class="truncate">manuel<span class="text-cc-cyan">@</span>command-center<span class="text-cc-muted">:~$</span></span>
+      </a>
+
+      <nav id="navLinks" class="nav-links" aria-label="Main navigation">
+        <a href="#experiencia" class="nav-link" data-en="Experience">Experience</a>
+        <a href="#flujo" class="nav-link" data-en="Workflow">Workflow</a>
+        <a href="#casos" class="nav-link" data-en="Cases">Cases</a>
+        <a href="#lab" class="nav-link">LAB</a>
+        <a href="#proyectos" class="nav-link" data-en="Projects">Projects</a>
+        <a href="#formacion" class="nav-link" data-en="Education">Education</a>
+        <a href="#servicios" class="nav-link" data-en="Services">Services</a>
+        <a href="#contacto" class="nav-link" data-en="Contact">Contact</a>
+      </nav>
+
+      <div class="flex flex-none items-center gap-2">
+        <button id="langToggle" type="button" class="lang-toggle" aria-label="Cambiar a español" title="Español / English">
+          <span data-lang="es">ES</span><span data-lang="en">EN</span>
+        </button>
+        <a href="https://www.linkedin.com/in/manuelmolina01" class="grid h-9 w-9 place-items-center rounded-md border border-cc-line bg-cc-panel text-cc-text transition hover:border-cc-cyan hover:text-cc-cyan" target="_blank" rel="noopener noreferrer" aria-label="LinkedIn" title="LinkedIn">
+          <i class="fa-brands fa-linkedin-in" aria-hidden="true"></i>
+        </a>
+        <button id="menuToggleBtn" class="grid h-9 w-9 place-items-center rounded-md border border-cc-line bg-cc-panel lg:hidden" aria-label="Open menu" aria-expanded="false" aria-controls="navLinks">
+          <i class="fa-solid fa-bars" aria-hidden="true"></i>
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    <!-- ============ HERO ============ -->
+    <section id="inicio" class="hero relative overflow-hidden pt-28 pb-20 sm:pt-32">
+      <div class="hero-grid" aria-hidden="true"></div>
+      <div class="relative mx-auto grid max-w-7xl items-center gap-12 px-4 sm:px-6 lg:grid-cols-[1.15fr_1fr]">
+        <div>
+          <div class="mb-6 inline-flex items-center gap-2 rounded-full border border-cc-ok/30 bg-cc-ok/10 px-3 py-1 font-mono text-xs text-cc-ok">
+            <span class="relative flex h-2 w-2"><span class="absolute inline-flex h-full w-full animate-ping rounded-full bg-cc-ok opacity-75"></span><span class="relative inline-flex h-2 w-2 rounded-full bg-cc-ok"></span></span>
+            <span data-en="STATUS: AVAILABLE · 100% REMOTE">STATUS: AVAILABLE · 100% REMOTE</span>
+          </div>
+          <h1 class="text-4xl font-bold leading-tight tracking-tight text-white sm:text-5xl lg:text-6xl">
+            Manuel Molina
+            <span class="mt-2 block bg-gradient-to-r from-cc-cyan via-sky-400 to-cc-blue bg-clip-text text-2xl text-transparent sm:text-3xl lg:text-4xl">IT Monitoring &amp; Command Center Operator</span>
+          </h1>
+          <p class="mt-6 max-w-xl text-lg text-cc-muted" data-en="Proactive monitoring of servers and APIs, event management and fast incident escalation.">Proactive monitoring of servers and APIs, event management and fast incident escalation.</p>
+          <p class="mt-3 max-w-xl font-mono text-sm text-cc-muted">
+            <span class="text-cc-cyan">&gt;</span> <span id="typedText"></span><span class="cursor" aria-hidden="true">▋</span>
+          </p>
+
+          <div class="mt-8 flex flex-wrap gap-3">
+            <a href="../Manuel_Molina_CV.pdf" class="btn-primary cv-link" download="Manuel_Molina_CV.pdf"><i class="fa-solid fa-file-arrow-down" aria-hidden="true"></i> <span data-en="Download CV">Download CV</span></a>
+            <a href="#lab" class="btn-ghost"><i class="fa-solid fa-flask-vial" aria-hidden="true"></i> <span data-en="Try the Monitoring LAB">Try the Monitoring LAB</span></a>
+            <a href="#contacto" class="btn-ghost"><i class="fa-solid fa-paper-plane" aria-hidden="true"></i> <span data-en="Contact">Contact</span></a>
+          </div>
+          <div class="mt-5 flex flex-wrap gap-4 font-mono text-xs text-cc-muted">
+            <a href="#experiencia" class="tap hover:text-cc-cyan"><i class="fa-solid fa-briefcase" aria-hidden="true"></i> <span data-en="See experience">See experience</span></a>
+            <a href="https://www.linkedin.com/in/manuelmolina01" target="_blank" rel="noopener noreferrer" class="tap hover:text-cc-cyan"><i class="fa-brands fa-linkedin" aria-hidden="true"></i> linkedin.com/in/manuelmolina01</a>
+          </div>
+
+          <dl class="mt-10 grid max-w-lg grid-cols-3 gap-3">
+            <div class="kpi"><dt data-en="IT experience">IT experience</dt><dd><span class="stat-number" data-target="7">7</span>+ <span data-en="yrs">yrs</span></dd></div>
+            <div class="kpi"><dt data-en="Companies">Companies</dt><dd><span class="stat-number" data-target="5">5</span></dd></div>
+            <div class="kpi"><dt data-en="Current roles">Current roles</dt><dd><span class="stat-number" data-target="2">2</span></dd></div>
+          </dl>
+        </div>
+
+        <!-- Terminal de perfil -->
+        <div class="panel overflow-hidden shadow-2xl shadow-cyan-500/5">
+          <div class="panel-bar">
+            <span class="flex gap-1.5"><i class="dot bg-cc-crit"></i><i class="dot bg-cc-warn"></i><i class="dot bg-cc-ok"></i></span>
+            <span>ops-console — whoami</span>
+            <span id="heroClock" class="text-cc-cyan">--:--:--</span>
+          </div>
+          <div class="grid gap-5 p-5 sm:grid-cols-[auto_1fr]">
+            <div class="relative mx-auto h-28 w-28 sm:mx-0">
+              <div class="absolute inset-0 rounded-xl border border-cc-cyan/40 bg-cc-cyan/5"></div>
+              <img src="../avatar-pixel.png" alt="Manuel Molina — pixel art" width="112" height="112" class="pixelated relative h-28 w-28 rounded-xl" onerror="this.style.display='none'">
+              <span class="absolute -bottom-2 left-1/2 -translate-x-1/2 whitespace-nowrap rounded border border-cc-ok/40 bg-cc-bg px-2 py-0.5 font-mono text-[10px] text-cc-ok">● ON SHIFT</span>
+            </div>
+            <pre class="overflow-x-auto font-mono text-xs leading-6 text-cc-muted"><span class="text-cc-cyan">$</span> whoami
+<span class="text-white">manuel.molina</span> · Buenos Aires, AR
+<span class="text-cc-cyan">$</span> cat rol.txt
+IT Monitoring &amp; Command Center Operator
+<span class="text-cc-cyan">$</span> systemctl status stack
+<span class="text-cc-ok">●</span> grafana  <span class="text-cc-ok">●</span> zabbix  <span class="text-cc-ok">●</span> jira
+<span class="text-cc-ok">●</span> redmine  <span class="text-cc-ok">●</span> sql  <span class="text-cc-ok">●</span> ad  <span class="text-cc-ok">●</span> itil</pre>
+          </div>
+          <div class="border-t border-cc-line px-5 py-4">
+            <div class="mb-2 flex justify-between font-mono text-[11px] text-cc-muted"><span data-en="Simulated live signal (not real data)">Simulated live signal (not real data)</span><span class="text-cc-cyan">DEMO</span></div>
+            <svg id="heroSpark" class="h-12 w-full" viewBox="0 0 300 48" preserveAspectRatio="none" aria-hidden="true"><polyline fill="none" stroke="#22d3ee" stroke-width="2" points=""></polyline></svg>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ============ EXPERIENCIA ============ -->
+    <section id="experiencia" class="section bg-cc-panel/40">
+      <div class="section-head reveal">
+        <span class="eyebrow" data-en="// career">// career</span>
+        <h2 data-en="Experience">Experience</h2>
+        <p data-en="From L1 support in telecommunications to infrastructure monitoring and Application Support in healthcare.">From L1 support in telecommunications to infrastructure monitoring and Application Support in healthcare.</p>
+      </div>
+
+      <div class="mx-auto grid max-w-7xl gap-8 px-4 sm:px-6 lg:grid-cols-[1fr_340px]">
+        <ol class="timeline">
+          <li class="tl-item reveal">
+            <div class="tl-head"><h3 data-en="Monitoring Operator">Monitoring Operator</h3><span class="tl-date" data-en="Nov 2025 – Present">Nov 2025 – Present</span></div>
+            <p class="tl-company">Sanatorio Otamendi <span class="tl-live" data-en="CURRENT">CURRENT</span></p>
+            <ul>
+              <li data-en="Infrastructure and service monitoring through dashboards and graphs: ~12 servers and 8 critical APIs, with 24x7 on-call coverage.">Infrastructure and service monitoring through dashboards and graphs: ~12 servers and 8 critical APIs, with 24x7 on-call coverage.</li>
+              <li data-en="Supervision of monitoring for critical supply conservation systems, where a failure has direct impact on the hospital.">Supervision of monitoring for critical supply conservation systems, where a failure has direct impact on the hospital.</li>
+              <li data-en="Tracking API status and memory and cache usage, running cache cleanups when needed so the hospital system does not get saturated.">Tracking API status and memory and cache usage, running cache cleanups when needed so the hospital system does not get saturated.</li>
+              <li data-en="Checking signals and transactions from medical equipment, such as Holters connected to the Cardiology server.">Checking signals and transactions from medical equipment, such as Holters connected to the Cardiology server.</li>
+              <li data-en="Availability control and early detection of outages or anomalies in servers, connectivity/Wi-Fi and APIs, with ipconfig and ping checks.">Availability control and early detection of outages or anomalies in servers, connectivity/Wi-Fi and APIs, with ipconfig and ping checks.</li>
+              <li data-en="Preventive tests and diagnostics to avoid outages and system refreshes, spacing out recurring incidents.">Preventive tests and diagnostics to avoid outages and system refreshes, spacing out recurring incidents.</li>
+              <li data-en="Logging every incident in a ticket (~2 alerts per shift, ~4 tickets per day), communicating via chat and escalating to the responsible team.">Logging every incident in a ticket (~2 alerts per shift, ~4 tickets per day), communicating via chat and escalating to the responsible team.</li>
+            </ul>
+          </li>
+          <li class="tl-item reveal">
+            <div class="tl-head"><h3>IT Analyst</h3><span class="tl-date" data-en="Nov 2025 – Present">Nov 2025 – Present</span></div>
+            <p class="tl-company">Medicus <span class="tl-live" data-en="CURRENT">CURRENT</span></p>
+            <ul>
+              <li data-en="High-volume handling: 50 to 65 cases resolved per day.">High-volume handling: 50 to 65 cases resolved per day.</li>
+              <li data-en="Password resets and user provisioning (create, modify, remove) and permissions in Active Directory (~3,900 users), plus remote support.">Password resets and user provisioning (create, modify, remove) and permissions in Active Directory (~3,900 users), plus remote support.</li>
+              <li data-en="Fixing 8 to 10 patient records per shift loaded with errors (ID number, first name, last name), validated with SQL and MongoDB queries.">Fixing 8 to 10 patient records per shift loaded with errors (ID number, first name, last name), validated with SQL and MongoDB queries.</li>
+              <li data-en="Application Support and troubleshooting on production systems: Thinksoft, Biocom and Binary, together with the Functional Squad.">Application Support and troubleshooting on production systems: Thinksoft, Biocom and Binary, together with the Functional Squad.</li>
+              <li data-en="Documenting everything that happens during each shift, for audits and future reference.">Documenting everything that happens during each shift, for audits and future reference.</li>
+            </ul>
+          </li>
+          <li class="tl-item reveal">
+            <div class="tl-head"><h3>Technical Support Analyst</h3><span class="tl-date" data-en="Feb 2025 – Jan 2026">Feb 2025 – Jan 2026</span></div>
+            <p class="tl-company">Sondeos Global</p>
+            <ul>
+              <li data-en="L1/L2 technical support and ticket management classified by impact and severity.">L1/L2 technical support and ticket management classified by impact and severity.</li>
+              <li data-en="Running and verifying queries against external services (for example RENAPER) with Postman.">Running and verifying queries against external services (for example RENAPER) with Postman.</li>
+              <li data-en="Reviewing call logs per route and building IVR trees for callers to consulting firms and collection agencies.">Reviewing call logs per route and building IVR trees for callers to consulting firms and collection agencies.</li>
+              <li data-en="Troubleshooting and escalating complex incidents, documenting solutions for recurring issues.">Troubleshooting and escalating complex incidents, documenting solutions for recurring issues.</li>
+            </ul>
+          </li>
+          <li class="tl-item reveal">
+            <div class="tl-head"><h3>IT / Administrative Support</h3><span class="tl-date" data-en="May 2022 – Feb 2025">May 2022 – Feb 2025</span></div>
+            <p class="tl-company">Beretta Galarce &amp; Asociados</p>
+            <ul>
+              <li data-en="Operational support for internal users and functional testing of applications.">Operational support for internal users and functional testing of applications.</li>
+              <li data-en="Documenting errors and following up on fixes with the owners.">Documenting errors and following up on fixes with the owners.</li>
+            </ul>
+          </li>
+          <li class="tl-item reveal">
+            <div class="tl-head"><h3>Technical Support Operator</h3><span class="tl-date" data-en="Mar 2019 – Apr 2022">Mar 2019 – Apr 2022</span></div>
+            <p class="tl-company">Claro Argentina</p>
+            <ul>
+              <li data-en="L1 phone and digital technical support: diagnosing hardware, software and connectivity incidents.">L1 phone and digital technical support: diagnosing hardware, software and connectivity incidents.</li>
+              <li data-en="Ticket management meeting SLA targets (10 to 15 minute resolution, first contact within 2 minutes) and escalating to specialized teams, ~30 calls and tickets per day.">Ticket management meeting SLA targets (10 to 15 minute resolution, first contact within 2 minutes) and escalating to specialized teams, ~30 calls and tickets per day.</li>
+              <li data-en="Recognized several times for service quality, willingness to find new solutions and process documentation.">Recognized several times for service quality, willingness to find new solutions and process documentation.</li>
+            </ul>
+          </li>
+        </ol>
+
+        <aside class="space-y-4">
+          <div class="panel stack-panel overflow-hidden reveal">
+            <div class="panel-bar"><span class="text-cc-cyan" data-en="Tech stack">Tech stack</span><span>modules: <b id="stackCount" class="text-cc-ok">0</b></span></div>
+            <div class="stack-progress" aria-hidden="true"><span></span></div>
+            <div class="space-y-4 p-5">
+              <div>
+                <p class="stack-cat"><i class="fa-solid fa-chart-line" aria-hidden="true"></i> <span data-en="Monitoring">Monitoring</span></p>
+                <ul class="stack-chips"><li class="stack-chip" style="--i:0"><i class="fa-solid fa-chart-area" aria-hidden="true"></i>Grafana</li><li class="stack-chip" style="--i:1"><i class="fa-solid fa-tower-broadcast" aria-hidden="true"></i>Zabbix</li><li class="stack-chip" style="--i:2"><i class="fa-solid fa-bell" aria-hidden="true"></i><span data-en="Alerts / Thresholds">Alerts / Thresholds</span></li><li class="stack-chip" style="--i:3"><i class="fa-solid fa-gauge-high" aria-hidden="true"></i>Dashboards</li></ul>
+              </div>
+              <div>
+                <p class="stack-cat"><i class="fa-solid fa-ticket" aria-hidden="true"></i> <span data-en="ITSM &amp; incidents">ITSM &amp; incidents</span></p>
+                <ul class="stack-chips"><li class="stack-chip" style="--i:4"><i class="fa-brands fa-jira" aria-hidden="true"></i>Jira</li><li class="stack-chip" style="--i:5"><i class="fa-solid fa-list-check" aria-hidden="true"></i>Redmine</li><li class="stack-chip" style="--i:6"><i class="fa-solid fa-book" aria-hidden="true"></i>ITIL</li><li class="stack-chip" style="--i:7"><i class="fa-solid fa-stopwatch" aria-hidden="true"></i>SLA · MTTA</li><li class="stack-chip" style="--i:8"><i class="fa-solid fa-file-signature" aria-hidden="true"></i><span data-en="Documentation &amp; audit">Documentation &amp; audit</span></li></ul>
+              </div>
+              <div>
+                <p class="stack-cat"><i class="fa-solid fa-database" aria-hidden="true"></i> <span data-en="Data &amp; APIs">Data &amp; APIs</span></p>
+                <ul class="stack-chips"><li class="stack-chip" style="--i:9"><i class="fa-solid fa-database" aria-hidden="true"></i>SQL Server</li><li class="stack-chip" style="--i:10"><i class="fa-solid fa-leaf" aria-hidden="true"></i>MongoDB</li><li class="stack-chip" style="--i:11"><i class="fa-solid fa-paper-plane" aria-hidden="true"></i>Postman</li><li class="stack-chip" style="--i:12"><i class="fa-solid fa-code" aria-hidden="true"></i>REST · JSON</li></ul>
+              </div>
+              <div>
+                <p class="stack-cat"><i class="fa-solid fa-user-shield" aria-hidden="true"></i> <span data-en="Systems &amp; identity">Systems &amp; identity</span></p>
+                <ul class="stack-chips"><li class="stack-chip" style="--i:13"><i class="fa-brands fa-windows" aria-hidden="true"></i>Windows · Windows Server</li><li class="stack-chip" style="--i:14"><i class="fa-solid fa-users-gear" aria-hidden="true"></i>Active Directory</li><li class="stack-chip" style="--i:15"><i class="fa-solid fa-terminal" aria-hidden="true"></i>PowerShell · CMD</li><li class="stack-chip" style="--i:16"><i class="fa-solid fa-laptop-medical" aria-hidden="true"></i>Thinksoft · Biocom · Binary</li></ul>
+              </div>
+              <div>
+                <p class="stack-cat"><i class="fa-solid fa-network-wired" aria-hidden="true"></i> <span data-en="Networking &amp; telephony">Networking &amp; telephony</span></p>
+                <ul class="stack-chips"><li class="stack-chip" style="--i:17"><i class="fa-solid fa-network-wired" aria-hidden="true"></i>TCP/IP · DNS · DHCP</li><li class="stack-chip" style="--i:18"><i class="fa-solid fa-shield-halved" aria-hidden="true"></i>VPN</li><li class="stack-chip" style="--i:19"><i class="fa-solid fa-satellite-dish" aria-hidden="true"></i>ipconfig · ping · tracert</li><li class="stack-chip" style="--i:20"><i class="fa-solid fa-phone-volume" aria-hidden="true"></i>IVR</li></ul>
+              </div>
+              <div>
+                <p class="stack-cat"><i class="fa-solid fa-comments" aria-hidden="true"></i> <span data-en="Collaboration">Collaboration</span></p>
+                <ul class="stack-chips"><li class="stack-chip" style="--i:21"><i class="fa-brands fa-microsoft" aria-hidden="true"></i>Microsoft Teams · 365</li><li class="stack-chip" style="--i:22"><i class="fa-brands fa-slack" aria-hidden="true"></i>Slack</li><li class="stack-chip" style="--i:23"><i class="fa-solid fa-display" aria-hidden="true"></i>NetSupport</li></ul>
+              </div>
+            </div>
+          </div>
+          <div class="panel p-5 reveal">
+            <p class="text-sm text-cc-muted" data-en="Want to see recommendations, certifications and full details for each role?">Want to see recommendations, certifications and full details for each role?</p>
+            <div class="mt-3 grid grid-cols-2 gap-2">
+              <a href="https://www.linkedin.com/in/manuelmolina01" class="btn-linkedin justify-center" target="_blank" rel="noopener noreferrer"><i class="fa-brands fa-linkedin" aria-hidden="true"></i> LinkedIn</a>
+              <a href="../Manuel_Molina_CV.pdf" class="btn-ghost cv-link justify-center text-center" download="Manuel_Molina_CV.pdf"><i class="fa-solid fa-file-arrow-down" aria-hidden="true"></i> <span data-en="Download CV (PDF)">Download CV (PDF)</span></a>
+            </div>
+          </div>
+        </aside>
+      </div>
+    </section>
+
+    <!-- ============ FLUJO DE TRABAJO ============ -->
+    <section id="flujo" class="section">
+      <div class="section-head reveal">
+        <span class="eyebrow" data-en="// operations runbook">// operations runbook</span>
+        <h2 data-en="My workflow">My workflow</h2>
+        <p data-en="How I handle every event, from the moment it shows up on the dashboard until it reaches the team that fixes it.">How I handle every event, from the moment it shows up on the dashboard until it reaches the team that fixes it.</p>
+      </div>
+      <ol class="mx-auto grid max-w-7xl gap-4 px-4 sm:px-6 md:grid-cols-2 lg:grid-cols-4">
+        <li class="flow-card reveal">
+          <span class="flow-step">01</span>
+          <i class="fa-solid fa-chart-line flow-icon text-cc-cyan" aria-hidden="true"></i>
+          <h3 data-en="Dashboard Detection">Dashboard Detection</h3>
+          <p data-en="I watch Grafana and Zabbix: thresholds, latency, HTTP codes, memory, cache and availability of servers, connectivity and APIs.">I watch Grafana and Zabbix: thresholds, latency, HTTP codes, memory, cache and availability of servers, connectivity and APIs.</p>
+          <span class="flow-tag">Grafana · Zabbix</span>
+        </li>
+        <li class="flow-card reveal">
+          <span class="flow-step">02</span>
+          <i class="fa-solid fa-magnifying-glass-chart flow-icon text-cc-warn" aria-hidden="true"></i>
+          <h3 data-en="Triage &amp; Validation">Triage &amp; Validation</h3>
+          <p data-en="I rule out false positives with ipconfig, ping, logs and SQL queries, and define the impact and severity of the event.">I rule out false positives with ipconfig, ping, logs and SQL queries, and define the impact and severity of the event.</p>
+          <span class="flow-tag">Ping · Logs · SQL</span>
+        </li>
+        <li class="flow-card reveal">
+          <span class="flow-step">03</span>
+          <i class="fa-solid fa-ticket flow-icon text-cc-blue" aria-hidden="true"></i>
+          <h3 data-en="Ticket Creation">Ticket Creation</h3>
+          <p data-en="I log the incident with priority, impact, evidence and timeline, and document the shift for audits and future reference.">I log the incident with priority, impact, evidence and timeline, and document the shift for audits and future reference.</p>
+          <span class="flow-tag">Jira · Redmine</span>
+        </li>
+        <li class="flow-card reveal">
+          <span class="flow-step">04</span>
+          <i class="fa-solid fa-people-arrows flow-icon text-cc-crit" aria-hidden="true"></i>
+          <h3 data-en="L2/L3 Escalation">L2/L3 Escalation</h3>
+          <p data-en="I escalate to the right team via chat and ticket, and follow up until closure within SLA.">I escalate to the right team via chat and ticket, and follow up until closure within SLA.</p>
+          <span class="flow-tag">Teams · Slack · SLA</span>
+        </li>
+      </ol>
+    </section>
+
+    <!-- ============ CASOS REALES ============ -->
+    <section id="casos" class="section bg-cc-panel/40">
+      <div class="section-head reveal">
+        <span class="eyebrow" data-en="// field cases">// field cases</span>
+        <h2 data-en="Real cases from my day-to-day">Real cases from my day-to-day</h2>
+        <p data-en="Typical situations I handle in each role. Data is anonymized; some of them can be replayed in the LAB.">Typical situations I handle in each role. Data is anonymized; some of them can be replayed in the LAB.</p>
+      </div>
+      <div class="mx-auto grid max-w-7xl gap-4 px-4 sm:px-6 md:grid-cols-2">
+        <article class="case-card crit reveal">
+          <div class="case-head"><span class="case-org">Sanatorio Otamendi</span><span class="case-sev">P1</span></div>
+          <h3 data-en="Holter server down in Cardiology">Holter server down in Cardiology</h3>
+          <dl class="case-body">
+            <dt data-en="Situation">Situation</dt>
+            <dd data-en="Holters record the patient's heart rhythm and send the study to a server that transfers it to the Cardiology PCs. If that server stops, the study cannot be completed and the patient cannot be seen.">Holters record the patient's heart rhythm and send the study to a server that transfers it to the Cardiology PCs. If that server stops, the study cannot be completed and the patient cannot be seen.</dd>
+            <dt data-en="What I do">What I do</dt>
+            <dd data-en="I check the signals and transactions on the dashboard, validate with ping and ipconfig, open the ticket as P1 and escalate immediately to infrastructure.">I check the signals and transactions on the dashboard, validate with ping and ipconfig, open the ticket as P1 and escalate immediately to infrastructure.</dd>
+          </dl>
+          <button type="button" class="case-lab" data-scenario="holter"><i class="fa-solid fa-play" aria-hidden="true"></i> <span data-en="Replay in the LAB">Replay in the LAB</span></button>
+        </article>
+
+        <article class="case-card warn reveal">
+          <div class="case-head"><span class="case-org">Sanatorio Otamendi</span><span class="case-sev">P2</span></div>
+          <h3 data-en="API memory and cache saturation">API memory and cache saturation</h3>
+          <dl class="case-body">
+            <dt data-en="Situation">Situation</dt>
+            <dd data-en="The dashboards show API status plus memory and cache usage. When they climb, the hospital system can become saturated.">The dashboards show API status plus memory and cache usage. When they climb, the hospital system can become saturated.</dd>
+            <dt data-en="What I do">What I do</dt>
+            <dd data-en="I run the cache cleanup when needed so the system is not saturated, and escalate if usage keeps growing.">I run the cache cleanup when needed so the system is not saturated, and escalate if usage keeps growing.</dd>
+          </dl>
+          <button type="button" class="case-lab" data-scenario="turnos"><i class="fa-solid fa-play" aria-hidden="true"></i> <span data-en="Replay in the LAB">Replay in the LAB</span></button>
+        </article>
+
+        <article class="case-card info reveal">
+          <div class="case-head"><span class="case-org">Medicus</span><span class="case-sev" data-en="HIGH VOLUME">HIGH VOLUME</span></div>
+          <h3 data-en="50 to 65 cases per day">50 to 65 cases per day</h3>
+          <dl class="case-body">
+            <dt data-en="Most common cases">Most common cases</dt>
+            <dd data-en="Password resets and user provisioning (create, modify, remove) in Active Directory, and fixing patient records loaded with errors: ID number, first name and last name.">Password resets and user provisioning (create, modify, remove) in Active Directory, and fixing patient records loaded with errors: ID number, first name and last name.</dd>
+            <dt data-en="What I do">What I do</dt>
+            <dd data-en="I resolve each case, apply the data corrections with SQL checks and document everything that happens during the shift, for audits and future reference.">I resolve each case, apply the data corrections with SQL checks and document everything that happens during the shift, for audits and future reference.</dd>
+          </dl>
+        </article>
+
+        <article class="case-card info reveal">
+          <div class="case-head"><span class="case-org">Sondeos Global</span><span class="case-sev">API · IVR</span></div>
+          <h3 data-en="API checks with Postman and IVR trees">API checks with Postman and IVR trees</h3>
+          <dl class="case-body">
+            <dt data-en="Situation">Situation</dt>
+            <dd data-en="Lookups against external services (for example RENAPER) and calls routed to consulting firms and collection agencies.">Lookups against external services (for example RENAPER) and calls routed to consulting firms and collection agencies.</dd>
+            <dt data-en="What I do">What I do</dt>
+            <dd data-en="I ran and verified the queries with Postman, reviewed the call logs for each route and built IVR trees for the callers.">I ran and verified the queries with Postman, reviewed the call logs for each route and built IVR trees for the callers.</dd>
+          </dl>
+        </article>
+      </div>
+    </section>
+
+    <!-- ============ LAB: SIMULADOR DE COMMAND CENTER ============ -->
+    <section id="lab" class="section">
+      <div class="section-head reveal">
+        <span class="eyebrow" data-en="// interactive lab">// interactive lab</span>
+        <h2 data-en="Monitoring LAB: Command Center Simulator">Monitoring LAB: Command Center Simulator</h2>
+        <p data-en="Live an incident end to end: detect the outage, diagnose it, open the ticket and escalate it to the right team. Or ask Abi.">Live an incident end to end: detect the outage, diagnose it, open the ticket and escalate it to the right team. Or ask Abi.</p>
+      </div>
+
+      <div class="mx-auto max-w-7xl px-4 sm:px-6">
+        <!-- Barra de estado global -->
+        <div class="panel mb-4 flex flex-wrap items-center gap-x-6 gap-y-2 px-4 py-3 font-mono text-xs">
+          <span class="flex items-center gap-2"><span id="globalDot" class="h-2.5 w-2.5 rounded-full bg-cc-ok"></span><span id="globalStatus" class="text-cc-ok">ALL SYSTEMS OPERATIONAL</span></span>
+          <span class="text-cc-muted"><span data-en="Services OK">Services OK</span>: <b id="svcOkCount" class="text-white">6/6</b></span>
+          <span class="text-cc-muted"><span data-en="Open incidents">Open incidents</span>: <b id="openIncidents" class="text-white">0</b></span>
+          <span class="text-cc-muted">MTTA: <b id="mttaValue" class="text-white">—</b></span>
+          <span id="labStatsWrap" class="hidden text-cc-muted"><span data-en="Visitor simulations">Visitor simulations</span>: <b id="labStats" class="text-white">—</b></span>
+          <span class="ml-auto flex items-center gap-3">
+            <button id="soundToggle" type="button" class="rounded border border-cc-line px-2 py-1 text-cc-muted hover:text-cc-cyan" aria-pressed="true"><i class="fa-solid fa-volume-high" aria-hidden="true"></i> <span data-en="Sound">Sound</span></button>
+            <span id="labClock" class="text-cc-cyan">--:--:--</span>
+          </span>
+        </div>
+
+        <div class="grid gap-4 lg:grid-cols-[1fr_320px]">
+          <div class="panel min-w-0 overflow-hidden">
+            <!-- Pestañas -->
+            <div class="tabs" role="tablist" aria-label="LAB">
+              <button class="tab" role="tab" id="tab-dash" aria-controls="panel-dash" aria-selected="true"><i class="fa-solid fa-gauge-high" aria-hidden="true"></i> <span>1 · Dashboard</span></button>
+              <button class="tab" role="tab" id="tab-jira" aria-controls="panel-jira" aria-selected="false" tabindex="-1"><i class="fa-brands fa-jira" aria-hidden="true"></i> <span>2 · Tickets</span><span id="jiraBadge" class="tab-badge hidden">1</span></button>
+              <button class="tab" role="tab" id="tab-console" aria-controls="panel-console" aria-selected="false" tabindex="-1"><i class="fa-solid fa-terminal" aria-hidden="true"></i> <span data-en="3 · Diagnostics">3 · Diagnostics</span></button>
+              <button class="tab" role="tab" id="tab-abi" aria-controls="panel-abi" aria-selected="false" tabindex="-1"><i class="fa-solid fa-wand-magic-sparkles" aria-hidden="true"></i> <span>Abi</span></button>
+            </div>
+
+            <!-- WIDGET 1: DASHBOARD -->
+            <div class="tab-panel" role="tabpanel" id="panel-dash" aria-labelledby="tab-dash">
+              <div class="mb-4 flex flex-wrap items-end justify-between gap-3">
+                <div>
+                  <h3 class="widget-title"><i class="fa-solid fa-chart-area text-orange-400" aria-hidden="true"></i> <span data-en="Grafana · Production / Service status">Grafana · Production / Service status</span></h3>
+                  <p class="widget-sub" data-en="Refresh every 2s · Response latency (ms)">Refresh every 2s · Response latency (ms)</p>
+                </div>
+                <div class="flex flex-wrap items-center gap-2">
+                  <label class="sr-only" for="scenarioSelect" data-en="Scenario">Scenario</label>
+                  <select id="scenarioSelect" class="scenario-select">
+                    <option value="random" data-en="🎲 Random scenario">🎲 Random scenario</option>
+                    <option value="biocom" data-en="App Biocom · HTTP 500">App Biocom · HTTP 500</option>
+                    <option value="holter" data-en="Holter server · Cardiology">Holter server · Cardiology</option>
+                    <option value="sql" data-en="SQL · disk almost full">SQL · disk almost full</option>
+                    <option value="turnos" data-en="Appointments API · memory &amp; cache">Appointments API · memory &amp; cache</option>
+                  </select>
+                  <button id="simulateBtn" class="btn-danger"><i class="fa-solid fa-bolt" aria-hidden="true"></i> <span data-en="Simulate Outage Event">Simulate Outage Event</span></button>
+                </div>
+              </div>
+              <div id="svcGrid" class="grid gap-3 sm:grid-cols-2 xl:grid-cols-3">
+                <article class="svc" data-svc="web" data-state="ok" data-host="srv-web-01" data-detail="nginx">
+                  <header><span><i class="fa-solid fa-server" aria-hidden="true"></i> <span data-en="Web Server 01">Web Server 01</span></span><b class="svc-badge">OK</b></header>
+                  <div class="svc-row"><span class="svc-host">srv-web-01 · nginx</span><span class="svc-lat">— ms</span></div>
+                  <svg class="spark" viewBox="0 0 200 40" preserveAspectRatio="none" aria-hidden="true"><polyline points=""></polyline></svg>
+                  <div class="svc-row"><span>Uptime 30d</span><span>99.99%</span></div>
+                </article>
+                <article class="svc" data-svc="api" data-state="ok" data-host="api-pagos" data-detail="/health 200">
+                  <header><span><i class="fa-solid fa-credit-card" aria-hidden="true"></i> <span data-en="Payments API">Payments API</span></span><b class="svc-badge">OK</b></header>
+                  <div class="svc-row"><span class="svc-host">api-pagos · /health 200</span><span class="svc-lat">— ms</span></div>
+                  <svg class="spark" viewBox="0 0 200 40" preserveAspectRatio="none" aria-hidden="true"><polyline points=""></polyline></svg>
+                  <div class="svc-row"><span>Uptime 30d</span><span>99.97%</span></div>
+                </article>
+                <article class="svc" data-svc="sql" data-state="ok" data-host="sql-prod-01" data-detail="MSSQL :1433">
+                  <header><span><i class="fa-solid fa-database" aria-hidden="true"></i> <span data-en="SQL Database">SQL Database</span></span><b class="svc-badge">OK</b></header>
+                  <div class="svc-row"><span class="svc-host">sql-prod-01 · MSSQL :1433</span><span class="svc-lat">— ms</span></div>
+                  <svg class="spark" viewBox="0 0 200 40" preserveAspectRatio="none" aria-hidden="true"><polyline points=""></polyline></svg>
+                  <div class="svc-row"><span>Uptime 30d</span><span>99.99%</span></div>
+                </article>
+                <article class="svc" data-svc="biocom" data-state="ok" data-host="srv-app-biocom" data-detail="HTTP 200">
+                  <header><span><i class="fa-solid fa-laptop-medical" aria-hidden="true"></i> <span data-en="Biocom App Server">Biocom App Server</span></span><b class="svc-badge">OK</b></header>
+                  <div class="svc-row"><span class="svc-host">srv-app-biocom · HTTP 200</span><span class="svc-lat">— ms</span></div>
+                  <svg class="spark" viewBox="0 0 200 40" preserveAspectRatio="none" aria-hidden="true"><polyline points=""></polyline></svg>
+                  <div class="svc-row"><span>Uptime 30d</span><span>99.95%</span></div>
+                </article>
+                <article class="svc" data-svc="holter" data-state="ok" data-host="srv-holter-01" data-detail="HolterSync">
+                  <header><span><i class="fa-solid fa-heart-pulse" aria-hidden="true"></i> <span data-en="Holter Server · Cardiology">Holter Server · Cardiology</span></span><b class="svc-badge">OK</b></header>
+                  <div class="svc-row"><span class="svc-host">srv-holter-01 · HolterSync</span><span class="svc-lat">— ms</span></div>
+                  <svg class="spark" viewBox="0 0 200 40" preserveAspectRatio="none" aria-hidden="true"><polyline points=""></polyline></svg>
+                  <div class="svc-row"><span>Uptime 30d</span><span>99.96%</span></div>
+                </article>
+                <article class="svc" data-svc="turnos" data-state="ok" data-host="api-turnos" data-detail="MEM 48% · cache 52%">
+                  <header><span><i class="fa-solid fa-calendar-check" aria-hidden="true"></i> <span data-en="Appointments API">Appointments API</span></span><b class="svc-badge">OK</b></header>
+                  <div class="svc-row"><span class="svc-host">api-turnos · MEM 48% · cache 52%</span><span class="svc-lat">— ms</span></div>
+                  <svg class="spark" viewBox="0 0 200 40" preserveAspectRatio="none" aria-hidden="true"><polyline points=""></polyline></svg>
+                  <div class="svc-row"><span>Uptime 30d</span><span>99.98%</span></div>
+                </article>
+              </div>
+              <button type="button" class="svc-action hidden" id="openIncidentBtn"><i class="fa-solid fa-triangle-exclamation" aria-hidden="true"></i> <span data-en="View event · Log &amp; Escalate Incident">View event · Log &amp; Escalate Incident</span></button>
+              <p id="dashHint" class="mt-4 font-mono text-xs text-cc-muted"></p>
+            </div>
+
+            <!-- WIDGET 2: JIRA -->
+            <div class="tab-panel hidden" role="tabpanel" id="panel-jira" aria-labelledby="tab-jira">
+              <div id="jiraEmpty" class="empty-state">
+                <i class="fa-solid fa-circle-check text-3xl text-cc-ok" aria-hidden="true"></i>
+                <p class="mt-3 text-white" data-en="No active incidents">No active incidents</p>
+                <p class="mt-1 text-sm text-cc-muted" data-en="Trigger an event from the Dashboard and click the affected service.">Trigger an event from the Dashboard and click the affected service.</p>
+                <button type="button" class="btn-ghost mt-4" data-goto="dash"><i class="fa-solid fa-gauge-high" aria-hidden="true"></i> <span data-en="Go to Dashboard">Go to Dashboard</span></button>
+              </div>
+
+              <form id="jiraForm" class="hidden" novalidate="">
+                <div class="mb-4 flex flex-wrap items-center justify-between gap-2">
+                  <h3 class="widget-title"><i class="fa-brands fa-jira text-cc-blue" aria-hidden="true"></i> <span data-en="Create incident">Create incident</span> · <span id="ticketKey" class="font-mono text-cc-cyan">MON-1042</span></h3>
+                  <span id="ticketStatus" class="ticket-status" data-status="open"></span>
+                </div>
+                <div class="grid gap-3 sm:grid-cols-2">
+                  <label class="field sm:col-span-2"><span data-en="Summary">Summary</span><input id="jSummary" type="text" readonly=""></label>
+                  <label class="field"><span data-en="Priority">Priority</span>
+                    <select id="jPriority">
+                      <option value="P1" data-en="P1 - High (Service Down)">P1 - High (Service Down)</option>
+                      <option value="P2" data-en="P2 - Medium (Degraded / Risk)">P2 - Medium (Degraded / Risk)</option>
+                      <option value="P3" data-en="P3 - Low">P3 - Low</option>
+                    </select>
+                  </label>
+                  <label class="field"><span data-en="Impact">Impact</span>
+                    <select id="jImpact">
+                      <option value="users" data-en="Production / Users Affected">Production / Users Affected</option>
+                      <option value="patients" data-en="Production / Patient Care Affected">Production / Patient Care Affected</option>
+                      <option value="risk" data-en="Production / Degradation Risk (preventive)">Production / Degradation Risk (preventive)</option>
+                      <option value="test" data-en="Test environment">Test environment</option>
+                    </select>
+                  </label>
+                  <fieldset class="field sm:col-span-2">
+                    <legend data-en="Escalation target team">Escalation target team</legend>
+                    <div class="grid gap-2 sm:grid-cols-2">
+                      <label class="team-opt"><input type="radio" name="jTeam" value="infra" checked=""> <span><b data-en="Infrastructure Team L2">Infrastructure Team L2</b><small data-en="Network, servers, databases, storage">Network, servers, databases, storage</small></span></label>
+                      <label class="team-opt"><input type="radio" name="jTeam" value="devs"> <span><b data-en="Dev Team (L3)">Dev Team (L3)</b><small data-en="Application code, memory leaks, deploys">Application code, memory leaks, deploys</small></span></label>
+                    </div>
+                  </fieldset>
+                  <label class="field"><span data-en="Notification channel">Notification channel</span>
+                    <select id="jChannel"><option value="teams">Microsoft Teams</option><option value="slack">Slack</option></select>
+                  </label>
+                  <label class="field"><span data-en="Detected by">Detected by</span><input type="text" value="Manuel Molina · Command Center L1" readonly=""></label>
+                  <label class="field sm:col-span-2"><span data-en="Description and evidence">Description and evidence</span><textarea id="jDesc" rows="7" readonly=""></textarea></label>
+                </div>
+                <p id="evidenceHint" class="mt-2 font-mono text-xs"></p>
+                <div class="mt-4 flex flex-wrap gap-3">
+                  <button type="submit" id="escalateBtn" class="btn-primary"><i class="fa-solid fa-arrow-up-right-dots" aria-hidden="true"></i> <span data-en="Escalate Ticket">Escalate Ticket</span></button>
+                  <button type="button" id="resolveBtn" class="btn-ghost hidden"><i class="fa-solid fa-screwdriver-wrench" aria-hidden="true"></i> <span data-en="Simulate resolution by the team">Simulate resolution by the team</span></button>
+                  <button type="button" id="resetBtn" class="btn-ghost hidden"><i class="fa-solid fa-rotate-left" aria-hidden="true"></i> <span data-en="Reset scenario">Reset scenario</span></button>
+                </div>
+                <div id="chatMsg" class="chat-msg mt-5 hidden" aria-live="polite"></div>
+              </form>
+            </div>
+
+            <!-- WIDGET 3: CONSOLA -->
+            <div class="tab-panel hidden" role="tabpanel" id="panel-console" aria-labelledby="tab-console">
+              <div class="mb-4">
+                <h3 class="widget-title"><i class="fa-solid fa-terminal text-cc-ok" aria-hidden="true"></i> <span data-en="Quick Diagnostics Console · SQL &amp; Logs Viewer">Quick Diagnostics Console · SQL &amp; Logs Viewer</span></h3>
+                <p class="widget-sub">Host: <span id="consoleHost" class="font-mono text-cc-cyan">srv-app-biocom</span> · <span data-en="read-only session">read-only session</span></p>
+              </div>
+              <div class="cmd-groups mb-3">
+                <div class="cmd-group">
+                  <span class="cmd-label" data-en="Logs &amp; data">Logs &amp; data</span>
+                  <button type="button" class="cmd-btn" data-cmd="log"><i class="fa-solid fa-file-lines" aria-hidden="true"></i> <span data-en="Check Outage Log">Check Outage Log</span></button>
+                  <button type="button" class="cmd-btn" data-cmd="sql"><i class="fa-solid fa-database" aria-hidden="true"></i> <span data-en="Run SQL Diagnostic Query">Run SQL Diagnostic Query</span></button>
+                  <button type="button" class="cmd-btn" data-cmd="api"><i class="fa-solid fa-plug" aria-hidden="true"></i> <span data-en="API health check">API health check</span></button>
+                </div>
+                <div class="cmd-group">
+                  <span class="cmd-label" data-en="Network">Network</span>
+                  <button type="button" class="cmd-btn" data-cmd="ping"><i class="fa-solid fa-satellite-dish" aria-hidden="true"></i> ipconfig + ping</button>
+                  <button type="button" class="cmd-btn" data-cmd="port"><i class="fa-solid fa-network-wired" aria-hidden="true"></i> <span data-en="Port test">Port test</span></button>
+                  <button type="button" class="cmd-btn" data-cmd="dns"><i class="fa-solid fa-globe" aria-hidden="true"></i> nslookup</button>
+                  <button type="button" class="cmd-btn" data-cmd="tracert"><i class="fa-solid fa-route" aria-hidden="true"></i> tracert</button>
+                </div>
+                <div class="cmd-group">
+                  <span class="cmd-label" data-en="Server &amp; users">Server &amp; users</span>
+                  <button type="button" class="cmd-btn" data-cmd="svc"><i class="fa-solid fa-gears" aria-hidden="true"></i> <span data-en="Service status">Service status</span></button>
+                  <button type="button" class="cmd-btn" data-cmd="res"><i class="fa-solid fa-memory" aria-hidden="true"></i> <span data-en="CPU / memory / disk">CPU / memory / disk</span></button>
+                  <button type="button" class="cmd-btn" data-cmd="ad"><i class="fa-solid fa-user-lock" aria-hidden="true"></i> <span data-en="AD user check">AD user check</span></button>
+                  <button type="button" class="cmd-btn" data-cmd="clear"><i class="fa-solid fa-eraser" aria-hidden="true"></i> clear</button>
+                </div>
+              </div>
+              <div class="terminal">
+                <div id="termOut" class="term-out" aria-live="polite"><span class="t-muted">Last login: Command Center L1 · read-only session</span></div>
+              </div>
+              <div class="mt-3 flex flex-wrap items-center gap-3">
+                <button type="button" id="attachEvidenceBtn" class="btn-primary hidden"><i class="fa-solid fa-paperclip" aria-hidden="true"></i> <span data-en="Attach evidence to ticket">Attach evidence to ticket</span></button>
+                <span id="attachMsg" class="font-mono text-xs text-cc-ok"></span>
+              </div>
+            </div>
+
+            <!-- ABI -->
+            <div class="tab-panel hidden" role="tabpanel" id="panel-abi" aria-labelledby="tab-abi">
+              <div class="mb-3 flex items-center gap-3">
+                <span class="grid h-10 w-10 flex-none place-items-center rounded-full bg-gradient-to-br from-cc-cyan to-cc-blue text-cc-bg"><i class="fa-solid fa-robot" aria-hidden="true"></i></span>
+                <div>
+                  <h3 class="widget-title" data-en="Abi, the assistant">Abi, the assistant</h3>
+                  <p class="widget-sub" data-en="Knows Manuel's profile and follows the LAB in real time. Answers by keywords, in JavaScript.">Knows Manuel's profile and follows the LAB in real time. Answers by keywords, in JavaScript.</p>
+                </div>
+              </div>
+              <div id="abiLog" class="abi-log" aria-live="polite"></div>
+              <div id="abiChips" class="mt-3 flex flex-wrap gap-2"></div>
+              <form id="abiForm" class="mt-3 flex gap-2">
+                <input id="abiInput" type="text" class="abi-input" placeholder="E.g. what monitoring experience do you have?" data-en-placeholder="E.g. what monitoring experience do you have?" aria-label="Abi" maxlength="200" autocomplete="off">
+                <button class="btn-primary px-4" aria-label="Send"><i class="fa-solid fa-paper-plane" aria-hidden="true"></i></button>
+              </form>
+            </div>
+          </div>
+
+          <!-- Registro de eventos -->
+          <aside class="panel flex max-h-[680px] flex-col overflow-hidden" aria-label="Event Log">
+            <div class="panel-bar"><span><i class="fa-solid fa-list" aria-hidden="true"></i> Event Log</span><span id="eventCount" class="text-cc-muted">0</span></div>
+            <ul id="eventLog" class="event-log" aria-live="polite"></ul>
+            <div class="border-t border-cc-line p-3">
+              <p class="mb-2 font-mono text-[11px] uppercase tracking-wider text-cc-muted" data-en="Incident timeline">Incident timeline</p>
+              <ol id="incidentSteps" class="steps">
+                <li data-step="detect" data-en="Detect">Detect</li>
+                <li data-step="triage">Triage</li>
+                <li data-step="ticket">Ticket</li>
+                <li data-step="escalate" data-en="Escalated">Escalated</li>
+                <li data-step="resolve" data-en="Resolved">Resolved</li>
+              </ol>
+            </div>
+          </aside>
+        </div>
+      </div>
+    </section>
+
+    <!-- ============ PROYECTOS ============ -->
+    <section id="proyectos" class="section bg-cc-panel/40">
+      <div class="section-head reveal">
+        <span class="eyebrow" data-en="// own projects">// own projects</span>
+        <h2 data-en="Own projects">Own projects</h2>
+        <p data-en="What I build outside work to practice development, databases and deployment. They are published and you can try them.">What I build outside work to practice development, databases and deployment. They are published and you can try them.</p>
+      </div>
+      <div class="mx-auto grid max-w-7xl gap-4 px-4 sm:px-6 md:grid-cols-3">
+        <article class="service-card highlight reveal">
+          <i class="fa-solid fa-newspaper" aria-hidden="true"></i>
+          <h3 data-en="News portal">News portal</h3>
+          <p data-en="Digital news portal with its own admin panel: articles are written, scheduled and published from /admin. Includes search, a Google News sitemap, RSS and structured data.">Digital news portal with its own admin panel: articles are written, scheduled and published from /admin. Includes search, a Google News sitemap, RSS and structured data.</p>
+          <ul class="proj-tags" aria-label="Stack"><li class="flow-tag">Next.js</li><li class="flow-tag">TypeScript</li><li class="flow-tag">PostgreSQL</li><li class="flow-tag">Prisma</li></ul>
+          <div class="proj-links">
+            <a href="https://portal-noticias-zeta.vercel.app" class="service-cta" target="_blank" rel="noopener noreferrer"><span data-en="Live demo">Live demo</span> <i class="fa-solid fa-arrow-up-right-from-square" aria-hidden="true"></i></a>
+            <a href="https://github.com/ThePantera/portal-noticias" class="service-cta" target="_blank" rel="noopener noreferrer"><span data-en="Code">Code</span> <i class="fa-brands fa-github" aria-hidden="true"></i></a>
+          </div>
+        </article>
+        <article class="service-card reveal">
+          <i class="fa-solid fa-bag-shopping" aria-hidden="true"></i>
+          <h3 data-en="Perfume e-commerce">Perfume e-commerce</h3>
+          <p data-en="Catalog with search, filters and sorting, prices in ARS and USD, and checkout through WhatsApp. Includes an admin panel. Beta stage.">Catalog with search, filters and sorting, prices in ARS and USD, and checkout through WhatsApp. Includes an admin panel. Beta stage.</p>
+          <ul class="proj-tags" aria-label="Stack"><li class="flow-tag">Next.js</li><li class="flow-tag">TypeScript</li><li class="flow-tag">PostgreSQL</li><li class="flow-tag">Prisma</li></ul>
+          <div class="proj-links">
+            <a href="https://aura-luxury-beige.vercel.app" class="service-cta" target="_blank" rel="noopener noreferrer"><span data-en="Live demo">Live demo</span> <i class="fa-solid fa-arrow-up-right-from-square" aria-hidden="true"></i></a>
+            <a href="https://github.com/ThePantera/Aura_Luxury" class="service-cta" target="_blank" rel="noopener noreferrer"><span data-en="Code">Code</span> <i class="fa-brands fa-github" aria-hidden="true"></i></a>
+          </div>
+        </article>
+        <article class="service-card reveal">
+          <i class="fa-solid fa-gamepad" aria-hidden="true"></i>
+          <h3>Truco con los compas</h3>
+          <p data-en="Argentine Truco in the browser: play against bots or with your coworkers through a room code (1 vs 1, 2 vs 2 and 3 vs 3).">Argentine Truco in the browser: play against bots or with your coworkers through a room code (1 vs 1, 2 vs 2 and 3 vs 3).</p>
+          <ul class="proj-tags" aria-label="Stack"><li class="flow-tag">JavaScript</li><li class="flow-tag">HTML</li><li class="flow-tag">CSS</li></ul>
+          <div class="proj-links">
+            <a href="https://thepantera.github.io/Truco-con-los-compas/" class="service-cta" target="_blank" rel="noopener noreferrer"><span data-en="Play">Play</span> <i class="fa-solid fa-arrow-up-right-from-square" aria-hidden="true"></i></a>
+            <a href="https://github.com/ThePantera/Truco-con-los-compas" class="service-cta" target="_blank" rel="noopener noreferrer"><span data-en="Code">Code</span> <i class="fa-brands fa-github" aria-hidden="true"></i></a>
+          </div>
+        </article>
+      </div>
+    </section>
+
+    <!-- ============ FORMACIÓN ============ -->
+    <section id="formacion" class="section">
+      <div class="section-head reveal">
+        <span class="eyebrow" data-en="// continuous learning">// continuous learning</span>
+        <h2 data-en="Education &amp; Languages">Education &amp; Languages</h2>
+      </div>
+      <div class="mx-auto grid max-w-7xl gap-4 px-4 sm:px-6 sm:grid-cols-2 lg:grid-cols-3">
+        <div class="edu-card reveal">
+          <i class="fa-solid fa-graduation-cap" aria-hidden="true"></i>
+          <span class="tl-date">2017 – 2022</span>
+          <h3 data-en="Higher Technical Degree in Computer Science">Higher Technical Degree in Computer Science</h3>
+          <p>IUTAI</p>
+        </div>
+        <div class="edu-card reveal">
+          <i class="fa-solid fa-wand-magic-sparkles" aria-hidden="true"></i>
+          <span class="tl-date"><span data-en="2025 – Present">2025 – Present</span> <span class="in-progress" data-en="IN PROGRESS">IN PROGRESS</span></span>
+          <h3 data-en="Automation with Artificial Intelligence">Automation with Artificial Intelligence</h3>
+          <p>Universidad Tecnológica Nacional (UTN)</p>
+        </div>
+        <div class="edu-card reveal">
+          <i class="fa-solid fa-database" aria-hidden="true"></i>
+          <span class="tl-date"><span data-en="2025 – Present">2025 – Present</span> <span class="in-progress" data-en="IN PROGRESS">IN PROGRESS</span></span>
+          <h3>Data Science</h3>
+          <p>EducaciónIT</p>
+        </div>
+        <div class="edu-card reveal">
+          <i class="fa-solid fa-network-wired" aria-hidden="true"></i>
+          <span class="tl-date"><span data-en="2026 – Present">2026 – Present</span> <span class="in-progress" data-en="IN PROGRESS">IN PROGRESS</span></span>
+          <h3 data-en="Networking">Networking</h3>
+          <p>EducaciónIT</p>
+        </div>
+        <div class="edu-card reveal">
+          <i class="fa-solid fa-language" aria-hidden="true"></i>
+          <span class="tl-date" data-en="Languages">Languages</span>
+          <h3 data-en="Native Spanish · English B1">Native Spanish · English B1</h3>
+          <p data-en="English focused on technical documentation">English focused on technical documentation</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- ============ SERVICIOS ============ -->
+    <section id="servicios" class="section bg-cc-panel/40">
+      <div class="section-head reveal">
+        <span class="eyebrow" data-en="// side projects">// side projects</span>
+        <h2 data-en="Freelance services">Freelance services</h2>
+        <p data-en="Besides my main job search, I take on specific projects related to my experience.">Besides my main job search, I take on specific projects related to my experience.</p>
+      </div>
+      <div class="mx-auto grid max-w-7xl gap-4 px-4 sm:px-6 md:grid-cols-3">
+        <div class="service-card highlight reveal">
+          <i class="fa-solid fa-chart-line" aria-hidden="true"></i>
+          <h3 data-en="Monitoring &amp; IT Operations">Monitoring &amp; IT Operations</h3>
+          <p data-en="Building and tracking availability dashboards (Grafana / Zabbix), defining alerts and the incident escalation path.">Building and tracking availability dashboards (Grafana / Zabbix), defining alerts and the incident escalation path.</p>
+          <a href="#contacto" class="service-cta" data-service="Monitoreo &amp; Operaciones IT"><span data-en="Ask about it">Ask about it</span> <i class="fa-solid fa-arrow-right" aria-hidden="true"></i></a>
+        </div>
+        <div class="service-card reveal">
+          <i class="fa-solid fa-sliders" aria-hidden="true"></i>
+          <h3 data-en="L1/L2 Support &amp; Help Desk">L1/L2 Support &amp; Help Desk</h3>
+          <p data-en="Remote technical assistance for companies, solving issues on workstations, networks and base software.">Remote technical assistance for companies, solving issues on workstations, networks and base software.</p>
+          <a href="#contacto" class="service-cta" data-service="Soporte &amp; Mesa de Ayuda L1/L2"><span data-en="Ask about it">Ask about it</span> <i class="fa-solid fa-arrow-right" aria-hidden="true"></i></a>
+        </div>
+        <div class="service-card reveal">
+          <i class="fa-solid fa-user-lock" aria-hidden="true"></i>
+          <h3 data-en="Access &amp; Identity Management">Access &amp; Identity Management</h3>
+          <p data-en="User provisioning policies, Active Directory administration and permission control on production systems.">User provisioning policies, Active Directory administration and permission control on production systems.</p>
+          <a href="#contacto" class="service-cta" data-service="Gestión de Accesos &amp; Identidades"><span data-en="Ask about it">Ask about it</span> <i class="fa-solid fa-arrow-right" aria-hidden="true"></i></a>
+        </div>
+      </div>
+    </section>
+
+    <!-- ============ CONTACTO ============ -->
+    <section id="contacto" class="section">
+      <div class="section-head reveal">
+        <span class="eyebrow" data-en="// let's talk">// let's talk</span>
+        <h2 data-en="Contact">Contact</h2>
+        <p data-en="Do you have a job offer or a freelance project? Write to me and I will get back to you shortly. You can also reach me on &lt;a href='https://www.linkedin.com/in/manuelmolina01' target='_blank' rel='noopener noreferrer' class='inline-link'&gt;LinkedIn&lt;/a&gt;.">Do you have a job offer or a freelance project? Write to me and I will get back to you shortly. You can also reach me on <a href="https://www.linkedin.com/in/manuelmolina01" target="_blank" rel="noopener noreferrer" class="inline-link">LinkedIn</a>.</p>
+      </div>
+
+      <div class="mx-auto grid max-w-7xl gap-6 px-4 sm:px-6 lg:grid-cols-[320px_1fr]">
+        <aside class="space-y-4">
+          <div class="panel p-5 reveal">
+            <p class="text-sm text-cc-muted" data-en="Prefer LinkedIn? Send me a direct message or let's connect.">Prefer LinkedIn? Send me a direct message or let's connect.</p>
+            <a href="https://www.linkedin.com/in/manuelmolina01" class="btn-linkedin mt-3 w-full justify-center" target="_blank" rel="noopener noreferrer"><i class="fa-brands fa-linkedin" aria-hidden="true"></i> <span data-en="Connect on LinkedIn">Connect on LinkedIn</span></a>
+          </div>
+          <div class="panel p-5 font-mono text-xs leading-6 text-cc-muted reveal">
+            <p><span class="text-cc-cyan" data-en="location">location</span>: Buenos Aires, Argentina</p>
+            <p><span class="text-cc-cyan" data-en="work mode">work mode</span>: <span data-en="100% remote">100% remote</span></p>
+            <p><span class="text-cc-cyan" data-en="target role">target role</span>: Command Center / IT Monitoring</p>
+            <p><span class="text-cc-cyan" data-en="also open to">also open to</span>: Freelance · <span data-en="IT Audit">IT Audit</span></p>
+            <p><span class="text-cc-cyan">email</span>: <a id="contactEmail" href="#contacto" class="text-white underline hover:text-cc-cyan"><noscript>usá el formulario / use the form</noscript></a></p>
+            <p><span class="text-cc-cyan">cv</span>:<a href="../Manuel_Molina_CV.pdf" class="cv-link text-white underline hover:text-cc-cyan" download="Manuel_Molina_CV.pdf">Manuel_Molina_CV.pdf</a></p>
+          </div>
+        </aside>
+
+        <form id="portfolioForm" class="contact-form panel p-5 sm:p-6 reveal" action="https://formspree.io/f/maeypvry" method="POST" novalidate="">
+          <input type="hidden" name="_subject" value="Nuevo contacto desde el portafolio">
+          <input type="hidden" name="idioma" id="formLang" value="es">
+          <input type="text" name="_gotcha" class="honeypot" tabindex="-1" autocomplete="off" aria-hidden="true">
+
+          <div class="grid gap-4 sm:grid-cols-2">
+            <div class="form-group">
+              <label for="fullname"><span data-en="Full name">Full name</span> <span class="required">*</span></label>
+              <div class="input-icon-wrapper">
+                <i class="fa-solid fa-user input-icon" aria-hidden="true"></i>
+                <input type="text" id="fullname" name="fullname" autocomplete="name" placeholder="E.g. John Smith" data-en-placeholder="E.g. John Smith" maxlength="80" required="">
+              </div>
+              <span class="error-msg" data-en="Please enter your full name.">Please enter your full name.</span>
+            </div>
+            <div class="form-group">
+              <label for="company"><span data-en="Company name">Company name</span> <span class="optional-tag" data-en="(Optional)">(Optional)</span></label>
+              <div class="input-icon-wrapper">
+                <i class="fa-solid fa-building input-icon" aria-hidden="true"></i>
+                <input type="text" id="company" name="company" autocomplete="organization" placeholder="E.g. Tech Solutions Inc." data-en-placeholder="E.g. Tech Solutions Inc." maxlength="100">
+              </div>
+            </div>
+            <div class="form-group">
+              <label for="email"><span data-en="Email">Email</span> <span class="required">*</span></label>
+              <div class="input-icon-wrapper">
+                <i class="fa-solid fa-envelope input-icon" aria-hidden="true"></i>
+                <input type="email" id="email" name="email" autocomplete="email" placeholder="name@company.com" data-en-placeholder="name@company.com" maxlength="100" required="">
+              </div>
+              <span class="error-msg" data-en="Invalid email address.">Invalid email address.</span>
+            </div>
+            <div class="form-group">
+              <label for="service_type"><span data-en="Reason">Reason</span> <span class="required">*</span></label>
+              <div class="input-icon-wrapper">
+                <i class="fa-solid fa-list-check input-icon" aria-hidden="true"></i>
+                <select id="service_type" name="service_type" required="">
+                  <option value="Propuesta laboral" selected="" data-en="Job offer">Job offer</option>
+                  <option value="Monitoreo &amp; Operaciones IT" data-en="Monitoring &amp; IT Operations">Monitoring &amp; IT Operations</option>
+                  <option value="Soporte &amp; Mesa de Ayuda L1/L2" data-en="L1/L2 Support &amp; Help Desk">L1/L2 Support &amp; Help Desk</option>
+                  <option value="Gestión de Accesos &amp; Identidades" data-en="Access &amp; Identity Management">Access &amp; Identity Management</option>
+                  <option value="Freelance / Auditoría" data-en="Freelance / Audit">Freelance / Audit</option>
+                  <option value="Otros" data-en="Other">Other</option>
+                </select>
+              </div>
+            </div>
+          </div>
+
+          <div class="form-group mt-4">
+            <label for="message"><span data-en="Message / Additional details">Message / Additional details</span> <span class="required">*</span></label>
+            <textarea id="message" name="message" rows="4" placeholder="Tell me about the role or the project..." data-en-placeholder="Tell me about the role or the project..." maxlength="1000" required=""></textarea>
+            <span class="error-msg" data-en="Please enter a message.">Please enter a message.</span>
+          </div>
+
+          <button type="submit" class="btn-primary mt-5 w-full justify-center" id="submitBtn">
+            <span class="btn-text">Send Message</span>
+            <i class="fa-solid fa-paper-plane" aria-hidden="true"></i>
+          </button>
+          <div id="formAlert" class="form-alert" role="status" aria-live="polite"></div>
+          <p class="mt-3 text-xs text-cc-muted" data-en="By sending this form you accept the &lt;a href='#politicas' class='inline-link open-policies'&gt;privacy policy&lt;/a&gt;.">By sending this form you accept the <a href="#politicas" class="inline-link open-policies">privacy policy</a>.</p>
+        </form>
+      </div>
+    </section>
+  </main>
+
+  <footer class="border-t border-cc-line py-8">
+    <div class="mx-auto mb-6 max-w-7xl px-4 sm:px-6">
+      <details id="politicas" class="policies">
+        <summary><i class="fa-solid fa-shield-halved" aria-hidden="true"></i> <span data-en="Privacy, security &amp; legal notice">Privacy, security &amp; legal notice</span></summary>
+        <div class="policies-body">
+          <div>
+            <h3 data-en="Data controller">Data controller</h3>
+            <p data-en="This portfolio is a personal website of Manuel Molina (Buenos Aires, Argentina). For any question about these policies you can write through the contact form or on LinkedIn.">This portfolio is a personal website of Manuel Molina (Buenos Aires, Argentina). For any question about these policies you can write through the contact form or on LinkedIn.</p>
+          </div>
+          <div>
+            <h3 data-en="Data collected and why">Data collected and why</h3>
+            <p data-en="Only the data you enter voluntarily in the contact form is collected: name, email, company and message. It is used only to reply to you. It is not sold, shared with third parties or used for advertising. The form is processed by Formspree, an external provider. Downloading the CV does not ask for any data.">Only the data you enter voluntarily in the contact form is collected: name, email, company and message. It is used only to reply to you. It is not sold, shared with third parties or used for advertising. The form is processed by Formspree, an external provider. Downloading the CV does not ask for any data.</p>
+          </div>
+          <div>
+            <h3 data-en="Your rights">Your rights</h3>
+            <p data-en="Under Argentina's Personal Data Protection Law 25.326, you can request access to, correction or deletion of your data at any time through the contact form. The Agency for Access to Public Information is the authority that oversees that law.">Under Argentina's Personal Data Protection Law 25.326, you can request access to, correction or deletion of your data at any time through the contact form. The Agency for Access to Public Information is the authority that oversees that law.</p>
+          </div>
+          <div>
+            <h3 data-en="Local storage and metrics">Local storage and metrics</h3>
+            <p data-en="The site only stores your language preference and a session flag in your browser so the same visit is not counted twice. The counters of visits, CV downloads and LAB usage are anonymous (counterapi.dev). No advertising cookies are used and your identity is not tracked.">The site only stores your language preference and a session flag in your browser so the same visit is not counted twice. The counters of visits, CV downloads and LAB usage are anonymous (counterapi.dev). No advertising cookies are used and your identity is not tracked.</p>
+          </div>
+          <div>
+            <h3 data-en="Security">Security</h3>
+            <p data-en="It is a static site served over HTTPS (GitHub Pages). It never asks for passwords or sensitive data, and the form uses email validation and a honeypot field against bots and spam. Please do not send confidential information through the form.">It is a static site served over HTTPS (GitHub Pages). It never asks for passwords or sensitive data, and the form uses email validation and a honeypot field against bots and spam. Please do not send confidential information through the form.</p>
+          </div>
+          <div>
+            <h3 data-en="The LAB is a simulation">The LAB is a simulation</h3>
+            <p data-en="The Monitoring LAB is an educational simulation. Servers, IPs, tickets, logs, metrics and messages are fictitious and it does not connect to any real system. The cases describe tasks in general terms, with no patient data, credentials or confidential information from any employer.">The Monitoring LAB is an educational simulation. Servers, IPs, tickets, logs, metrics and messages are fictitious and it does not connect to any real system. The cases describe tasks in general terms, with no patient data, credentials or confidential information from any employer.</p>
+          </div>
+          <div>
+            <h3 data-en="Trademarks and companies mentioned">Trademarks and companies mentioned</h3>
+            <p data-en="Grafana, Zabbix, Jira, Redmine, Microsoft, Windows, Teams, Slack, Postman, MongoDB and other names are trademarks of their respective owners and are mentioned only as tools used. The companies named describe Manuel's work experience; this site is personal, does not represent them and implies no endorsement or affiliation.">Grafana, Zabbix, Jira, Redmine, Microsoft, Windows, Teams, Slack, Postman, MongoDB and other names are trademarks of their respective owners and are mentioned only as tools used. The companies named describe Manuel's work experience; this site is personal, does not represent them and implies no endorsement or affiliation.</p>
+          </div>
+          <div>
+            <h3 data-en="Intellectual property and liability">Intellectual property and liability</h3>
+            <p data-en="The site's design, texts and code belong to Manuel Molina; copying them for commercial use without permission is not allowed. The information is provided as is, for informational purposes, and no responsibility is assumed for the content of linked external sites.">The site's design, texts and code belong to Manuel Molina; copying them for commercial use without permission is not allowed. The information is provided as is, for informational purposes, and no responsibility is assumed for the content of linked external sites.</p>
+          </div>
+          <p class="policies-date" data-en="Last updated: October 2026.">Last updated: October 2026.</p>
+        </div>
+      </details>
+    </div>
+    <div class="mx-auto flex max-w-7xl flex-col items-center justify-between gap-4 px-4 font-mono text-xs text-cc-muted sm:flex-row sm:px-6">
+      <p>© <span id="currentYear">2026</span> <strong class="text-white">Manuel Molina</strong> · Buenos Aires, Argentina · <span class="text-cc-ok">● all systems operational</span> · <span class="views-footer" title="Total visits"><i class="fa-solid fa-eye" aria-hidden="true"></i> <span id="realViewsCount">—</span> <span data-en="visits">visits</span></span></p>
+      <div class="flex gap-4 text-base">
+        <a href="https://www.linkedin.com/in/manuelmolina01" target="_blank" rel="noopener noreferrer" aria-label="LinkedIn" class="hover:text-cc-cyan"><i class="fa-brands fa-linkedin" aria-hidden="true"></i></a>
+        <a href="https://github.com/ThePantera" target="_blank" rel="noopener noreferrer" aria-label="GitHub" class="hover:text-cc-cyan"><i class="fa-brands fa-github" aria-hidden="true"></i></a>
+        <a href="../Manuel_Molina_CV.pdf" aria-label="Download CV" class="cv-link hover:text-cc-cyan" download="Manuel_Molina_CV.pdf"><i class="fa-solid fa-file-arrow-down" aria-hidden="true"></i></a>
+        <a href="#contacto" aria-label="Contact" class="hover:text-cc-cyan"><i class="fa-solid fa-envelope" aria-hidden="true"></i></a>
+      </div>
+    </div>
+  </footer>
+
+  <button id="abiFab" class="abi-fab" aria-label="Abi"><i class="fa-solid fa-robot" aria-hidden="true"></i><span>Abi</span></button>
+  <a href="#inicio" class="back-to-top" id="backToTop" aria-label="Back to top"><i class="fa-solid fa-arrow-up" aria-hidden="true"></i></a>
+  <div id="alertFlash" class="alert-flash" aria-hidden="true"></div>
+
+  <script src="../script.js?v=20261117" defer=""></script>
+
+
+</body></html>
