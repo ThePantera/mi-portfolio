@@ -405,3 +405,9 @@ html[lang="es"] .lang-toggle [data-lang="es"], html[lang="en"] .lang-toggle [dat
 .policies-body h3 { color: #fff; font-size: 14px; font-weight: 600; margin: 12px 0 4px; }
 .policies-body p { color: var(--muted); font-size: 13px; line-height: 1.6; }
 .policies-date { font-family: var(--mono); font-size: 11px !important; grid-column: 1 / -1; }
+
+/* Objetivos táctiles: enlaces sueltos y botones chicos de al menos ~36-40 px */
+.tap { display: inline-flex; align-items: center; min-height: 36px; }
+footer .text-base { gap: 2px; }
+footer .text-base a { display: inline-grid; place-items: center; min-width: 40px; min-height: 40px; }
+#soundToggle { min-height: 36px; }
