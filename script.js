@@ -6,7 +6,6 @@ document.addEventListener('DOMContentLoaded', () => {
   const timeNow = () => new Date().toLocaleTimeString('es-AR', { hour12: false });
   const scrollToEl = (el) => el && el.scrollIntoView({ behavior: prefersReducedMotion ? 'auto' : 'smooth' });
   const LINKEDIN_URL = 'https://www.linkedin.com/in/manuelmolina01';
-  const COUNTER_NS = 'manuel-molina-portfolio-2026';
   // El email se arma en el navegador para que no figure en el HTML estático (menos spam de scrapers).
   const EMAIL = ['manuel.molina.ops', 'gmail.com'].join('@');
 
@@ -40,7 +39,7 @@ document.addEventListener('DOMContentLoaded', () => {
       el.placeholder = lang === 'en' ? el.dataset.enPlaceholder : el.dataset.esPlaceholder;
     });
     const toggle = $('#langToggle');
-    if (toggle) toggle.setAttribute('aria-label', L('Switch to English', 'Cambiar a español'));
+    if (toggle) toggle.setAttribute('aria-label', 'ES EN · ' + L('Switch to English', 'Cambiar a español'));
     const formLang = $('#formLang');
     if (formLang) formLang.value = lang;
     langListeners.forEach(fn => fn());
@@ -66,26 +65,6 @@ document.addEventListener('DOMContentLoaded', () => {
   if (contactEmail) {
     contactEmail.href = 'mailto:' + EMAIL;
     contactEmail.textContent = EMAIL;
-  }
-
-  // 1. CONTADOR DE VISITAS REALES
-  // Solo suma una visita por sesión para no inflar el número al recargar.
-  const realViewsCount = $('#realViewsCount');
-  if (realViewsCount) {
-    const alreadyCounted = store.get('viewCounted', sessionStorage) === '1';
-    fetch(`https://api.counterapi.dev/v1/${COUNTER_NS}/pageviews${alreadyCounted ? '' : '/up'}`)
-      .then(res => res.json())
-      .then(data => {
-        if (data && data.count) {
-          realViewsCount.innerText = data.count.toLocaleString('es-AR');
-          store.set('viewCounted', '1', sessionStorage);
-        }
-      })
-      .catch(() => {
-        // Si el servicio no responde, se oculta el badge en lugar de mostrar un número falso.
-        const badge = realViewsCount.closest('.views-footer');
-        if (badge) badge.remove();
-      });
   }
 
   // 2. MENÚ MOBILE
@@ -214,28 +193,6 @@ document.addEventListener('DOMContentLoaded', () => {
     drawHero();
     if (!prefersReducedMotion) setInterval(drawHero, 1500);
   }
-
-  // Contadores públicos del LAB (counterapi.dev): una vez por sesión y por acción
-  function countLab(key, onCount) {
-    const flag = `counted-${key}`;
-    const already = store.get(flag, sessionStorage) === '1';
-    fetch(`https://api.counterapi.dev/v1/${COUNTER_NS}/${key}${already ? '' : '/up'}`)
-      .then(res => res.json())
-      .then(data => {
-        store.set(flag, '1', sessionStorage);
-        if (data && data.count && onCount) onCount(data.count);
-      })
-      .catch(() => { /* la medición nunca debe romper el LAB */ });
-  }
-  const showLabStats = (count) => {
-    $('#labStats').textContent = count.toLocaleString('es-AR');
-    $('#labStatsWrap').classList.remove('hidden');
-  };
-  // Lectura inicial sin sumar
-  fetch(`https://api.counterapi.dev/v1/${COUNTER_NS}/lab-simulations`)
-    .then(res => res.json())
-    .then(data => { if (data && data.count) showLabStats(data.count); })
-    .catch(() => {});
 
   // ==========================================================
   // 6. LAB: SIMULADOR DE COMMAND CENTER
@@ -871,7 +828,6 @@ document.addEventListener('DOMContentLoaded', () => {
     updateGlobal();
     updateSteps();
     renderDashHint();
-    countLab('lab-simulations', showLabStats);
     return true;
   }
 
@@ -1035,7 +991,6 @@ ${evidence}
       setTimeout(() => {
         if (lab.phase === 'escalated') addEvent('INFO', L(`${team.name}: ticket ${key} tomado ✔`, `${team.name}: ticket ${key} acknowledged ✔`));
       }, 1800);
-      countLab('lab-escalations');
       updateGlobal();
       updateSteps();
     });
@@ -1177,7 +1132,7 @@ ${evidence}
   const abiChips = $('#abiChips');
   const normalize = (str) => str.toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g, '');
 
-  function downloadCV() { saveCvFile(); countCvDownload(); }
+  function downloadCV() { saveCvFile(); }
 
   const chip = {
     lab: () => L('¿Qué hago en el LAB?', 'What do I do in the LAB?'),
@@ -1458,9 +1413,7 @@ ${evidence}
     });
   }
 
-  // 8b. DESCARGA DEL CV: directa, sin pedir datos. Se cuenta de forma anónima.
-  function countCvDownload() { countLab('cv-downloads'); }
-
+  // 8b. DESCARGA DEL CV: directa, sin pedir datos.
   function saveCvFile() {
     const link = document.createElement('a');
     link.href = ROOT + 'Manuel_Molina_CV.pdf';
@@ -1469,11 +1422,6 @@ ${evidence}
     link.click();
     link.remove();
   }
-
-  // Los enlaces .cv-link descargan solos (atributo download); acá solo se cuenta la descarga
-  document.addEventListener('click', (e) => {
-    if (e.target.closest('.cv-link')) countCvDownload();
-  });
 
   // Enlaces a las políticas: abren el bloque desplegable del pie
   document.addEventListener('click', (e) => {

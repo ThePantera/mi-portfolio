@@ -31,7 +31,7 @@ const doc = new DOMParser().parseFromString(xhr.responseText, 'text/html');
 doc.querySelectorAll('[data-en]').forEach(el => { el.innerHTML = el.getAttribute('data-en'); });
 doc.querySelectorAll('[data-en-placeholder]').forEach(el => { el.setAttribute('placeholder', el.getAttribute('data-en-placeholder')); });
 const toggle = doc.getElementById('langToggle');
-if (toggle) toggle.setAttribute('aria-label', 'Cambiar a español');
+if (toggle) toggle.setAttribute('aria-label', 'ES EN · Cambiar a español');
 
 // Atributos que lee un lector de pantalla (no llevan data-en). Si se agrega uno nuevo en español, sumarlo acá.
 const ATTR_EN = {

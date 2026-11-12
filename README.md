@@ -18,7 +18,7 @@ Sitio personal de **Manuel Molina**, IT Monitoring & Command Center Operator en 
 | Archivo | Contenido |
 | --- | --- |
 | `index.html` | Estructura y textos (cada texto lleva su traducción en `data-en`) |
-| `script.js` | Idioma, LAB, Abi, formulario y contadores |
+| `script.js` | LAB, Abi, formulario y comportamiento de la página |
 | `style.css` | Estilos propios |
 | `en/index.html` | Versión en inglés (estática, para buscadores). **Se genera**: no editar a mano |
 | `tools/build-en.html` y `tools/build-en.ps1` | Generador de `en/index.html` a partir de `index.html` |

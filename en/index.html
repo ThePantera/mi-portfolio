@@ -3,7 +3,7 @@
   <meta charset="UTF-8">
   <!-- CSP: sin scripts inline ni de terceros. Si se suma un servicio externo (fuente, API, imagen), agregarlo acá.
        Los estilos inline se permiten porque el sitio usa atributos style (p. ej. --i en los chips). -->
-  <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self'; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src https://fonts.gstatic.com; img-src 'self' data:; connect-src 'self' https://api.counterapi.dev https://formspree.io; form-action https://formspree.io; base-uri 'self'; object-src 'none'">
+  <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self'; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src https://fonts.gstatic.com; img-src 'self' data:; connect-src 'self' https://formspree.io; form-action https://formspree.io; base-uri 'self'; object-src 'none'">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Manuel Molina | IT Monitoring &amp; Command Center Operator</title>
   <meta name="description" content="Manuel Molina — IT Monitoring &amp; Command Center Operator (100% remote). Proactive monitoring of servers and APIs with Grafana and Zabbix, event management, Jira/Redmine ticketing and N2/N3 escalation with ITIL.">
@@ -97,9 +97,9 @@
   <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;500;600;700&amp;family=JetBrains+Mono:wght@400;500;700&amp;display=swap" rel="stylesheet">
 
   <!-- Tailwind CSS compilado (ver tailwind.config.js) + estilos propios -->
-  <link rel="stylesheet" href="../icons.css?v=20261119">
-  <link rel="stylesheet" href="../tailwind.css?v=20261119">
-  <link rel="stylesheet" href="../style.css?v=20261119">
+  <link rel="stylesheet" href="../icons.css?v=20261120">
+  <link rel="stylesheet" href="../tailwind.css?v=20261120">
+  <link rel="stylesheet" href="../style.css?v=20261120">
 </head>
 <body class="bg-cc-bg text-cc-text font-sans antialiased">
   <a href="#inicio" class="skip-link" data-en="Skip to content">Skip to content</a>
@@ -107,7 +107,7 @@
   <!-- ============ NAVEGACIÓN ============ -->
   <header id="header" class="fixed inset-x-0 top-0 z-50 border-b border-transparent transition-colors">
     <div class="mx-auto flex h-16 max-w-7xl items-center justify-between gap-4 px-4 sm:px-6">
-      <a href="#inicio" class="flex min-w-0 items-center gap-2 font-mono text-sm font-bold text-cc-text" aria-label="Manuel Molina">
+      <a href="#inicio" class="flex min-w-0 items-center gap-2 font-mono text-sm font-bold text-cc-text" aria-label="manuel@command-center:~$ · Manuel Molina">
         <span class="grid h-8 w-8 flex-none place-items-center rounded-md border border-cc-cyan/40 bg-cc-cyan/10 text-cc-cyan"><i class="fa-solid fa-tower-broadcast" aria-hidden="true"></i></span>
         <span class="truncate">manuel<span class="text-cc-cyan">@</span>command-center<span class="text-cc-muted">:~$</span></span>
       </a>
@@ -124,8 +124,8 @@
       </nav>
 
       <div class="flex flex-none items-center gap-2">
-        <button id="langToggle" type="button" class="lang-toggle" aria-label="Cambiar a español" title="Español / English">
-          <span data-lang="es">ES</span><span data-lang="en">EN</span>
+        <button id="langToggle" type="button" class="lang-toggle" aria-label="ES EN · Cambiar a español" title="Español / English">
+          <span data-lang="es" aria-hidden="true">ES</span><span data-lang="en" aria-hidden="true">EN</span>
         </button>
         <a href="https://www.linkedin.com/in/manuelmolina01" class="grid h-9 w-9 place-items-center rounded-md border border-cc-line bg-cc-panel text-cc-text transition hover:border-cc-cyan hover:text-cc-cyan" target="_blank" rel="noopener noreferrer" aria-label="LinkedIn" title="LinkedIn">
           <i class="fa-brands fa-linkedin-in" aria-hidden="true"></i>
@@ -417,7 +417,6 @@ IT Monitoring &amp; Command Center Operator
           <span class="text-cc-muted"><span data-en="Services OK">Services OK</span>: <b id="svcOkCount" class="text-white">6/6</b></span>
           <span class="text-cc-muted"><span data-en="Open incidents">Open incidents</span>: <b id="openIncidents" class="text-white">0</b></span>
           <span class="text-cc-muted">MTTA: <b id="mttaValue" class="text-white">—</b></span>
-          <span id="labStatsWrap" class="hidden text-cc-muted"><span data-en="Visitor simulations">Visitor simulations</span>: <b id="labStats" class="text-white">—</b></span>
           <span class="ml-auto flex items-center gap-3">
             <button id="soundToggle" type="button" class="rounded border border-cc-line px-2 py-1 text-cc-muted hover:text-cc-cyan" aria-pressed="true"><i class="fa-solid fa-volume-high" aria-hidden="true"></i> <span data-en="Sound">Sound</span></button>
             <span id="labClock" class="text-cc-cyan">--:--:--</span>
@@ -818,7 +817,7 @@ IT Monitoring &amp; Command Center Operator
           </div>
           <div>
             <h3 data-en="Local storage and metrics">Local storage and metrics</h3>
-            <p data-en="The site only stores your language preference and a session flag in your browser so the same visit is not counted twice. The counters of visits, CV downloads and LAB usage are anonymous (counterapi.dev). No advertising cookies are used and your identity is not tracked.">The site only stores your language preference and a session flag in your browser so the same visit is not counted twice. The counters of visits, CV downloads and LAB usage are anonymous (counterapi.dev). No advertising cookies are used and your identity is not tracked.</p>
+            <p data-en="The site does not use advertising cookies, visit counters or third-party analytics, and your identity is not tracked. The language is set by the page you are on (Spanish or English); nothing about it is stored.">The site does not use advertising cookies, visit counters or third-party analytics, and your identity is not tracked. The language is set by the page you are on (Spanish or English); nothing about it is stored.</p>
           </div>
           <div>
             <h3 data-en="Security">Security</h3>
@@ -841,7 +840,7 @@ IT Monitoring &amp; Command Center Operator
       </details>
     </div>
     <div class="mx-auto flex max-w-7xl flex-col items-center justify-between gap-4 px-4 font-mono text-xs text-cc-muted sm:flex-row sm:px-6">
-      <p>© <span id="currentYear">2026</span> <strong class="text-white">Manuel Molina</strong> · Buenos Aires, Argentina · <span class="text-cc-ok">● all systems operational</span> · <span class="views-footer" title="Total visits"><i class="fa-solid fa-eye" aria-hidden="true"></i> <span id="realViewsCount">—</span> <span data-en="visits">visits</span></span></p>
+      <p>© <span id="currentYear">2026</span> <strong class="text-white">Manuel Molina</strong> · Buenos Aires, Argentina · <span class="text-cc-ok">● all systems operational</span></p>
       <div class="flex gap-4 text-base">
         <a href="https://www.linkedin.com/in/manuelmolina01" target="_blank" rel="noopener noreferrer" aria-label="LinkedIn" class="hover:text-cc-cyan"><i class="fa-brands fa-linkedin" aria-hidden="true"></i></a>
         <a href="https://github.com/ThePantera" target="_blank" rel="noopener noreferrer" aria-label="GitHub" class="hover:text-cc-cyan"><i class="fa-brands fa-github" aria-hidden="true"></i></a>
@@ -855,7 +854,7 @@ IT Monitoring &amp; Command Center Operator
   <a href="#inicio" class="back-to-top" id="backToTop" aria-label="Back to top"><i class="fa-solid fa-arrow-up" aria-hidden="true"></i></a>
   <div id="alertFlash" class="alert-flash" aria-hidden="true"></div>
 
-  <script src="../script.js?v=20261119" defer=""></script>
+  <script src="../script.js?v=20261120" defer=""></script>
 
 
 </body></html>
