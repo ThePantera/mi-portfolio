@@ -131,10 +131,12 @@ button:disabled { opacity: .45; cursor: not-allowed; box-shadow: none !important
 .flow-tag { display: inline-block; margin-top: 14px; font-family: var(--mono); font-size: 11px; color: var(--cyan); border: 1px solid rgba(34, 211, 238, .3); border-radius: 4px; padding: 2px 8px; }
 @media (min-width: 1024px) {
   .flow-card:not(:last-child)::after {
-    content: "\f054"; font-family: "Font Awesome 6 Free"; font-weight: 900;
+    /* Chevron como SVG (cyan) para no depender de la fuente de íconos */
+    content: "";
     position: absolute; right: -14px; top: 50%; transform: translateY(-50%);
-    width: 24px; height: 24px; display: grid; place-items: center; font-size: 10px;
-    background: var(--bg); border: 1px solid var(--line); border-radius: 50%; color: var(--cyan); z-index: 1;
+    width: 24px; height: 24px;
+    background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 320 512'%3E%3Cpath fill='%2322d3ee' d='M310.6 233.4c12.5 12.5 12.5 32.8 0 45.3l-192 192c-12.5 12.5-32.8 12.5-45.3 0s-12.5-32.8 0-45.3L242.7 256 73.4 86.6c-12.5-12.5-12.5-32.8 0-45.3s32.8-12.5 45.3 0l192 192z'/%3E%3C/svg%3E") center / 8px no-repeat, var(--bg);
+    border: 1px solid var(--line); border-radius: 50%; z-index: 1;
   }
 }
 
