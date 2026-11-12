@@ -47,9 +47,9 @@
   <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
 
   <!-- Tailwind CSS compilado (ver tailwind.config.js) + estilos propios -->
-  <link rel="stylesheet" href="icons.css?v=20261117">
-  <link rel="stylesheet" href="tailwind.css?v=20261117">
-  <link rel="stylesheet" href="style.css?v=20261117">
+  <link rel="stylesheet" href="icons.css?v=20261118">
+  <link rel="stylesheet" href="tailwind.css?v=20261118">
+  <link rel="stylesheet" href="style.css?v=20261118">
 </head>
 <body class="bg-cc-bg text-cc-text font-sans antialiased">
   <a href="#inicio" class="skip-link" data-en="Skip to content">Saltar al contenido</a>
@@ -67,7 +67,7 @@
         <a href="#flujo" class="nav-link" data-en="Workflow">Flujo</a>
         <a href="#casos" class="nav-link" data-en="Cases">Casos</a>
         <a href="#lab" class="nav-link">LAB</a>
-        <a href="#proyectos" class="nav-link" data-en="Projects">Proyectos</a>
+        <a href="#proyectos" class="nav-link" data-en="Project">Proyecto</a>
         <a href="#formacion" class="nav-link" data-en="Education">Formación</a>
         <a href="#servicios" class="nav-link" data-en="Services">Servicios</a>
         <a href="#contacto" class="nav-link" data-en="Contact">Contacto</a>
@@ -575,42 +575,22 @@ IT Monitoring &amp; Command Center Operator
       </div>
     </section>
 
-    <!-- ============ PROYECTOS ============ -->
+    <!-- ============ PROYECTO ============ -->
     <section id="proyectos" class="section bg-cc-panel/40">
       <div class="section-head reveal">
-        <span class="eyebrow" data-en="// own projects">// proyectos propios</span>
-        <h2 data-en="Own projects">Proyectos propios</h2>
-        <p data-en="What I build outside work to practice development, databases and deployment. They are published and you can try them.">Lo que construyo fuera del trabajo para practicar desarrollo, bases de datos y despliegue. Están publicados y se pueden probar.</p>
+        <span class="eyebrow" data-en="// own project">// proyecto propio</span>
+        <h2 data-en="Own project">Proyecto propio</h2>
+        <p data-en="What I build outside work to practice development, databases and deployment. It is in production and publishing news.">Lo que construyo fuera del trabajo para practicar desarrollo, bases de datos y despliegue. Está en producción y publicando noticias.</p>
       </div>
-      <div class="mx-auto grid max-w-7xl gap-4 px-4 sm:px-6 md:grid-cols-3">
+      <div class="proj-single px-4 sm:px-6">
         <article class="service-card highlight reveal">
           <i class="fa-solid fa-newspaper" aria-hidden="true"></i>
-          <h3 data-en="News portal">Portal de noticias</h3>
-          <p data-en="Digital news portal with its own admin panel: articles are written, scheduled and published from /admin. Includes search, a Google News sitemap, RSS and structured data.">Portal de noticias digital con panel de administración propio: las notas se escriben, programan y publican desde /admin. Incluye buscador, sitemap para Google News, RSS y datos estructurados.</p>
-          <ul class="proj-tags" aria-label="Stack"><li class="flow-tag">Next.js</li><li class="flow-tag">TypeScript</li><li class="flow-tag">PostgreSQL</li><li class="flow-tag">Prisma</li></ul>
+          <h3>MeContaron · <span data-en="News portal for Argentina">Portal de noticias de Argentina</span></h3>
+          <p data-en="Digital news portal with its own admin panel: articles are written, scheduled and published from /admin. It has 10 categories, search, a Google News sitemap, an RSS feed and structured data for search engines.">Portal de noticias digital con panel de administración propio: las notas se escriben, programan y publican desde /admin. Tiene 10 categorías, buscador, sitemap para Google News, feed RSS y datos estructurados para buscadores.</p>
+          <ul class="proj-tags" aria-label="Stack"><li class="flow-tag">Next.js</li><li class="flow-tag">TypeScript</li><li class="flow-tag">PostgreSQL</li><li class="flow-tag">Prisma</li><li class="flow-tag">Vercel</li></ul>
           <div class="proj-links">
-            <a href="https://portal-noticias-zeta.vercel.app" class="service-cta" target="_blank" rel="noopener noreferrer"><span data-en="Live demo">Ver demo</span> <i class="fa-solid fa-arrow-up-right-from-square" aria-hidden="true"></i></a>
+            <a href="https://portal-noticias-zeta.vercel.app" class="service-cta" target="_blank" rel="noopener noreferrer"><span data-en="Visit MeContaron">Ver MeContaron</span> <i class="fa-solid fa-arrow-up-right-from-square" aria-hidden="true"></i></a>
             <a href="https://github.com/ThePantera/portal-noticias" class="service-cta" target="_blank" rel="noopener noreferrer"><span data-en="Code">Código</span> <i class="fa-brands fa-github" aria-hidden="true"></i></a>
-          </div>
-        </article>
-        <article class="service-card reveal">
-          <i class="fa-solid fa-bag-shopping" aria-hidden="true"></i>
-          <h3 data-en="Perfume e-commerce">E-commerce de perfumería</h3>
-          <p data-en="Catalog with search, filters and sorting, prices in ARS and USD, and checkout through WhatsApp. Includes an admin panel. Beta stage.">Catálogo con búsqueda, filtros y orden, precios en ARS y USD, y checkout por WhatsApp. Con panel de administración. En fase beta.</p>
-          <ul class="proj-tags" aria-label="Stack"><li class="flow-tag">Next.js</li><li class="flow-tag">TypeScript</li><li class="flow-tag">PostgreSQL</li><li class="flow-tag">Prisma</li></ul>
-          <div class="proj-links">
-            <a href="https://aura-luxury-beige.vercel.app" class="service-cta" target="_blank" rel="noopener noreferrer"><span data-en="Live demo">Ver demo</span> <i class="fa-solid fa-arrow-up-right-from-square" aria-hidden="true"></i></a>
-            <a href="https://github.com/ThePantera/Aura_Luxury" class="service-cta" target="_blank" rel="noopener noreferrer"><span data-en="Code">Código</span> <i class="fa-brands fa-github" aria-hidden="true"></i></a>
-          </div>
-        </article>
-        <article class="service-card reveal">
-          <i class="fa-solid fa-gamepad" aria-hidden="true"></i>
-          <h3>Truco con los compas</h3>
-          <p data-en="Argentine Truco in the browser: play against bots or with your coworkers through a room code (1 vs 1, 2 vs 2 and 3 vs 3).">Truco argentino en el navegador: se juega contra bots o con los compas de la oficina por código de sala (1 vs 1, 2 vs 2 y 3 vs 3).</p>
-          <ul class="proj-tags" aria-label="Stack"><li class="flow-tag">JavaScript</li><li class="flow-tag">HTML</li><li class="flow-tag">CSS</li></ul>
-          <div class="proj-links">
-            <a href="https://thepantera.github.io/Truco-con-los-compas/" class="service-cta" target="_blank" rel="noopener noreferrer"><span data-en="Play">Jugar</span> <i class="fa-solid fa-arrow-up-right-from-square" aria-hidden="true"></i></a>
-            <a href="https://github.com/ThePantera/Truco-con-los-compas" class="service-cta" target="_blank" rel="noopener noreferrer"><span data-en="Code">Código</span> <i class="fa-brands fa-github" aria-hidden="true"></i></a>
           </div>
         </article>
       </div>
@@ -827,6 +807,6 @@ IT Monitoring &amp; Command Center Operator
   <a href="#inicio" class="back-to-top" id="backToTop" aria-label="Volver arriba"><i class="fa-solid fa-arrow-up" aria-hidden="true"></i></a>
   <div id="alertFlash" class="alert-flash" aria-hidden="true"></div>
 
-  <script src="script.js?v=20261117" defer></script>
+  <script src="script.js?v=20261118" defer></script>
 </body>
 </html>

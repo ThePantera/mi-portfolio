@@ -411,3 +411,7 @@ html[lang="es"] .lang-toggle [data-lang="es"], html[lang="en"] .lang-toggle [dat
 footer .text-base { gap: 2px; }
 footer .text-base a { display: inline-grid; place-items: center; min-width: 40px; min-height: 40px; }
 #soundToggle { min-height: 36px; }
+
+/* Proyecto propio (tarjeta única, alineada a la izquierda con el título de la sección) */
+.proj-single { max-width: 80rem; margin: 0 auto; }
+.proj-single .service-card { max-width: 52rem; }
